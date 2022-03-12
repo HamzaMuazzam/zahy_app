@@ -1,0 +1,122 @@
+{
+  "project_info": {
+    "project_number": "677934839373",
+    "project_id": "musan-9dd86",
+    "storage_bucket": "musan-9dd86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677934839373:android:dde8e6f5081ffe7bfece04",
+        "android_client_info": {
+          "package_name": "com.deepblue.musan_workshop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677934839373-51rvcsp8n5a2es3prm82uolklb6qf5sc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deepblue.musan_workshop",
+            "certificate_hash": "0e25d6d17149aa14db1c51076e197058defa8b3c"
+          }
+        },
+        {
+          "client_id": "677934839373-gsnt2752rk7b0dt3io1s7ephltm1odf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deepblue.musan_workshop",
+            "certificate_hash": "694255d8f37de791cbf4e67be1ed9f9c759b3baf"
+          }
+        },
+        {
+          "client_id": "677934839373-ndob5f3m0k4oqires4mm1mg7eor6u0s6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.deepblue.musan_workshop",
+            "certificate_hash": "be69c0c476caba380070db8d55ad49711c280460"
+          }
+        },
+        {
+          "client_id": "677934839373-mq2b9s46ao7u14u9m9ss3k48htnija2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs072z6Gt6He9-ZUcar6ubHxcSKwxMxXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677934839373-mq2b9s46ao7u14u9m9ss3k48htnija2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677934839373-0fpa75mute6rh14pvrpm5e692p5nr08c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.musan.provider"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677934839373:android:049d5783794c04d1fece04",
+        "android_client_info": {
+          "package_name": "com.musan.musan_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677934839373-d3iej3086mue40bfh7l0p8100goqfa37.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.musan.musan_client",
+            "certificate_hash": "694255d8f37de791cbf4e67be1ed9f9c759b3baf"
+          }
+        },
+        {
+          "client_id": "677934839373-j5ktnl8ksl3o8sbdm0lpkub811e4bi8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.musan.musan_client",
+            "certificate_hash": "e4937d5d341a7848d08ddfb571a4236186ad3eba"
+          }
+        },
+        {
+          "client_id": "677934839373-mq2b9s46ao7u14u9m9ss3k48htnija2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs072z6Gt6He9-ZUcar6ubHxcSKwxMxXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677934839373-mq2b9s46ao7u14u9m9ss3k48htnija2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677934839373-0fpa75mute6rh14pvrpm5e692p5nr08c.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.musan.provider"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

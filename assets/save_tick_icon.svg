@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="icon" transform="translate(-340 -574)">
+    <rect id="Background" width="16" height="16" rx="8" transform="translate(340 574)" fill="#6ce82b"/>
+    <g id="check-round-24px" transform="translate(342 577)">
+      <path id="Path_1816" data-name="Path 1816" d="M0,0H8V8H0Z" transform="translate(2 1)" fill="none"/>
+      <path id="Path_1817" data-name="Path 1817" d="M6.3,10.856,4.64,9.2a.476.476,0,0,0-.673.673l2,1.994a.476.476,0,0,0,.673,0L11.688,6.82a.476.476,0,1,0-.673-.673Z" transform="translate(-1.828 -4.008)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

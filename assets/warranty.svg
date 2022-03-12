@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="warranty" transform="translate(-375 -534)">
+    <g id="icon" transform="translate(35 -40)">
+      <g id="Group_3318" data-name="Group 3318">
+        <g id="Group_3317" data-name="Group 3317">
+          <g id="Group_3316" data-name="Group 3316">
+            <g id="Group_3315" data-name="Group 3315">
+              <g id="Group_3314" data-name="Group 3314">
+                <g id="Group_3313" data-name="Group 3313">
+                  <g id="Group_3312" data-name="Group 3312">
+                    <g id="Group_3311" data-name="Group 3311">
+                      <g id="Group_3310" data-name="Group 3310">
+                        <path id="Background" d="M8,0A8,8,0,1,1,0,8,8,8,0,0,1,8,0Z" transform="translate(340 574)" fill="#1caaf1"/>
+                      </g>
+                    </g>
+                  </g>
+                </g>
+              </g>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="shield-24px" transform="translate(342 578)">
+        <path id="Path_1818" data-name="Path 1818" d="M0,0H8V8H0Z" transform="translate(2 0)" fill="none"/>
+        <path id="Path_1819" data-name="Path 1819" d="M6,.468,9.5,1.916v2.24A4.492,4.492,0,0,1,6.076,8.451L6,8.468l-.076-.017A4.492,4.492,0,0,1,2.5,4.156V1.916ZM8.722,2.535,6,1.409,3.278,2.535V4.156A3.619,3.619,0,0,0,6,7.565,3.619,3.619,0,0,0,8.722,4.156Z" transform="translate(0 -0.467)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
