@@ -38,7 +38,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-
+var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
     getHomeScreenDataAll(){
   Future.delayed(Duration(seconds: 1), () {
     SharedPreferences.getInstance().then((value) {
@@ -151,11 +151,14 @@ class _HomeScreenState extends State<HomeScreen> {
                              ],
                            ),
                          ),
-                         Padding(
 
+                         orderProvider.completedOrInProgressOrderByUserIdFromJsonForHome!=null
+                             &&
+                             orderProvider.completedOrInProgressOrderByUserIdFromJsonForHome.result.length==0?
+                         Padding(
                            padding: const EdgeInsets.symmetric(horizontal: 20),
                            child: SvgPicture.asset('assets/person_thinking.svg',height: Get.height*0.20,),
-                         ),
+                         ):Container(),
 
                        ],
                      ),

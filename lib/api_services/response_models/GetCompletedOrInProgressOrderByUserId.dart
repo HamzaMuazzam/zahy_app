@@ -31,6 +31,7 @@ class GetCompletedOrInProgressOrderByUserId {
 class Result {
   Result({
     this.orderId,
+    this.googleRatings,
     this.addressLocation,
     this.workshopAddress,
     this.workshopRating,
@@ -86,6 +87,7 @@ class Result {
   });
 
   dynamic orderId;
+  dynamic googleRatings;
   dynamic workshopRating;
   String addressLocation;
   dynamic carInformationId;
@@ -141,6 +143,7 @@ class Result {
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
     orderId: json["orderId"],
+    googleRatings: json["googleRatings"],
     addressLocation: json["addressLocation"],
     isElite: json["isElite"],
     carInformationId: json["carInformationId"],
@@ -197,6 +200,7 @@ class Result {
 
   Map<String, dynamic> toJson() => {
     "orderId": orderId,
+    "googleRatings": googleRatings,
     "workshopRating": workshopRating,
     "addressLocation": addressLocation,
     "isElite": isElite,

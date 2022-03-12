@@ -578,7 +578,7 @@ class ApiServices {
       if (Get.isDialogOpen) {
         Get.back();
       }
-      // logger.e("_GET_FRESH_ORDER_BY_USER_ID $value");
+      logger.e("_GET_FRESH_ORDER_BY_USER_ID $value");
       if (value != null) {
         if (value.toString().contains('"isError": true')) {
           return;
@@ -594,6 +594,8 @@ class ApiServices {
         }
       }
     });
+
+
   }
 
   static acceptOffer(BuildContext context, String offerid, offers, String orderId, String workshopId) {
@@ -711,7 +713,7 @@ class ApiServices {
           "$_GET_INPROGRESSORDER$userID?sortBy=${orderScreenProvider.sortOrderForApi}&sortDir=desc",
     ).then((value) {
       if (value != null) {
-        // logger.e("getInProgressOrders $value");
+        logger.e("getInProgressOrders $value");
         try {
           if (Get.isDialogOpen) {
             Get.back();
@@ -1862,7 +1864,7 @@ class ApiServices {
 
     dashboardProvider.isCashBackLoaded=false;
     dashboardProvider.notifyListeners();
-
+      print("dashboardProvider.userID ${dashboardProvider.userID}");
     var request = http.MultipartRequest('POST', Uri.parse('https://muapi.deeps.info/api/orders/client-wallet'));
     request.fields.addAll({
       'userId': '${dashboardProvider.userID}'
@@ -1871,13 +1873,13 @@ class ApiServices {
 
     http.StreamedResponse response = await request.send();
 
-    if (response.statusCode == 200) {
+    var body = await response.stream.bytesToString();
 
-      var body = await response.stream.bytesToString();
-      logger.e(body);
+    logger.e(body);
+
+    if (response.statusCode == 200) {
       dashboardProvider.setCashback(true,promotionCashBackFromJson(body));
       return true;
-
     }
     else {
       return false;

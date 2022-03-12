@@ -16,11 +16,20 @@ class CashBackScreen extends StatefulWidget {
 }
 
 class _CashBackScreenState extends State<CashBackScreen> {
+  bool isOK =true;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    ApiServices.getCashBack();
+    Future.delayed(Duration.zero,()async{
+      isOK = await ApiServices.getCashBack();
+      if(!isOK){
+        isOK =false;
+        setState(() {
+
+        });
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -51,9 +60,11 @@ class _CashBackScreenState extends State<CashBackScreen> {
                   ],
                 ),
           )
-            : Center(
+            :
+          isOK ?
+          Center(
                 child: CircularProgressIndicator(),
-              ),
+              ):Container(),
       );
     });
   }

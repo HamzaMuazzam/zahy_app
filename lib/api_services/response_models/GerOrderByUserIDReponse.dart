@@ -195,6 +195,7 @@ class Fault {
 class Offer {
   Offer({
     this.offerId,
+    this.googleRatings,
     this.isElite,
     this.workShopContact,
     this.price,
@@ -217,6 +218,7 @@ class Offer {
 
   dynamic offerId;
   dynamic isElite;
+  dynamic googleRatings;
   dynamic price;
   dynamic timeInDays;
   String offerDate;
@@ -238,6 +240,7 @@ class Offer {
   factory Offer.fromJson(Map<String, dynamic> json) => Offer(
     offerId: json["offerId"],
     distance: json["distance"],
+    googleRatings: json["googleRatings"],
     workShopContact: json["workShopContact"],
     price: json["price"],
     timeInDays: json["timeInDays"],
@@ -259,6 +262,7 @@ class Offer {
 
   Map<String, dynamic> toJson() => {
     "offerId": offerId,
+    "googleRatings": googleRatings,
     "price": price,
     "isElite": isElite,
     "distance": distance,
