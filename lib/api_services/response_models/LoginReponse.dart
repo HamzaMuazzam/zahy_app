@@ -60,6 +60,7 @@ class User {
     this.created,
     this.phoneNumber,
     this.userTypeId,
+    this.couponCode,
   });
 
   int id;
@@ -67,6 +68,7 @@ class User {
   String email;
   DateTime created;
   String phoneNumber;
+  String couponCode;
   int userTypeId;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -76,6 +78,7 @@ class User {
     created: DateTime.parse(json["created"]),
     phoneNumber: json["phoneNumber"],
     userTypeId: json["userTypeId"],
+    couponCode: json["couponCode"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -84,6 +87,7 @@ class User {
     "email": email,
     "created": created.toIso8601String(),
     "phoneNumber": phoneNumber,
+    "couponCode": couponCode,
     "userTypeId": userTypeId,
   };
 }

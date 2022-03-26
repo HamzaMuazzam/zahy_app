@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -6,6 +7,7 @@ import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
+import 'package:musan_client/src/ui/dashboard/orders/order_screen.dart';
 import 'package:musan_client/src/ui/order_booking_screens/car_location_screen.dart';
 import 'package:musan_client/src/widgets/my_app_drawers.dart';
 import 'package:musan_client/utils/colors.dart';
@@ -41,20 +43,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
     super.initState();
   }
-  List<Widget> appBarWidgets(dashboardProvider){
-    return [
-        _appBar(
-          0,
-          "assets/images/notification.svg",
-          dashboardProvider,
-        ),
-        _appBar(
-          1,
-          "assets/images/menu-alt.svg",
-          dashboardProvider,
-        ),
-    ];
-  }
   @override
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(
@@ -62,7 +50,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       return WillPopScope(
         onWillPop: dashboardProvider.onWillPop,
         child: Scaffold(
-          backgroundColor: deepGrey,
+          backgroundColor: Colors.white,
           key: dashboardProvider.dashboardBoardScaffoldKey,
           drawer: MyAppDrawers(),
           endDrawer: MyAppDrawers(),
@@ -74,9 +62,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 bottomNavigationBar(dashboardProvider),
 
 
-
-
-
               ],
             ),
           ),
@@ -85,48 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  Widget _appBar(int index, String icon, DashboardProvider dashboardProvider) {
-    var length =0;
-    if(index==0 && dashboardProvider.isNotiDataLoaded){
-      length =dashboardProvider.notificationFromJson.result.length;
-    }
-    return GestureDetector(
-      onTap: () {
-        index == 1
-            ? dashboardProvider.dashboardBoardScaffoldKey.currentState
-            .openEndDrawer()
-            : Get.to(NotificationScreen());
-      },
-      child: Container(
-        width: 38,
-        height: 38,
 
-        decoration: BoxDecoration(
-          color: Colors.white,
-          // border: Border.all(color: Color(0xffF1F3F5), width: 1),
-          // boxShadow: [BoxShadow(color: grey,spreadRadius: 0.3)],
-          borderRadius: BorderRadius.circular(10),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Color(0xff000000).withOpacity(.13),
-          //     spreadRadius: 1,
-          //     blurRadius: 3,
-          //   ),
-          // ],
-        ),
-        child: Stack(children: [
-          length > 0 ? Align(
-              alignment: Alignment(-0.7,-.75),
-              child: Icon(Icons.circle,size: 5,color: blue,))
-              :Container() ,
-          Center(
-            // child: Icon(icon, color: Colors.black, size: 24),
-            child: SvgPicture.asset(icon,height: index==0 ? 16  : 12  ,),
-          )
-        ],),
-      ),
-    );
-  }
 
   Widget bottomNavigationBar(DashboardProvider dashboardProvider) {
     return Padding(
@@ -136,23 +80,23 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         decoration: BoxDecoration(
           color: Colors.white,
-          // border: Border.all(color: Color(0xffF1F3F5), width: 1),
+          border: Border.all(color: Colors.grey.withOpacity(0.25), width: 1),
           borderRadius: BorderRadius.circular(15),
 
         ),
         child: Padding(
-          padding: const EdgeInsets.all( 5),
+          padding: const EdgeInsets.all( 10),
           child: Row(
             children: [
 
 
-              Expanded(child: bottomWidget(0,''.tr, homeIcon, dashboardProvider,name: 'Home'.tr)),
-              Expanded(child: bottomWidget( 1,''.tr,listIcon  , dashboardProvider,name: "Orders".tr)),
-              Expanded(child: bottomWidget(10,''.tr, plusIcon, dashboardProvider,name: 'Order'.tr,)),
-              Expanded(child: bottomWidget( 2,''.tr, carIcon, dashboardProvider,name: "My Cars".tr)),
-              Expanded(child: bottomWidget( 3,''.tr, phoneIcon, dashboardProvider)),
+              Expanded(child: bottomWidget(0,''.tr, "assets/home_assets/HomeIcon.svg", dashboardProvider,name: 'Home'.tr)),
+              Expanded(child: bottomWidget( 1,''.tr,"assets/home_assets/OrderIcon.svg"  , dashboardProvider,name: "Orders".tr)),
+              Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/PlusIcon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
+              Expanded(child: bottomWidget( 2,''.tr, "assets/home_assets/MyCarsIcon.svg", dashboardProvider,name: "My Cars".tr)),
+              // Expanded(child: bottomWidget( 3,''.tr, phoneIcon, dashboardProvider)),
 
-              // Expanded(child: bottomWidget( 6,''.tr, 'assets/images/menu.png', dashboardProvider,scale:1.7 )),
+              Expanded(child: bottomWidget( 6,''.tr, 'assets/home_assets/ListIcon.svg', dashboardProvider)),
 
             ],
           ),
@@ -162,16 +106,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   Widget bottomWidget(int index, String title, icon,
-      DashboardProvider dashboardProvider,{double scale=1,String name:""}) {
+      DashboardProvider dashboardProvider,{double scale=25,String name:""}) {
     return GestureDetector(
       onTap: () {
         if (index != 10) {
           if(index==6){
             dashboardProvider.dashboardBoardScaffoldKey.currentState.openDrawer();
-            // return;
+            return;
           }
           if(index==3){
             bottomSheetForHelpCall();
+          }
+          else if(index==1){
+            dashboardProvider.bottomBarCurrentIndex = index;
+            // Get.to(OrderScreen());
+            // return;
           }
           else {
 
@@ -196,10 +145,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
                  Container(
-                    height: 20,
-                    child: Image.asset(
+                    height: 25,
+                    child: SvgPicture.asset(
                       icon,
-                      scale: scale,
+                      height: scale,
                       color: dashboardProvider.bottomBarCurrentIndex == index
                           ? themeColor
                           : index==10 ? orangeYellow : icon_grey_color,

@@ -37,6 +37,7 @@ class Result {
     this.workshopRating,
     this.carInformationId,
     this.carName,
+    this.displayImage,
     this.comments,
     this.completionDate,
     this.creationDate,
@@ -92,6 +93,7 @@ class Result {
   String addressLocation;
   dynamic carInformationId;
   String carName;
+  String displayImage;
   String comments;
   String workshopAddress;
   dynamic completionDate;
@@ -149,6 +151,7 @@ class Result {
     carInformationId: json["carInformationId"],
     workshopRating: json["workshopRating"],
     workshopAddress: json["workshopAddress"],
+    displayImage: json["displayImage"],
     carName: json["carName"],
     comments: json["comments"],
     completionDate: json["completionDate"],
@@ -208,6 +211,7 @@ class Result {
     "carInformationId": carInformationId,
     "carName": carName,
     "comments": comments,
+    "displayImage": displayImage,
     "completionDate": completionDate,
     "creationDate": creationDate,
     "estimatedPrice": estimatedPrice,

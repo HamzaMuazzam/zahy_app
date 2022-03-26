@@ -7,6 +7,7 @@ import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:provider/provider.dart';
 class NotificationScreen extends StatefulWidget {
+  NotificationScreen();
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -27,10 +28,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
     appBar: AppBar(
       backgroundColor: screenBgColor,
       centerTitle: true,
-      // leading: IconButton(
-      //   icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
-      //   onPressed: () => Get.back(),
-      // ),
+      leading: IconButton(
+        icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
+        onPressed: () => Get.back(),
+      ),
       elevation: 0,
       title: Text(
         'Notifications'.tr,
@@ -42,7 +43,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
       ),
     ),
 
-    body: data.isNotiDataLoaded ?  SingleChildScrollView(
+    body: data.isNotiDataLoaded
+        ?  SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: Get.height * .02),
           child: Column(

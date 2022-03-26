@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/CashBackScreen.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
@@ -25,9 +26,11 @@ class MyAppDrawers extends StatefulWidget {
 }
 
 class _MyAppDrawersState extends State<MyAppDrawers> {
+  var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
+
   @override
   void initState() {
-    var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
+    dashboardProvider.isUserProfileLoaded=false;
     if(dashboardProvider.isUserProfileLoaded){
 
 
@@ -44,91 +47,94 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
   @override
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(builder: (builder,data,child){
-      return Drawer(
-        child: Container(
-          color: screenBgColor,
-          padding: EdgeInsets.symmetric(
-            horizontal: Get.width * .06,
+      return Container(
+        width: Get.width,
+        child: Drawer(
+          backgroundColor: Colors.white,
+          child: Container(
+            color: screenBgColor,
+            padding: EdgeInsets.symmetric(
+              horizontal: Get.width * .06,
 
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: Get.height * .03),
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Icon(
-                        Icons.clear,
-                        color: headingTextColor,
-                      ),
-                    ),
-                    SizedBox(height: Get.height * .02),
-                      Row(
-
-                    mainAxisAlignment: MainAxisAlignment.center,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                    Column(children: [
-                      Container(
-                        width: 60,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              colorFilter: ColorFilter.mode(Colors.blue, BlendMode.color),
-                              image: NetworkImage(
-                                  data.isUserProfileLoaded ?
-                                  data.userProfileFromJson.result.displayPicture== null ?
-                                  "https://tamam.com.pk/profileimage_placeholder.png" :
-                                  "${"https://muapi.deeps.info/"+data.userProfileFromJson.result.displayPicture}" :" "),
-                              fit: BoxFit.fill),
+                      SizedBox(height: Get.height * .03),
+                      GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.clear,
+                          color: headingTextColor,
+                        ),
+                      ),
+                      SizedBox(height: Get.height * .02),
+                        Row(
+
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                      Column(children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                                colorFilter: ColorFilter.mode(Colors.blue, BlendMode.color),
+                                image: NetworkImage(
+                                    data.isUserProfileLoaded ?
+                                    data.userProfileFromJson.result.displayPicture== null ?
+                                    "https://tamam.com.pk/profileimage_placeholder.png" :
+                                    "${"https://muapi.deeps.info/"+data.userProfileFromJson.result.displayPicture}" :" "),
+                                fit: BoxFit.fill),
+
+
+                          ),
 
 
                         ),
-
-
-                      ),
-                      SizedBox(height: 15,),
-                      Text(data.isUserProfileLoaded ? data.userProfileFromJson.result.name : " ",
-                      // Text("حمزة معظم",
-                        style: TextStyle(
-                          color: orangeYellow,
-                          fontWeight: FontWeight.w600,
-                          fontSize: Get.height * .02,
-
+                        SizedBox(height: 12,),
+                        Text(data.isUserProfileLoaded ? data.userProfileFromJson.result.name : " ",
+                        // Text("حمزة معظم",
+                          style: TextStyle(
+                            color: black,
+                            fontWeight: FontWeight.w900,
+                            fontSize: Get.height * .025,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(data.isUserProfileLoaded ? data.userProfileFromJson.result.email : "",
-                        // child: Text("Hamzamuazzam@gmail.com",
-                          style: TextStyle(color: textColor,fontSize: 15),
-                        ),
-                      ),
-                    ],)
-                  ],),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(data.isUserProfileLoaded ? data.userProfileFromJson.result.phoneNumber : "",
 
-                    SizedBox(height: Get.height * .04),
-                    mainWidget(1, 'Wallet'.tr, drawerPaymentIcon),
-                    mainWidget(10, 'Cashback'.tr, drawerPaymentIcon),
-                    // mainWidget(2, 'My Cars'.tr, drawerCarIcon),
-                    mainWidget(3, 'Settings'.tr, drawerSettingIcon),
-                    mainWidget(4, 'Terms'.tr, drawerTermsIcon),
-                    mainWidget(5, 'Invite'.tr, drawerInviteIcon),
-                    mainWidget(8, 'Help'.tr, phoneIcon,scale: 4.5),
-                    mainWidget(9, 'Notifications'.tr, notificationImage,scale: 4.5),
-                    mainWidget(6, 'About us'.tr, drawerAboutIcon),
-                  ],
-                ),
-                mainWidget(7, 'Log out'.tr, null),
-              ],
+                            style: TextStyle(color: textColor,fontSize: 16),
+                          ),
+                        ),
+                      ],)
+                    ],),
+
+                      SizedBox(height: Get.height * .035),
+                      // mainWidget(1, 'Wallet'.tr, "assets/drawer_icons/WalletIcon.svg"),
+                      mainWidget(10, 'Cashback'.tr, "assets/drawer_icons/CashBackIcon.svg"),
+                      // mainWidget(2, 'My Cars'.tr, drawerCarIcon),
+                      mainWidget(3, 'Settings'.tr, "assets/drawer_icons/SettingsIcon.svg"),
+                      mainWidget(4, 'Terms'.tr, "assets/drawer_icons/TermsIcon.svg"),
+                      mainWidget(5, 'Invite'.tr, "assets/drawer_icons/InviteIcon.svg"),
+                      mainWidget(8, 'Help'.tr, "assets/drawer_icons/HelpIcon.svg",scale: 4.5),
+                      // mainWidget(9, 'Notifications'.tr, notificationImage,scale: 4.5),
+                      // mainWidget(6, 'About us'.tr, drawerAboutIcon),
+                    ],
+                  ),
+                  mainWidget(7, 'Log out'.tr, "assets/drawer_icons/LogoutIcon.svg"),
+                ],
+              ),
             ),
           ),
         ),
@@ -151,7 +157,7 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
                               : index == 9
                                    ? Get.to(NotificationScreen())
                                         : index == 5
-                                            ? Get.to(InviteScreen())
+                                            ? Get.to(InviteCodeScreen())
                                                 : index == 6
                                                     ? Get.to(AboutUsScreen())
             : index == 10
@@ -161,7 +167,7 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
                                                             : null;
       },
       child: Container(
-        color: Colors.transparent,
+        // color: Colors.transparent,
         margin: EdgeInsets.only(bottom: Get.height * .02),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,33 +175,29 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
             Container(
               width: 45,
               height: 45,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Color(0xffF1F3F5), width: 1),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: [
-                  BoxShadow(
-                    color: Color(0xff000000).withOpacity(.13),
-                    spreadRadius: 1,
-                    blurRadius: 3,
-                  ),
-                ],
-              ),
+              // decoration: BoxDecoration(
+              //   color: Colors.white,
+              //   border: Border.all(color: Color(0xffF1F3F5), width: 1),
+              //   borderRadius: BorderRadius.circular(5),
+              //   boxShadow: [
+              //     BoxShadow(
+              //       color: Color(0xff000000).withOpacity(.13),
+              //       spreadRadius: 1,
+              //       blurRadius: 3,
+              //     ),
+              //   ],
+              // ),
               child: Center(
-                child:
-                index == 7
-                    ? Icon(Icons.logout, color: Color(0xff004f7b))
-                    :
-                Image.asset(image, scale: scale,color: Color(0xff004f7b),),
+                child:SvgPicture.asset(image,color: Color(0xff000000),),
               ),
             ),
             SizedBox(width: 15),
             Text(
               name,
               style: TextStyle(
-                color: textColor,
-                fontWeight: FontWeight.w600,
-                fontSize: Get.height * .02,
+                color: black,
+                fontWeight: FontWeight.w500,
+                fontSize: Get.height * .023,
               ),
             ),
           ],

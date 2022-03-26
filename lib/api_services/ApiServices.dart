@@ -569,23 +569,20 @@ class ApiServices {
   static Future<void> getFreshOrderByUserId(BuildContext context, String body) async{
     print("body $body");
 
-   await  request(
-
-      requestType: "GET",
-      feedUrl: "$_GET_FRESH_ORDER_BY_USER_ID$body?sortBy=${orderScreenProvider.sortoffers}&sortDir=desc",
+   await  request(requestType: "GET",feedUrl: "$_GET_FRESH_ORDER_BY_USER_ID$body?sortBy=${orderScreenProvider.sortoffers}&sortDir=desc",
 
    ).then((value) {
       if (Get.isDialogOpen) {
         Get.back();
       }
-      logger.e("_GET_FRESH_ORDER_BY_USER_ID $value");
+      // logger.e("_GET_FRESH_ORDER_BY_USER_ID $value");
       if (value != null) {
         if (value.toString().contains('"isError": true')) {
           return;
         }
 
         orderScreenProvider.setIsOrderDataLoaded(true);
-        orderScreenProvider.setORderData(getFreshOrderByUserIdReponseFromJson(value.toString()));
+        orderScreenProvider.setFreshOrderData(getFreshOrderByUserIdReponseFromJson(value.toString()));
         // orderScreenProvider.getSetOfferAndOrderAtOnce(value.toString(), null);
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
@@ -671,8 +668,8 @@ class ApiServices {
     });
   }
 
-  static rejectOffer(BuildContext context, String offerid, int index, workshopId) {
-    request(
+  static Future<void> rejectOffer(BuildContext context, String offerid, int index, workshopId) async {
+  await   request(
       requestType: "PUT",
       feedUrl: "$_REJECT_OFFER$offerid",
     ).then((value) async{
@@ -686,10 +683,6 @@ class ApiServices {
 
           if (value.toString().contains("successful")) {
             dashboardProvider.hitSpecificWorkshopForOfferRejected(workshopId);
-
-            await  getOffersAndOderAtOnce();
-
-            Get.back();
             Get.snackbar(strSuccessful, strRequestsuccessful);
             analytics.logEvent(name: "rejectOffer");
 
@@ -713,7 +706,7 @@ class ApiServices {
           "$_GET_INPROGRESSORDER$userID?sortBy=${orderScreenProvider.sortOrderForApi}&sortDir=desc",
     ).then((value) {
       if (value != null) {
-        logger.e("getInProgressOrders $value");
+        // logger.e("getInProgressOrders $value");
         try {
           if (Get.isDialogOpen) {
             Get.back();
@@ -1072,6 +1065,7 @@ class ApiServices {
     ApiServices.request(
             requestType: "GET", feedUrl: "$_GET_USERPROFILE${userID}")
         .then((value) async {
+          logger.e(value);
       if (Get.isDialogOpen) {
         Get.back();
       }
@@ -1088,12 +1082,14 @@ class ApiServices {
             print(e);
           }
         }
-      } else {
+      }
+      else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
         }
       }
+
     });
   }
 
@@ -1882,9 +1878,9 @@ class ApiServices {
       return true;
     }
     else {
-      return false;
-      print(response.reasonPhrase);
       print(await response.stream.bytesToString());
+      print(response.reasonPhrase);
+      return false;
     }
 
   }

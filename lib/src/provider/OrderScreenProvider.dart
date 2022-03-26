@@ -10,14 +10,41 @@ import 'package:musan_client/api_services/response_models/GerOrderByUserIDRepons
 import 'package:musan_client/api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart';
 import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart' as GerOrderByUserIdReponsed;
 import 'package:musan_client/api_services/response_models/GetReportsByUserId.dart';
-import 'package:musan_client/api_services/response_models/GetSingleOrderByUserID.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
-import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
 
 
 
 class OrderScreenProvider extends ChangeNotifier{
+  String orderIdForOfferScreen="";
+  GerOrderByUserIdReponsed.Result offerResult;
+  var dashboardProvider =Provider.of<DashboardProvider>(Get.context, listen: false);
+
+  getOfferrdersList() async {
+    await Future.delayed(Duration.zero,);
+    offerResult=null;
+    notifyListeners();
+    await ApiServices.getFreshOrderByUserId(Get.context, dashboardProvider.userID);
+    if (isFreshOrderDataLoaded) {
+      for (int i = 0;
+      i < getFreshOrderByUserIdReponse.result.length;
+      i++) {
+        if (getFreshOrderByUserIdReponse.result[i].orderId
+            .toString()
+            .contains(orderIdForOfferScreen)) {
+          offerResult = getFreshOrderByUserIdReponse.result[i];
+          notifyListeners();
+          break;
+        }
+      }
+    }
+  }
+
+
+
+
+
+
 
   bool isFreshOrderDataLoaded = false;
 
@@ -29,11 +56,11 @@ class OrderScreenProvider extends ChangeNotifier{
 
   GetCompletedOrInProgressOrderByUserId completedOrInProgressOrderByUserIdFromJson;
   GetCompletedOrInProgressOrderByUserId completedOrInProgressOrderByUserIdFromJsonForHome;
-  var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
   bool isInprogressCompletedHomeOrderDataLoaded=false;
 
   GetSingleOrderByUserId singleOrderByUserIdFromJson;
-  setORderData(GetFreshOrderByUserIdReponse gerOrderByUserIdReponseFromJson) {
+
+  setFreshOrderData(GetFreshOrderByUserIdReponse gerOrderByUserIdReponseFromJson) {
     this.getFreshOrderByUserIdReponse = gerOrderByUserIdReponseFromJson;
     notifyListeners();
   }

@@ -61,10 +61,10 @@ class _SplashScreenState extends State<SplashScreen> {
     var sharedPreferences = await SharedPreferences.getInstance();
     var object = sharedPreferences.get(Finals.USER_LOGGED_IN_OR_NOT);
     if(object==true){
-        ApiServices.getFreshOrderByUserId(Get.context, sharedPreferences.getString(Finals.USER_ID));
-        ApiServices.getInProgressHomeOrders(Get.context, sharedPreferences.getString(Finals.USER_ID));
-        ApiServices.getAllReportsByUserID(sharedPreferences.getString(Finals.USER_ID));
-        ApiServices.getDiscountOffers();
+        // ApiServices.getFreshOrderByUserId(Get.context, sharedPreferences.getString(Finals.USER_ID));
+        // ApiServices.getInProgressHomeOrders(Get.context, sharedPreferences.getString(Finals.USER_ID));
+        // ApiServices.getAllReportsByUserID(sharedPreferences.getString(Finals.USER_ID));
+        // ApiServices.getDiscountOffers();
     }
 
       Future.delayed(Duration(seconds: 3), () async {

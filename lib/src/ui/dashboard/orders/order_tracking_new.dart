@@ -1,9 +1,7 @@
-import 'dart:ui';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:get/get.dart';
 import 'package:map_launcher/map_launcher.dart';
 import 'package:musan_client/ChatRoom.dart';
@@ -86,12 +84,12 @@ class _OrderTrackingState extends State<OrderTracking> {
   }
 
   final ExpandableController controller =ExpandableController(initialExpanded: false);
+
   bool isFirstBoxExpanded=false;
 
-  final ExpandableController controller2 =
-      ExpandableController(initialExpanded: false);
-  final ExpandableController controller3 =
-      ExpandableController(initialExpanded: false);
+  final ExpandableController controller2 = ExpandableController(initialExpanded: false);
+
+  final ExpandableController controller3 = ExpandableController(initialExpanded: false);
 
   void _getWorkShopLocation(Result result) {
     WorkshopLocation workshopLocation = result.workshopLocation;
@@ -317,8 +315,11 @@ class _OrderTrackingState extends State<OrderTracking> {
   }
 
   var dashboard = Provider.of<DashboardProvider>(Get.context, listen: false);
+
   RefreshController _refreshController =
+
   RefreshController(initialRefresh: false);
+
   void _onRefresh() async{
 
     if(result!=null){
@@ -333,14 +334,14 @@ class _OrderTrackingState extends State<OrderTracking> {
 
     _refreshController.loadComplete();
   }
-  @override
-  Widget build(BuildContext context) =>
-      Consumer<OrderScreenProvider>(builder: (builder, data, child) {
 
+  @override
+  Widget build(BuildContext context) => Consumer<OrderScreenProvider>(builder: (builder, data, child) {
 
         if (isFromSingleOrder && data.isSingleOrderDataLoaded) {
           result = data.singleOrderByUserIdFromJson.result;
         }
+
         if (result != null) {
           if (!Get.currentRoute.contains("PaymentWebView")) {
             while (Get.isBottomSheetOpen) {
@@ -373,14 +374,42 @@ class _OrderTrackingState extends State<OrderTracking> {
                 onRefresh: _onRefresh,
                 onLoading: _onLoading,
                 child: Scaffold(
+                  appBar: AppBar(
+                      leading: InkWell(
+
+                    onTap: (){
+                      Get.back();
+                    },
+                      child: Icon(Icons.arrow_back)),
+                      backgroundColor: Colors.blue,
+                      elevation:0,
+                    actions: [
+                      _getStepsName(result).contains('Arrive & Deal')?
+
+                      InkWell(
+                          onTap:(){
+
+                            orderCancelBottomSheet(result);
+
+                            },
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Icon(Icons.more_vert,color:white),
+                          ))
+
+                          :Container()
+                    ],
+
+                  ),
                   body: Container(
                       child: Stack(
+
                     children: [
                       Column(
                         children: [
                           Container(
                             color: Colors.blue,
-                            height: Get.height * 0.25,
+                            height: Get.height * 0.18,
                           ),
                           Expanded(
                             child: Container(color: Colors.grey.shade200),
@@ -396,45 +425,17 @@ class _OrderTrackingState extends State<OrderTracking> {
                               child: Column(
                                 children: [
                                   Container(
-                                    constraints: BoxConstraints(
-                                        minHeight: setOrderStatus(
-                                                        0, result.orderSteps) !=
-                                                    "Completed".tr &&
-                                                !result.isCompleted &&
-                                                result.orderStatusId.toString() !=
-                                                    "5"
-                                            ? Get.height * 0.37
-                                            : Get.height * 0.36,
-                                        minWidth: double.infinity),
+
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        isFirstBoxExpanded?
-                                         SizedBox(height:40):Container(),
                                         Padding(
                                           padding: const EdgeInsets.only(right: 10),
                                           child: Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              // orderId != null
-                                              //     ? Padding(
-                                              //         padding:
-                                              //             const EdgeInsets.only(
-                                              //                 left: 10),
-                                              //         child: InkWell(
-                                              //             onTap: () {
-                                              //               if (orderId != null) {
-                                              //                 Get.back();
-                                              //               }
-                                              //             },
-                                              //             child: Icon(
-                                              //               Icons.arrow_back,
-                                              //               size: 25,
-                                              //               color: Colors.white,
-                                              //             )),
-                                              //       )
-                                              //     : Container(),
+
                                               Expanded(
                                                 child: Column(
                                                   children: [
@@ -545,7 +546,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                     SizedBox(
                                                       height: 15,
                                                     ),
-                                                    workhsopProfileWidget(),
+                                                    workhsopProfileWidget(result),
                                                     SizedBox(
                                                       height: 15,
                                                     )
@@ -713,18 +714,6 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                         ),
                                                       ),
 
-                                                      /* Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(8.0),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: getTextList(
-                                                            'Name'.tr,
-                                                            '${result.workshopName.name}'),
-                                                      ),
-                                                    ),*/
                                                       SizedBox(
                                                         height: 10,
                                                       ),
@@ -762,14 +751,7 @@ class _OrderTrackingState extends State<OrderTracking> {
 
                                                                 ],
                                                             ),
-                                                            // child: Column(
-                                                            //   mainAxisAlignment:
-                                                            //       MainAxisAlignment
-                                                            //           .spaceBetween,
-                                                            //   children: getTextList(
-                                                            //       'Issue type'.tr,
 
-                                                            // ),
                                                           )
                                                         : Container(),
                                                       Container(height: 0.25, color:grey),
@@ -875,7 +857,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                                 .symmetric(
                                                             vertical: 10),
                                                         child:
-                                                            workhsopProfileWidget(),
+                                                            workhsopProfileWidget(result),
                                                       )
                                                     ],
                                                   ),
@@ -902,14 +884,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                   Expanded(
                                                       child: Row(
                                                     children: [
-                                                      // !result.isCarPickupOrdered &&
-                                                      //         !result
-                                                      //             .isTechnicianOrder &&
-                                                      //         result.orderSteps[0]
-                                                      //                 .orderStepStatus
-                                                      //                 .toString() ==
-                                                      //             "0"
-                                                      //     ?
+
                                                       InkWell(
                                                               onTap: () {
                                                                 _getWorkShopLocation(
@@ -937,7 +912,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                                         .bold),
                                                           ),
                                                           Text(
-                                                            "${getLastLocation()}",
+                                                            "${getLastLocation(result)}",
                                                             maxLines: 1,
                                                             style: TextStyle(
                                                               color: black,
@@ -959,14 +934,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                   Expanded(
                                                       child: Row(
                                                     children: [
-                                                      // !result.isCarPickupOrdered &&
-                                                      //         !result
-                                                      //             .isTechnicianOrder &&
-                                                      //         result.orderSteps[0]
-                                                      //                 .orderStepStatus
-                                                      //                 .toString() ==
-                                                      //             "0"
-                                                      //     ?
+
                                                       SvgPicture.asset(
                                                               'assets/calender.svg',
                                                               height: 40,
@@ -1119,29 +1087,6 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                       ),
                                                     ),
 
-                                                   /* !result.isTechnicianOrder
-                                                        ? Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(8.0),
-                                                            child: Row(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: getTextList(
-                                                                  'Duration'.tr,
-                                                                  '${double.parse(result.timeInDays.toString()).toInt()} ${"Days".tr}',
-                                                                  detailWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  detailsColor:
-                                                                      Colors.blue,
-                                                                  headingColor:
-                                                                      grey),
-                                                            ),
-                                                          )
-                                                        : Container(),
-*/
                                                     result.isDownPaymentRequested &&
                                                                 !result
                                                                     .isDownPaymentCompleted ||
@@ -1374,150 +1319,22 @@ class _OrderTrackingState extends State<OrderTracking> {
                                     ],
                                   ),
                                 ),
-                                /*setOrderStatus(0, result.orderSteps) ==
-                                            "in process".tr &&
-                                        tempCarPickupOrdered &&
-                                        !result.isTechnicianOrder
-                                    ? Container(
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 10),
-                                        width: Get.width,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(15),
-                                            color: Colors.white,
-                                            border: Border.all(
-                                                color: grey.withOpacity(0.5),
-                                                width: 3)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                "Need a car pickup?".tr,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Text(
-                                                "You can now order our pickup service to help you bring your car to the workshop"
-                                                    .tr,
-                                                style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 16),
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () {
-                                                      showProgress();
-                                                      ApiServices
-                                                          .getCarPickTypeCosts(
-                                                              result);
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color: green
-                                                              .withOpacity(0.2),
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10)),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal: 40,
-                                                            vertical: 8),
-                                                        child: Center(
-                                                            child: Text(
-                                                          "Yes".tr,
-                                                          style: TextStyle(
-                                                              color: Colors.green,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 20,
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      tempCarPickupOrdered = false;
-                                                      setState(() {});
-                                                    },
-                                                    child: Container(
-                                                      decoration: BoxDecoration(
-                                                          color:
-                                                              red.withOpacity(0.2),
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                  10)),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets
-                                                                .symmetric(
-                                                            horizontal: 40,
-                                                            vertical: 8),
-                                                        child: Center(
-                                                            child: Text(
-                                                          "No".tr,
-                                                          style: TextStyle(
-                                                              color: Colors.red,
-                                                              fontSize: 16,
-                                                              fontWeight:
-                                                                  FontWeight.bold),
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    : Container(),*/
+                                SizedBox(height: 25,)
+
                               ],
                             ),
                           )
                         ],
                       ),
-
-                    _getStepsName(result).contains('Arrive & Deal')?
-                      InkWell(
-                          onTap:(){
-                            orderCancelBottomSheet(result);
-                          },
-                          child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Align(
-                              alignment: Alignment.topRight,
-                          child: Icon(Icons.more_vert,color:white)),
-                        ),
-                      ):Container()
                     ],
                   )),
                 ),
               ),
             ),
           );
-        } else {
+        }
+
+        else {
           return Material(
               color: Colors.white,
               child: Container(
@@ -1527,6 +1344,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                 ),
               )));
         }
+
       });
 
   Widget invoiceHeader() {
@@ -1536,7 +1354,7 @@ class _OrderTrackingState extends State<OrderTracking> {
         children: [
           SvgPicture.asset('assets/recieptIcon.svg'),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -1643,148 +1461,6 @@ class _OrderTrackingState extends State<OrderTracking> {
     );
   }
 
-  Widget workhsopProfileWidget() {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: Container(
-            height: Get.height * 0.07,
-            width: Get.width * 0.15,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.grey.shade200,
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'))),
-          ),
-        ),
-        Expanded(
-            child: !result.isTechnicianOrder
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        result.workshopName.name,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: Get.height * 0.015,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/save_tick_icon.svg',
-                                  height: 15,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Verified Shop".tr,
-                                  style: TextStyle(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: Get.height * 0.016,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 35,
-                          ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/google.svg',
-                                  height: 15,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "${result.googleRatings??0}/5".tr,
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: Get.height * 0.016),
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: orangeYellow,
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/warranty.svg',
-                                  height: 15,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "Offer Warranty".tr,
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: Get.height * 0.016),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: 35,
-                          ),
-                          Expanded(
-                            child: result.isElite
-                                ? Row(
-                                    children: [
-                                      Image.asset(
-                                        'assets/images/yello_starr_filled.png',
-                                        height: 15,
-                                      ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6),
-                                        child: Text(
-                                          "Elite".tr,
-                                          style: TextStyle(
-                                              color: orangeYellow,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 17),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                : Container(),
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                : Container())
-      ],
-    );
-  }
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -1792,8 +1468,6 @@ class _OrderTrackingState extends State<OrderTracking> {
 
     analytics.logEvent(name: "user_left_offer_screen");
   }
-
-
 
   Color _getStepsColor(Result result, {String stepNo}) {
     if (!result.isCarPickupOrdered && !result.isTechnicianOrder) {
@@ -1938,13 +1612,4 @@ class _OrderTrackingState extends State<OrderTracking> {
     return "".tr;
   }
 
-  String getLastLocation() {
-
-    try {
-      var split = result.workshopAddress.toString().split("،");
-      return split[1]+"،"+split[2];
-    } catch (e) {
-      return '';
-    }
-  }
 }

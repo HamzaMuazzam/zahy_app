@@ -9,6 +9,7 @@ class Finals {
   static String USER_TYPE_ID="userTypeID";
   static String USER_NOTIFICATION="notifications";
   static String USER_Language="Language";
+  static String USER_COUPON="USER_COUPON";
 
 
 }

@@ -45,8 +45,10 @@ class _MyCarsScreenNewDesignState extends State<MyCarsScreenNewDesign> {
     return Consumer<MyCarsScreenProvider>(builder: (builder,data,child){
       return SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.white,
+
           appBar: AppBar(
-            backgroundColor: Colors.grey.shade100,
+            backgroundColor: Colors.white,
             elevation: 0,
 
             title: Text("My Cars".tr,style: TextStyle(color: Colors.black),),
@@ -74,9 +76,9 @@ class _MyCarsScreenNewDesignState extends State<MyCarsScreenNewDesign> {
           body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            color: Colors.grey.shade100,
+            color: Colors.white,
             child: Container(
-              color: Colors.grey.shade100,
+              color: Colors.white,
               child:
               data.isMyCarLoaded?
                   data.getMyCarsByUserIdFromJson.result.length!=0?
@@ -94,6 +96,7 @@ class _MyCarsScreenNewDesignState extends State<MyCarsScreenNewDesign> {
 
                       },
                       child: Container(
+
                         child: Column(
                           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
@@ -251,8 +254,8 @@ class _MyCarsScreenNewDesignState extends State<MyCarsScreenNewDesign> {
                             ),
                           ],
                         ),
-                        decoration: const BoxDecoration(
-                            color: Colors.white,
+                        decoration:  BoxDecoration(
+                            color: Colors.grey.withOpacity(0.05),
                             borderRadius:
                             BorderRadius.all(Radius.circular(15))),
                       ),

@@ -359,6 +359,14 @@ PODS:
     - Firebase/Firestore (= 8.10.0)
     - firebase_core
     - Flutter
+  - FBAEMKit (13.0.0):
+    - FBSDKCoreKit_Basics (= 13.0.0)
+  - FBSDKCoreKit (13.0.0):
+    - FBAEMKit (= 13.0.0)
+    - FBSDKCoreKit_Basics (= 13.0.0)
+  - FBSDKCoreKit_Basics (13.0.0)
+  - FBSDKShareKit (13.0.0):
+    - FBSDKCoreKit (= 13.0.0)
   - Firebase/Analytics (8.10.0):
     - Firebase/Core
   - Firebase/Auth (8.10.0):
@@ -450,9 +458,15 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.6)
     - nanopb (~> 2.30908.0)
   - Flutter (1.0.0)
+  - flutter_email_sender (0.0.1):
+    - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_ringtone_player (0.0.1):
+    - Flutter
+  - flutter_share_me (0.0.1):
+    - FBSDKCoreKit
+    - FBSDKShareKit
     - Flutter
   - fluttertoast (0.0.2):
     - Flutter
@@ -584,8 +598,10 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+  - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_ringtone_player (from `.symlinks/plugins/flutter_ringtone_player/ios`)
+  - flutter_share_me (from `.symlinks/plugins/flutter_share_me/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoder (from `.symlinks/plugins/geocoder/ios`)
   - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
@@ -606,6 +622,10 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - FBAEMKit
+    - FBSDKCoreKit
+    - FBSDKCoreKit_Basics
+    - FBSDKShareKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -647,10 +667,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
+  flutter_email_sender:
+    :path: ".symlinks/plugins/flutter_email_sender/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_ringtone_player:
     :path: ".symlinks/plugins/flutter_ringtone_player/ios"
+  flutter_share_me:
+    :path: ".symlinks/plugins/flutter_share_me/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   geocoder:
@@ -688,6 +712,10 @@ SPEC CHECKSUMS:
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   cloud_firestore: 03020d987c2828e9b2d87f6940d365ddb089394f
+  FBAEMKit: 11a0bcdc7a88e26ed764bcf56372afc6cbbbdcd9
+  FBSDKCoreKit: 00e1e751257e1005304fa29cb683d2dfe008f41a
+  FBSDKCoreKit_Basics: 96ec2ddb67a032e54f0754ea3d59db6f84f42389
+  FBSDKShareKit: 1ab7f90d25d026c841ae8d3c07f4961e94defc13
   Firebase: 44213362f1dcc52555b935dc925ed35ac55f1b20
   firebase_analytics: ab4a37ccfdc157e9fe43a2d47c230b39a405fbcc
   firebase_auth: 9d959bddc3b255ddfb67cf630a5bbb6186964356
@@ -701,8 +729,10 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 830327b45345ffc859eaa9c17bcd5ae893fd5425
   FirebaseMessaging: b0aeba17332ee1ee610662b4d1e02a86db82f08f
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
+  flutter_email_sender: 02d7443217d8c41483223627972bfdc09f74276b
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_ringtone_player: 15eba85187230b87b2512f0e1b92225618bc03e7
+  flutter_share_me: 53e12ba3f220060893dbf242d29ec95cb2a4fb18
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
   geolocator_apple: b741765c55dc21950e3e106e8b3584e55cf81ce5

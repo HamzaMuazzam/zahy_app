@@ -30,6 +30,7 @@ import 'package:musan_client/src/ui/dashboard/help/help_screen.dart';
 import 'package:musan_client/src/ui/dashboard/home/home_screen.dart';
 import 'package:musan_client/src/ui/dashboard/myCars/my_car_screen.dart';
 import 'package:musan_client/src/ui/dashboard/notification_screen.dart';
+import 'package:musan_client/src/ui/dashboard/orders/order_list_screen.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_screen.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking_new.dart';
@@ -215,7 +216,8 @@ class DashboardProvider extends ChangeNotifier {
 
       HomeScreen(),
 
-      OrderScreen(),
+      OrderListScreen(),
+      // OrderScreen(),
       MyCarsScreenNewDesign()
       // MyCarScreen(screenChecked: 0),
 
@@ -362,16 +364,11 @@ class DashboardProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
-
-
   String cardNumber="";
+
   String cardCVC="";
 
   TextEditingController cardDate=TextEditingController(text: "");
-
-
 
   int partID, orderId;
 
@@ -520,13 +517,14 @@ class DashboardProvider extends ChangeNotifier {
 
 
 var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
+var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
 class RealTimeSingleton {
   static RealTimeSingleton _instance;
   RealTimeSingleton._internal();
   factory RealTimeSingleton(FirebaseFirestore collectionReference)  {
     if (_instance == null) {
-      logger.e("HellOOOOO");
+
 
       collectionReference.collection("clients").doc(dashboardProvider.userID).snapshots().listen((event) async {
         if(event.data() ==null) return;
@@ -538,7 +536,7 @@ class RealTimeSingleton {
           playCustomSound();
           listenNewOfferReceived(event.data);
 
-          getHomeScreenDataAll();
+          // getHomeScreenDataAll();
 
           collectionReference.collection("clients").doc(dashboardProvider.userID).delete();
         }
@@ -575,26 +573,33 @@ class RealTimeSingleton {
 
 listenNewOfferReceived(arguments){
 
-  TOASTS("New Offer Received".tr);
-
-  logger.i("NewOfferReceived $arguments");
-
-  if(Get.currentRoute.toString().contains("WorkShopOffer")){
-
-  }
-  else{
-    provider.onTabbedBar(1);
-  }
+  orderProvider.getOfferrdersList();
+  // TOASTS("New Offer Received".tr);
+  //
+  // logger.i("NewOfferReceived $arguments");
+  //
+  // if(Get.currentRoute.toString().contains("WorkShopOffer")){
+  //
+  // }
+  // else{
+  //   provider.onTabbedBar(1);
+  // }
 
 }
 
 _listenOfferNegotiateFromWorkshop(Map<String, dynamic> data){
-  if(Get.currentRoute.contains("WorkShopOffer")){
-    // ApiServices.getSingleOfferByOfferID(data["OfferId"].toString());
-  }
+  orderProvider.getOfferrdersList();
+  // if(Get.currentRoute.contains("WorkShopOffer")){
+  //   ApiServices.getSingleOfferByOfferID(data["OfferId"].toString());
+  // }
 }
 
 _listenOfferNegotiateSuccess(Map<String, dynamic> data){
+
+  if(Get.currentRoute.contains('OrderOfferScreen')){
+    Get.back();
+  }
+
   if(!Get.currentRoute.contains('OrderTracking')){
     // Get.to(OrderTracking(int.parse(data['OrderId'].toString())));
     Get.to(OrderTracking(null,true,int.parse(data['OrderId'].toString())));
@@ -602,8 +607,8 @@ _listenOfferNegotiateSuccess(Map<String, dynamic> data){
     // Get.to(OrderTracking(int.parse(data['OrderId'].toString())));
   }
 
+
 }
-var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
 _listenOrderProgressed(Map<String, dynamic> data){
 
@@ -632,7 +637,7 @@ _listenOrderProgressed(Map<String, dynamic> data){
       ApiServices.getSignleOrderByUserID(orderScreenProvider.singalOrderId);
   }
 
-  else if(!Get.currentRoute.contains("OrderTracking") && dashboardProvider.bottomBarCurrentIndex!=1){
+  else if(!Get.currentRoute.contains("OrderTracking")){
     Get.to(OrderTracking(null,true,int.parse(orderId.toString())));
   }
 

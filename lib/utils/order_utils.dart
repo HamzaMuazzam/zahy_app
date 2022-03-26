@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
@@ -1416,3 +1417,159 @@ String getFualts(Result result) {
   return faults.toString().replaceAll("[", '').replaceAll("]", '');
 }
 
+String getLastLocation(Result result) {
+
+  try {
+    var split = result.workshopAddress.toString().split("،");
+    return split[1]+"،"+split[2];
+  } catch (e) {
+    return '';
+  }
+}
+Widget workhsopProfileWidget(Result result) {
+  return Row(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Container(
+          height: Get.height * 0.07,
+          width: Get.width * 0.15,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.grey.shade200,
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+  // NetworkImage("https://muapi.deeps.info/${order.displayImage}")
+                  image: NetworkImage(
+                      result.displayImage==null
+                          ?
+                      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+                          :
+                      'https://muapi.deeps.info/${result.displayImage}'
+                  ))),
+        ),
+      ),
+      Expanded(
+          child: !result.isTechnicianOrder
+              ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                result.workshopName.name,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Get.height * 0.015,
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/save_tick_icon.svg',
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Verified Shop".tr,
+                          style: TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: Get.height * 0.016,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 35,
+                  ),
+                  Expanded(
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/google.svg',
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "${result.googleRatings??0}/5".tr,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Get.height * 0.016),
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: orangeYellow,
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/warranty.svg',
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Offer Warranty".tr,
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontWeight: FontWeight.bold,
+                              fontSize: Get.height * 0.016),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: 35,
+                  ),
+                  Expanded(
+                    child: result.isElite
+                        ? Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/yello_starr_filled.png',
+                          height: 15,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6),
+                          child: Text(
+                            "Elite".tr,
+                            style: TextStyle(
+                                color: orangeYellow,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 17),
+                          ),
+                        ),
+                      ],
+                    )
+                        : Container(),
+                  ),
+                ],
+              ),
+            ],
+          )
+              : Container())
+    ],
+  );
+}

@@ -25,7 +25,6 @@ import 'api_services/Finals.dart';
 /// To verify things are working, check out the native platform logs.
 ///
 
-
 var provider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage event) async {
@@ -56,7 +55,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage event) async {
 
   }*/
 
-
 /*
   if (event.notification != null) {
     FlutterRingtonePlayer.playNotification();
@@ -75,23 +73,14 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage event) async {
   //     payload: "event.data.toString()");
   // provider.increamentNotificationNumber();
   listenFcm(event);
-
-
 }
-
 
 Future<void> getOffersAndOderAtOnce() async {
-  var orderScreenProvider =Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
   orderScreenProvider.setIsInprogressCompletedOrderDataLoaded2();
-  // orderScreenProvider.setIsOrderDataLoaded(false);
   await ApiServices.getFreshOrderByUserId(Get.context, provider.userID);
-  await ApiServices.getInProgressOrders(Get.context,  provider.userID);
-  // orderScreenProvider.notifyListeners();
-  // logger.i("HAMZA MUAZZAM");
-
+  await ApiServices.getInProgressOrders(Get.context, provider.userID);
 }
-
-
 
 playCustomSound() {
   AssetPlayer.AssetsAudioPlayer.newPlayer().open(
@@ -117,9 +106,11 @@ class FCM {
     fltrNotification.initialize(initilizationsSettings,
         onSelectNotification: onLocalNotificationSelected);
 
-    Firebase.initializeApp().then((fbr)async {
+    Firebase.initializeApp().then((fbr) async {
       _messaging = FirebaseMessaging.instance;
-      await FirebaseMessaging.instance.subscribeToTopic("AllUsers").then((value) => null);
+      await FirebaseMessaging.instance
+          .subscribeToTopic("AllUsers")
+          .then((value) => null);
 
       _messaging.getToken().then((token) async {
         FirebaseMessaging.onBackgroundMessage(
@@ -135,8 +126,7 @@ class FCM {
                 .subscribeToTopic(shared.getString(Finals.USER_ID));
             await FirebaseMessaging.instance
                 .subscribeToTopic(shared.getString(Finals.USER_TYPE_ID));
-          }
-          else if (noti) {
+          } else if (noti) {
             // print("Topic Subscribed");
             shared
                 .setBool(Finals.USER_NOTIFICATION, true)
@@ -174,8 +164,7 @@ class FCM {
               if (!currentRoute.contains("ChatRoom")) {
                 _showLocalNotification(event);
               }
-            }
-            else {
+            } else {
               _showLocalNotification(event);
             }
             // TOASTS("Local Notification  ${event.data.toString()}");
@@ -275,8 +264,8 @@ class FCM {
           ApiServices.getSignleOrderByUserID(notificationsFromJson.orderId);
         } else {
           // Get.to(() => OrderTracking(int.parse(notificationsFromJson.orderId)));
-          Get.to(Get.to(OrderTracking(null,true,int.parse(notificationsFromJson.orderId))));
-
+          Get.to(Get.to(OrderTracking(
+              null, true, int.parse(notificationsFromJson.orderId))));
         }
       } else if (notificationsFromJson.routeName == "popUpNegotiation") {
         // Get.offAll(DashboardScreen());
@@ -308,72 +297,60 @@ class FCM {
           ApiServices.getSignleOrderByUserID(notificationsFromJson.orderId);
         } else {
           // Get.to(() => OrderTracking(int.parse(notificationsFromJson.orderId)));
-          Get.to(Get.to(OrderTracking(null,true,int.parse(notificationsFromJson.orderId))));
-
+          Get.to(Get.to(OrderTracking(
+              null, true, int.parse(notificationsFromJson.orderId))));
         }
       }
     });
   }
-
 }
-void listenFcm(RemoteMessage event) async{
+
+void listenFcm(RemoteMessage event) async {
   FlutterLocalNotificationsPlugin fltrNotification;
 
   var androidDetails =
-  new AndroidNotificationDetails("Channel ID", "Desi programmer",
-      importance: Importance.max,
-      // sound: RawResourceAndroidNotificationSound('alert'),
-      sound: null,
-      playSound: false,
-      priority: Priority.max);
+      new AndroidNotificationDetails("Channel ID", "Desi programmer",
+          importance: Importance.max,
+          // sound: RawResourceAndroidNotificationSound('alert'),
+          sound: null,
+          playSound: false,
+          priority: Priority.max);
   var iSODetails = new IOSNotificationDetails();
-  var generalNotificationDetails =   new NotificationDetails(android: androidDetails, iOS: iSODetails);
+  var generalNotificationDetails =
+      new NotificationDetails(android: androidDetails, iOS: iSODetails);
   var androidInitilize = new AndroidInitializationSettings('logo');
   var iOSinitilize = new IOSInitializationSettings();
-  var initilizationsSettings = new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
+  var initilizationsSettings =
+      new InitializationSettings(android: androidInitilize, iOS: iOSinitilize);
   fltrNotification = new FlutterLocalNotificationsPlugin();
   fltrNotification.initialize(initilizationsSettings);
 
   logger.i("event.notification != null ${event.notification} ");
   if (event.notification != null) {
     // FlutterRingtonePlayer.playNotification();
-    if(event.data.toString().contains('OrderProgressed')){
+    if (event.data.toString().contains('OrderProgressed')) {
       logger.e("NOTIFICATION DATA => ${event.data}");
       FlutterRingtonePlayer.playNotification();
 
       // _listenOrderProgressed(event.data);
-    }
-    else if(event.data.toString().contains('TechnicianOrderAccepted')){
+    } else if (event.data.toString().contains('TechnicianOrderAccepted')) {
       logger.e("NOTIFICATION DATA => ${event.data}");
       FlutterRingtonePlayer.playNotification();
 
       // _listenOrderProgressed(event.data);
-    }
-
-
-    else if(event.data.toString().contains('OfferNegotiateSuccess')){
+    } else if (event.data.toString().contains('OfferNegotiateSuccess')) {
       logger.e("NOTIFICATION DATA => ${event.data}");
       FlutterRingtonePlayer.playNotification();
       // _listenOfferNegotiateSuccess(event.data);
-    }
-
-    else if(event.data.toString().contains('OfferNegotiate') ) {
+    } else if (event.data.toString().contains('OfferNegotiate')) {
       logger.e("NOTIFICATION DATA => ${event.data}");
       FlutterRingtonePlayer.playNotification();
       // _listenOfferNegotiateFromWorkshop(event.data);
     }
-
-  }
-
-  else if(event.notification == null) {
-
-    if(event.data.toString().contains('NewOfferRecieved')){
+  } else if (event.notification == null) {
+    if (event.data.toString().contains('NewOfferRecieved')) {
       logger.e("NOTIFICATION DATA => ${event.data}");
-
-      // playCustomSound();
-      // _listenNewOfferReceived(event.data);
     }
-
   }
 
   await fltrNotification.show(
