@@ -60,11 +60,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
     var languageCode = sharedPreferences.getString(Finals.USER_Language);
     if(languageCode==null || languageCode==""){
-      languageCode="en";
+      languageCode="ar";
     }
-
     return  KeyedSubtree(
       key: key,
       child: MultiProvider(

@@ -1173,9 +1173,11 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                     var dashboardProvider = Provider.of<DashboardProvider>(
                         Get.context,
                         listen: false);
+
+                    print(result.workshopId);
                     Get.to(ChatRoom(
                         chatRoomId:
-                            "${dashboardProvider.userID}_${result.workshopId}_${result.orderId}",
+                            "${dashboardProvider.userID}_${result.offers[0].workshopId}_${result.orderId}",
                         messageSendBy: result.userId.toString()));
                   },
                   child: Container(

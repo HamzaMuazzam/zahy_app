@@ -50,6 +50,7 @@ import 'package:musan_client/src/ui/dashboard/orders/order_tracking.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking_new.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/common_classes.dart';
+import 'package:musan_client/utils/order_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'response_models/GetCompletedOrInProgressOrderByUserId.dart';
@@ -465,8 +466,7 @@ class ApiServices {
             requestType: "GET", feedUrl: "$_GET_CAR_INFORMATION_BY_ID/$useRID")
         .then((value) async {
       if (value != null) {
-        // print("Car Response:: $value");
-        // try {
+
         if (Get.isDialogOpen) {
           Get.back();
         }
@@ -476,9 +476,6 @@ class ApiServices {
           provider.setCarInformationByUserIDResponse(true, carInformationReponseFromJson(value.toString()));
         }
 
-        // } catch (e) {
-        //   print("Error : : : $e");
-        // }
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -515,11 +512,8 @@ class ApiServices {
       }
       if (value.toString().contains("successful")) {
 
-
-
         ///if service booked that's mean 0 and service is booked if not then workshop is booked and passed true for isWorkshop?
         dashboardProvider.hitWorkshopOrTechnician(screenNumber==0 ? false : true );
-
 
         Get.back();
         if (screenNumber == 0) {
@@ -536,8 +530,9 @@ class ApiServices {
         workShopOrderProvider.imageList.clear();
         workShopOrderProvider.freeComment="";
         await getOffersAndOderAtOnce();
+        var decoded = json.decode(value.toString());
 
-        Get.to(ThankYou());
+        Get.to(ThankYou(decoded['result']['id'].toString()));
         await analytics.logEvent(name: "NEW_ORDER_BOOKED",parameters:body);
 
       }
@@ -546,27 +541,7 @@ class ApiServices {
       }
     });
 
-    // ApiServices.request(
-    //         requestType: "POST", feedUrl: "$SUBMIT_ORDER", body: body)
-    //     .then((value) async {
-    //   if (value != null) {
-    //     print("Order Response:: $value");
-    //     try {
 
-    //       if (!value.toString().contains('isError": true')) {
-    //         Get.back();
-    //
-
-    //       }
-    //     } catch (e) {
-    //       print(e);
-    //     }
-    //   } else {
-    //     if (Get.isDialogOpen) {
-    //       Get.back();
-    //     }
-    //   }
-    // });
   }
 
   static Future<void> getFreshOrderByUserId(BuildContext context, String body) async{
@@ -599,14 +574,16 @@ class ApiServices {
   }
 
   static acceptOffer(BuildContext context, String offerid, offers, String orderId, String workshopId) {
-    request(
-      requestType: "PUT",
-      feedUrl: "$_ACCEPT_OFFER$offerid",
-    ).then((value) async{
+
+    request(requestType: "PUT", feedUrl: "$_ACCEPT_OFFER$offerid").then((value) async{
+
+
       if (Get.isDialogOpen) {
         Get.back();
       }
+
       logger.wtf("ACCPET OFFER $value");
+
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
@@ -628,13 +605,17 @@ class ApiServices {
           print("Exception $e");
         }
       }
+
       else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
         }
       }
+
+
     });
+
   }
 
   static negotiateOffer(BuildContext context, String offerid, String price, {workshopId}) async {
@@ -721,10 +702,6 @@ class ApiServices {
             provider.setIsInprogressCompletedOrderDataLoaded(true,getCompletedOrInProgressOrderByUserIdFromJson(
                     value.toString()));
 
-            // orderScreenProvider.getSetOfferAndOrderAtOnce(
-            //     null, value.toString());
-
-            // Get.back();
           }
         } catch (e) {
           print("Exception $e");
@@ -744,8 +721,7 @@ class ApiServices {
       feedUrl: "$_GET_FRESH_HOME_ORDER_BY_USER_ID$userID?sortDir=desc",
     ).then((value) {
       if (value != null) {
-        // print(value);
-        // logger.e("_GET_FRESH_HOME_ORDER_BY_USER_ID $value");
+
         try {
           if (Get.isDialogOpen) {
             Get.back();
@@ -802,7 +778,6 @@ class ApiServices {
   }
 
   static getSignleOrderByUserID(String orderID) {
-    // logger.i(_GET_SINGLE_ORDER_BY_ID + orderID);
     request(
       requestType: "GET",
       feedUrl: "$_GET_SINGLE_ORDER_BY_ID$orderID",
@@ -812,17 +787,14 @@ class ApiServices {
       }
 
       if (value != null) {
-        // logger.e(value);
-        // try {
+
           if (value.toString().contains("successful")) {
             var provider =
                 Provider.of<OrderScreenProvider>(Get.context, listen: false);
             provider.setSignleOrder(
                 true, getSingleOrderByUserIdFromJson(value.toString()));
           }
-        // } catch (e) {
-        //   print("Exception $e");
-        // }
+
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -843,18 +815,15 @@ class ApiServices {
 
       if (value != null) {
         print(value);
-        // try {
+
 
         if (value.toString().contains("successful")) {
-          // var provider =Provider.of<OrderScreenProvider>(Get.context, listen: false);
-          // provider.setSignleOrder(true, getSingleOrderByUserIdFromJson(value.toString()));
+
           var orderByUserId = getSingleOrderByUserIdFromJson(value.toString());
 
           Get.to(OrderPaymentHistoryDetailsCompleted(orderByUserId.result));
         }
-        // } catch (e) {
-        //   print("Exception $e");
-        // }
+
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -942,7 +911,6 @@ class ApiServices {
   }
 
   static void getAllReportsByUserID(String userID) {
-    // logger.i('dashboardProvider.userID $userID');
     ApiServices.request(
             requestType: "GET", feedUrl: "$_GET_ALL_REPORTS_USER_ID" + userID)
         .then((value) async {
@@ -950,8 +918,7 @@ class ApiServices {
         Get.back();
       }
       try {
-        // logger.e("getAllReportsByUserID ${value}");
-        // Get.bottomSheet(OrderNowBottomSheet());
+
         await    getOffersAndOderAtOnce();
 
         orderScreenProvider.setORderFromReortsData(true, getReportsByUserIdFromJson(value.toString()));
@@ -1611,6 +1578,10 @@ class ApiServices {
         await  getOffersAndOderAtOnce();
 
         getSignleOrderByUserID(orderId.toString());
+
+        if(isPaid){
+          showPaymentDoneBottomSheet();
+        }
         return true;
 
 
@@ -1626,8 +1597,7 @@ class ApiServices {
   }
 
   static  Future<bool> acceptAndPayDownPayment(orderId, {bool isCashback=false}) async {
-    var request = http.Request('PUT',
-        Uri.parse('https://muapi.deeps.info/api/orders/down-payment/$orderId?isWallet=$isCashback'));
+    var request = http.Request('PUT', Uri.parse('https://muapi.deeps.info/api/orders/down-payment/$orderId?isWallet=$isCashback'));
     http.StreamedResponse response = await request.send();
     response.stream.bytesToString().then((value) async{
       print(value);
@@ -1635,6 +1605,8 @@ class ApiServices {
       if (value != null) {
         await  getOffersAndOderAtOnce();
         getSignleOrderByUserID(orderId.toString());
+        showPaymentDoneBottomSheet();
+
         return true;
       }
       else {
@@ -1649,6 +1621,9 @@ class ApiServices {
   }
 
   static Future<void> payFinalBill(String orderId, {  bool isCash: false,  bool isWallet=false }) async {
+
+
+
     var request = http.Request('PUT',
         Uri.parse('https://muapi.deeps.info/api/orders/pay-order/$orderId?isCash=$isCash&isWallet=$isWallet'));
     // request.body='{"isCash":$isCash}';
@@ -1661,6 +1636,10 @@ class ApiServices {
         await  getOffersAndOderAtOnce();
 
         getSignleOrderByUserID(orderId.toString());
+
+        if(!isCash){
+          showPaymentDoneBottomSheet();
+        }
       }
       else {
         Get.snackbar(strError, strSomethingwentwrong);
@@ -1788,6 +1767,7 @@ class ApiServices {
             await getOffersAndOderAtOnce();
 
             getSignleOrderByUserID(dashboardProvider.orderId.toString());
+            showPaymentDoneBottomSheet();
           }
         } catch (e) {
           print("Exception $e");
@@ -1900,7 +1880,19 @@ class ApiServices {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      return await response.stream.bytesToString();
+      String body= await response.stream.bytesToString();
+      if(body!=null){
+        if(body.contains("successful")){
+          dashboardProvider.couponAmount = null;
+          dashboardProvider.notifyListeners();
+          var decode = json.decode(body);
+          dashboardProvider.couponAmount = decode['result'].toString();
+          dashboardProvider.notifyListeners();
+        }
+      }
+
+      return "";
+
     }
     else {
       return response.reasonPhrase;

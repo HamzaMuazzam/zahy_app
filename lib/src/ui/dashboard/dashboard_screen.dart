@@ -60,8 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
                 Expanded(child: dashboardProvider.childrens[dashboardProvider.bottomBarCurrentIndex]),
                 bottomNavigationBar(dashboardProvider),
-
-
               ],
             ),
           ),

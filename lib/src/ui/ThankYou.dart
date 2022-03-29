@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/FCM.dart';
+import 'package:musan_client/OrderOfferScreen.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/src/ui/dashboard/dashboard_screen.dart';
@@ -9,7 +10,8 @@ import 'package:provider/provider.dart';
 
 
 class ThankYou extends StatefulWidget {
-  const ThankYou({Key key}) : super(key: key);
+  final String orderID;
+  const ThankYou(this.orderID, {Key key}) : super(key: key);
 
   @override
   _ThankYouState createState() => _ThankYouState();
@@ -90,6 +92,7 @@ class _ThankYouState extends State<ThankYou> {
                           onTap: ()async {
                             getOffersAndOderAtOnce();
                             willpop=true;
+
                             if(dashboardProvider.isTechnicianOrder==0){
                               ///this mean technician order
                               Get.back();
@@ -97,6 +100,7 @@ class _ThankYouState extends State<ThankYou> {
                               Get.back();
                               Get.back();
                             }
+
                             else{
                               ///this mean workshop order
                               Get.back();
@@ -104,13 +108,14 @@ class _ThankYouState extends State<ThankYou> {
                               Get.back();
                               Get.back();
                               Get.back();
+
+                              Get.to(OrderOfferScreen(widget.orderID));
                             }
 
                             // await Get.offAll(DashboardScreen());
                             // await Future.delayed(Duration(seconds: 1));
                             // var dashbaord=Provider.of<DashboardProvider>(context,listen: false);
                             dashboardProvider.onTabbedBar(1);
-
 
                             },
                           child: Container(

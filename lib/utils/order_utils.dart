@@ -8,714 +8,708 @@ import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
+
 var dashboard = Provider.of<DashboardProvider>(Get.context, listen: false);
 
 orderCancelBottomSheet(Result result) {
   Get.bottomSheet(Container(
-    decoration: BoxDecoration(
-      color: Colors.white,
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(30),
-        topLeft: Radius.circular(30),
-      ),
-    ),
-    child: SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: Get.height * .02,
-          horizontal: Get.width * .06,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: Get.width * .2,
-              child: Divider(
-                thickness: 5,
-                color: Color(0xffF1F1F1),
-              ),
-            ),
-            SizedBox(height: Get.height * .02),
-            Text(
-              "Cancel order".tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: Get.height * .022,
-                color: headingTextColor,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: Get.height * .02),
-            Text(
-              "Are you sure you want to\ncancel this order?".tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: Get.height * .02,
-                fontWeight: FontWeight.w600,
-                color: headingTextColor,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Get.back();
-                Get.back();
-                Get.dialog(Center(
-                  child: CircularProgressIndicator(),
-                ));
-                ApiServices.cancelOrder(
-                    result.orderId.toString(), result.workshopId.toString());
-              },
-              child: Container(
-                width: Get.width,
-                height: Get.height * .065,
-                margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                decoration: BoxDecoration(
-                  color: themeColor,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xff000000).withOpacity(.13),
-                      spreadRadius: .08,
-                      blurRadius: 1,
-                    ),
-                  ],
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
                 ),
-                child: Center(
-                  child: Text(
-                    'Yes'.tr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Get.height * .02,
+              ),
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Cancel order".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Are you sure you want to\ncancel this order?".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .02,
+                  fontWeight: FontWeight.w600,
+                  color: headingTextColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
+                  ApiServices.cancelOrder(
+                      result.orderId.toString(), result.workshopId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Yes'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Get.height * .02,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 10),
-            GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Text(
-                'No'.tr,
-                style: TextStyle(
-                  color: themeColor,
-                  fontSize: Get.height * .02,
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                },
+                child: Text(
+                  'No'.tr,
+                  style: TextStyle(
+                    color: themeColor,
+                    fontSize: Get.height * .02,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-          ],
+              SizedBox(height: 20),
+            ],
+          ),
         ),
-      ),
-    )));
+      )));
 }
+
 bottomSheetForDawnPayment(Result result) async {
   if (Get.isBottomSheetOpen) {
     return;
   }
   bool isCashBack = await ApiServices.getCashBack();
 
-  Get.bottomSheet(
-      Consumer<DashboardProvider>(builder: (builder, data, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
-            ),
+  Get.bottomSheet(Consumer<DashboardProvider>(builder: (builder, data, child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: Get.height * .02,
-                horizontal: Get.width * .06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: Get.width * .2,
-                    child: Divider(
-                      thickness: 5,
-                      color: Color(0xffF1F1F1),
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "Pay down payment".tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "you are requested to pay down payment before staring work!"
-                        .tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .02,
-                      fontWeight: FontWeight.w600,
-                      color: headingTextColor,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      var dashboardProvider = Provider.of<DashboardProvider>(
-                          Get.context,
-                          listen: false);
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Pay down payment".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              Text(
+                "you are requested to pay down payment before staring work!".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .02,
+                  fontWeight: FontWeight.w600,
+                  color: headingTextColor,
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  var dashboardProvider = Provider.of<DashboardProvider>(
+                      Get.context,
+                      listen: false);
 
-                      Get.back();
+                  Get.back();
 
-                      // Get.dialog(Center(
-                      //   child: CircularProgressIndicator(),
-                      // ));
+                  // Get.dialog(Center(
+                  //   child: CircularProgressIndicator(),
+                  // ));
 
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: null,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
-                      dashboardProvider.startPayingPayment(
-                          "DownPayment".tr, result.downPayment.toString());
+                  dashboardProvider.setPartIdAndORderId(
+                      partID: null,
+                      orderId: result.orderId,
+                      workshopId: result.workshopId.toString());
+                  dashboardProvider.startPayingPayment(
+                      "DownPayment".tr, result.downPayment.toString());
 
-                      // ApiServices.getDefaultPaymentMethods(data.userID,
-                      //     result.downPayment.toString(), result.orderId,
-                      //     result.workshopId.toString(),
-                      //     paymentType: "DownPayment".tr);
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
+                  // ApiServices.getDefaultPaymentMethods(data.userID,
+                  //     result.downPayment.toString(), result.orderId,
+                  //     result.workshopId.toString(),
+                  //     paymentType: "DownPayment".tr);
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
                       ),
-                      child: Center(
-                        child: Text(
-                          '${"Pay SAR".tr} ${double.parse(result.downPayment.toString()).toInt()}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${"Pay by credit".tr} ${double.parse(result.downPayment.toString()).toInt()}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ),
-                  isCashBack &&
+                ),
+              ),
+              isCashBack &&
                       double.parse(result.downPayment.toString()) <
                           double.parse(dashboard
                               .promotionCashBackFromJson.result.amount
                               .toString())
-                      ? GestureDetector(
-                    onTap: () async {
-                      var dashboardProvider =
-                      Provider.of<DashboardProvider>(Get.context,
-                          listen: false);
-                      Get.back();
+                  ? GestureDetector(
+                      onTap: () async {
+                        var dashboardProvider = Provider.of<DashboardProvider>(
+                            Get.context,
+                            listen: false);
+                        Get.back();
 
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: null,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
-                      // dashboardProvider.startPayingPayment("DownPayment".tr, result.downPayment.toString());
-                      var bool = await ApiServices.acceptAndPayDownPayment(
-                          result.orderId.toString(),
-                          isCashback: true);
-                      if (bool == true) {
-                        dashboardProvider.hitWorkshopForOrderProgressed(
-                            result.workshopId.toString() ?? "0",
-                            result.orderId.toString() ?? "0");
-                      }
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin:
-                      EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          '${"Pay from wallet".tr} ${"SAR".tr} ${double.parse(result.downPayment.toString()).toInt()}',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                        dashboardProvider.setPartIdAndORderId(
+                            partID: null,
+                            orderId: result.orderId,
+                            workshopId: result.workshopId.toString());
+                        var bool = await ApiServices.acceptAndPayDownPayment(
+                            result.orderId.toString(),
+                            isCashback: true);
+                        if (bool == true) {
+                          dashboardProvider.hitWorkshopForOrderProgressed(
+                              result.workshopId.toString() ?? "0",
+                              result.orderId.toString() ?? "0");
+                        }
+                      },
+                      child: Container(
+                        width: Get.width,
+                        height: Get.height * .065,
+                        margin:
+                            EdgeInsets.symmetric(vertical: Get.height * .02),
+                        decoration: BoxDecoration(
+                          color: themeColor,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff000000).withOpacity(.13),
+                              spreadRadius: .08,
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            '${"Pay from wallet".tr} ${"SAR".tr} ${double.parse(result.downPayment.toString()).toInt()}',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                      : Container(),
-                  SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      ApiServices.rejectDownPayment(
-                          result.orderId.toString(), result.workshopId);
-                    },
-                    child: Text(
-                      'Reject'.tr,
-                      style: TextStyle(
-                        color: themeColor,
-                        fontSize: Get.height * .02,
-                      ),
-                    ),
+                    )
+                  : Container(),
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  ApiServices.rejectDownPayment(
+                      result.orderId.toString(), result.workshopId);
+                },
+                child: Text(
+                  'Reject'.tr,
+                  style: TextStyle(
+                    color: themeColor,
+                    fontSize: Get.height * .02,
                   ),
-                  SizedBox(height: 20),
-                ],
+                ),
               ),
-            ),
+              SizedBox(height: 20),
+            ],
           ),
-        );
-      }), isDismissible: true);
+        ),
+      ),
+    );
+  }), isDismissible: true);
 }
+
 bottomSheetForEditTimeAndCost(Result result) {
   if (Get.isBottomSheetOpen) {
     return;
   }
-  Get.bottomSheet(
-      Consumer<DashboardProvider>(builder: (builder, data, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
-            ),
+  Get.bottomSheet(Consumer<DashboardProvider>(builder: (builder, data, child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: Get.height * .02,
-                horizontal: Get.width * .06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: Get.height * .02),
+              Text(
+                "${"Order number".tr} ${result.orderId}\n${"Time and cost changes".tr}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              Row(
                 children: [
-                  Container(
-                    width: Get.width * .2,
-                    child: Divider(
-                      thickness: 5,
-                      color: Color(0xffF1F1F1),
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "${"Order number".tr} ${result.orderId}\n${"Time and cost changes".tr}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Row(
-                    children: [
-                      Expanded(
-                          child: Center(
-                              child: Column(
-                                children: [
-                                  Text("Timing".tr, style: TextStyle(fontSize: 16)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "${result.pendingEditedDays} ${"Days".tr}",
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ))),
-                      Expanded(
-                          child: Center(
-                              child: Column(
-                                children: [
-                                  Text("Work Price".tr, style: TextStyle(fontSize: 16)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "${"SR".tr} ${double.parse(result.pendingEditedCost.toString()).toInt()}",
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ))),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      var dashboardProvider = Provider.of<DashboardProvider>(
-                          Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: null, orderId: result.orderId);
-                      Get.back();
-                      Get.dialog(Center(
-                        child: CircularProgressIndicator(),
-                      ));
-                      // ApiServices.getDefaultPaymentMethods(data.userID,result.pendingEditedCost.toString().toString(),
-                      //     result.orderId,paymentType:"EditTimeAndCost");
-
-                      ApiServices.acceptEditInTimeAndCost(
-                          dashboardProvider.orderId.toString(),
-                          result.workshopId.toString());
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
+                  Expanded(
                       child: Center(
-                        child: Text(
-                          'Accept'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
+                          child: Column(
+                    children: [
+                      Text("Timing".tr, style: TextStyle(fontSize: 16)),
+                      SizedBox(
+                        height: 5,
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      Get.dialog(Center(
-                        child: CircularProgressIndicator(),
-                      ));
-                      ApiServices.rejectEditInTimeAndCost(
-                          result.orderId.toString(),
-                          result.workshopId.toString());
-                    },
-                    child: Text(
-                      'Reject'.tr,
-                      style: TextStyle(
-                        color: themeColor,
-                        fontSize: Get.height * .02,
+                      Text(
+                        "${result.pendingEditedDays} ${"Days".tr}",
+                        style: TextStyle(
+                            color: blue,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: 20),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ))),
+                  Expanded(
+                      child: Center(
+                          child: Column(
+                    children: [
+                      Text("Work Price".tr, style: TextStyle(fontSize: 16)),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "${"SR".tr} ${double.parse(result.pendingEditedCost.toString()).toInt()}",
+                        style: TextStyle(
+                            color: blue,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ))),
                 ],
               ),
-            ),
+              GestureDetector(
+                onTap: () {
+                  var dashboardProvider = Provider.of<DashboardProvider>(
+                      Get.context,
+                      listen: false);
+                  dashboardProvider.setPartIdAndORderId(
+                      partID: null, orderId: result.orderId);
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
+                  // ApiServices.getDefaultPaymentMethods(data.userID,result.pendingEditedCost.toString().toString(),
+                  //     result.orderId,paymentType:"EditTimeAndCost");
+
+                  ApiServices.acceptEditInTimeAndCost(
+                      dashboardProvider.orderId.toString(),
+                      result.workshopId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Accept'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
+                  ApiServices.rejectEditInTimeAndCost(
+                      result.orderId.toString(), result.workshopId.toString());
+                },
+                child: Text(
+                  'Reject'.tr,
+                  style: TextStyle(
+                    color: themeColor,
+                    fontSize: Get.height * .02,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
           ),
-        );
-      }), isDismissible: true);
+        ),
+      ),
+    );
+  }), isDismissible: true);
 }
 
-bottomSheetToAcceptOrderParts(
-    Result result, List<OrderPart> orderParts) async {
+bottomSheetToAcceptOrderParts(Result result, List<OrderPart> orderParts) async {
   if (Get.isBottomSheetOpen) {
     return;
   }
   bool isCashBack = await ApiServices.getCashBack();
-  Get.bottomSheet(
-      Consumer<DashboardProvider>(builder: (builder, data, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
-            ),
+  Get.bottomSheet(Consumer<DashboardProvider>(builder: (builder, data, child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: Get.height * .02,
-                horizontal: Get.width * .06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Order Part".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              Row(
                 children: [
-                  Container(
-                    width: Get.width * .2,
-                    child: Divider(
-                      thickness: 5,
-                      color: Color(0xffF1F1F1),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      children:
+                          List.generate(orderParts[0].pictures.length, (index) {
+                        print(orderParts[0].pictures.length);
+                        return InkWell(
+                          onTap: () {
+                            openImage("https://muapi.deeps.info/${orderParts[0].pictures[index].imageUrl}");
+                          },
+                          child: Image.network(
+                            orderParts[0].pictures.length == 0
+                                ? "https://tamam.com.pk/logoplaceholder.png"
+                                : "https://muapi.deeps.info/${orderParts[0].pictures[index].imageUrl}",
+                            height: 80,
+                            width: 60,
+                            fit: BoxFit.fill,
+                          ),
+                        );
+                      }),
                     ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "Order Part".tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Row(
+                  )),
+                  Expanded(
+                      child: Center(
+                          child: Column(
                     children: [
-                      Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 25),
-                            child: Row(
-                              children: List.generate(orderParts[0].pictures.length,
-                                      (index) {
-                                    print(orderParts[0].pictures.length);
-                                    return InkWell(
-                                      onTap: () {
-                                        openImage(
-                                            "https://muapi.deeps.info/${orderParts[0].pictures[index].imageUrl}");
-                                      },
-                                      child: Image.network(
-                                        orderParts[0].pictures.length == 0
-                                            ? "https://tamam.com.pk/logoplaceholder.png"
-                                            : "https://muapi.deeps.info/${orderParts[0].pictures[index].imageUrl}",
-                                        height: 80,
-                                        width: 60,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          )),
-                      Expanded(
-                          child: Center(
-                              child: Column(
-                                children: [
-                                  Text(orderParts[0].partName ?? "",
-                                      style: TextStyle(fontSize: 16)),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "${"SR".tr} ${orderParts[0].partCost}",
-                                    style: TextStyle(
-                                        color: blue,
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
-                              ))),
+                      Text(orderParts[0].partName ?? "",
+                          style: TextStyle(fontSize: 16)),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "${"SR".tr} ${orderParts[0].partCost}",
+                        style: TextStyle(
+                            color: blue,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                    ],
+                  ))),
+                ],
+              ),
+              GestureDetector(
+                onTap: () async {
+                  var dashboardProvider = Provider.of<DashboardProvider>(
+                      Get.context,
+                      listen: false);
+                  dashboardProvider.setPartIdAndORderId(
+                      partID: orderParts[0].orderPartId,
+                      orderId: result.orderId,
+                      workshopId: result.workshopId.toString());
+                  await Get.back();
+                  await dashboardProvider.startPayingPayment(
+                      "OrderPart".tr, orderParts[0].partCost.toString());
+
+                  // Get.dialog(Center(child: CircularProgressIndicator(),));
+
+                  // ApiServices.getDefaultPaymentMethods(
+                  //     data.userID,
+                  //     orderParts[0].partCost.toString(), result.orderId,result.workshopId.toString(),
+                  //     paymentType: "OrderPart".tr
+                  // );
+                  // ApiServices.acceptEditInTimeAndCost(
+                  //     result.orderId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .06,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
+                      ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      var dashboardProvider = Provider.of<DashboardProvider>(
-                          Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: orderParts[0].orderPartId,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
-                      await Get.back();
-                      await dashboardProvider.startPayingPayment(
-                          "OrderPart".tr, orderParts[0].partCost.toString());
-
-                      // Get.dialog(Center(child: CircularProgressIndicator(),));
-
-                      // ApiServices.getDefaultPaymentMethods(
-                      //     data.userID,
-                      //     orderParts[0].partCost.toString(), result.orderId,result.workshopId.toString(),
-                      //     paymentType: "OrderPart".tr
-                      // );
-                      // ApiServices.acceptEditInTimeAndCost(
-                      //     result.orderId.toString());
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .06,
-                      margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Accept & Pay'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
+                  child: Center(
+                    child: Text(
+                      'Accept & Pay'.tr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
                     ),
                   ),
+                ),
+              ),
 
-                  ///
-                  isCashBack &&
+              ///
+              isCashBack &&
                       double.parse(result.downPayment.toString()) <
                           double.parse(dashboard
                               .promotionCashBackFromJson.result.amount
                               .toString())
-                      ? GestureDetector(
-                    onTap: () async {
-                      var dashboardProvider =
-                      Provider.of<DashboardProvider>(Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: orderParts[0].orderPartId,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
-                      await Get.back();
+                  ? GestureDetector(
+                      onTap: () async {
+                        var dashboardProvider = Provider.of<DashboardProvider>(
+                            Get.context,
+                            listen: false);
+                        dashboardProvider.setPartIdAndORderId(
+                            partID: orderParts[0].orderPartId,
+                            orderId: result.orderId,
+                            workshopId: result.workshopId.toString());
+                        await Get.back();
 
-                      var bool = await ApiServices.acceptPart(
-                          isPaid: true,
-                          partID: orderParts[0].orderPartId,
-                          orderId: result.orderId.toString(),
-                          workshopId: result.workshopId.toString(),
-                          isCashBack: true);
+                        var bool = await ApiServices.acceptPart(
+                            isPaid: true,
+                            partID: orderParts[0].orderPartId,
+                            orderId: result.orderId.toString(),
+                            workshopId: result.workshopId.toString(),
+                            isCashBack: true);
 
-                      if (bool == true) {
-                        dashboardProvider.hitWorkshopForOrderProgressed(
-                            result.workshopId.toString() ?? "0",
-                            result.orderId.toString() ?? "0");
-                        logger.i("DSDDDSDSDSDSD");
-                      }
-
-
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .06,
-                      margin:
-                      EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Accept & Pay by Wallet'.tr,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
+                        if (bool == true) {
+                          dashboardProvider.hitWorkshopForOrderProgressed(
+                              result.workshopId.toString() ?? "0",
+                              result.orderId.toString() ?? "0");
+                          logger.i("DSDDDSDSDSDSD");
+                        }
+                      },
+                      child: Container(
+                        width: Get.width,
+                        height: Get.height * .06,
+                        margin:
+                            EdgeInsets.symmetric(vertical: Get.height * .02),
+                        decoration: BoxDecoration(
+                          color: themeColor,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff000000).withOpacity(.13),
+                              spreadRadius: .08,
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Accept & Pay by Wallet'.tr,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                      : Container(),
+                    )
+                  : Container(),
 
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      Get.dialog(Center(
-                        child: CircularProgressIndicator(),
-                      ));
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
 
-                      ApiServices.acceptPart(
-                          isPaid: false,
-                          partID: orderParts[0].orderPartId,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .06,
-                      decoration: BoxDecoration(
-                        color: white,
-                        border: Border.all(color: blue),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
+                  ApiServices.acceptPart(
+                      isPaid: false,
+                      partID: orderParts[0].orderPartId,
+                      orderId: result.orderId,
+                      workshopId: result.workshopId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .06,
+                  decoration: BoxDecoration(
+                    color: white,
+                    border: Border.all(color: blue),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
                       ),
-                      child: Center(
-                        child: Text(
-                          'Accept & pay later'.tr,
-                          style: TextStyle(
-                            color: blue,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      Get.dialog(Center(
-                        child: CircularProgressIndicator(),
-                      ));
-                      ApiServices.rejectOrderParts(orderParts[0].orderPartId,
-                          result.orderId, result.workshopId.toString());
-                    },
+                  child: Center(
                     child: Text(
-                      'Reject'.tr,
+                      'Accept & pay later'.tr,
                       style: TextStyle(
-                        color: themeColor,
-                        fontSize: Get.height * .02,
+                        color: blue,
+                        fontSize: 18,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
-                ],
+                ),
               ),
-            ),
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
+                  ApiServices.rejectOrderParts(orderParts[0].orderPartId,
+                      result.orderId, result.workshopId.toString());
+                },
+                child: Text(
+                  'Reject'.tr,
+                  style: TextStyle(
+                    color: themeColor,
+                    fontSize: Get.height * .02,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+            ],
           ),
-        );
-      }), isDismissible: true);
+        ),
+      ),
+    );
+  }), isDismissible: true);
 }
+
 void checkAndSeePendingPayments(Result result) async {
   Future.delayed(Duration.zero, () {
     if (result != null) {
@@ -833,216 +827,225 @@ bottomSheetToFinalBill(Result result) async {
 
   bool isCashBack = await ApiServices.getCashBack();
 
-  Get.bottomSheet(
-      Consumer<DashboardProvider>(builder: (builder, data, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
-            ),
+  Get.bottomSheet(Consumer<DashboardProvider>(builder: (builder, data, child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: Get.height * .02,
-                horizontal: Get.width * .06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: Get.width * .2,
-                    child: Divider(
-                      thickness: 5,
-                      color: Color(0xffF1F1F1),
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "Pay Final Bill".tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .005),
-                  Text(
-                    "${"SR".tr} ${double.parse(result.totalCost.toString()).toStringAsFixed(2)}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  GestureDetector(
-                    onTap: () async {
-                      var dashboardProvider = Provider.of<DashboardProvider>(
-                          Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: null,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Pay Final Bill".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .005),
+              Text(
+                "${"SR".tr} ${double.parse(result.totalCost.toString()).toStringAsFixed(2)}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              GestureDetector(
+                onTap: () async {
+                  var dashboardProvider = Provider.of<DashboardProvider>(
+                      Get.context,
+                      listen: false);
+                  dashboardProvider.setPartIdAndORderId(
+                      partID: null,
+                      orderId: result.orderId,
+                      workshopId: result.workshopId.toString());
 
-                      // Final Bill
-                      logger.w(result.totalCost.toString());
-                      if (Get.isBottomSheetOpen) {
-                        Get.back();
-                      }
-                      await dashboardProvider.startPayingPayment(
-                          "Final Bill".tr, result.totalCost.toString());
+                  // Final Bill
+                  logger.w(result.totalCost.toString());
+                  if (Get.isBottomSheetOpen) {
+                    Get.back();
+                  }
+                  await dashboardProvider.startPayingPayment(
+                      "Final Bill".tr, result.totalCost.toString());
 
-                      // ApiServices.getDefaultPaymentMethods(data.userID,
-                      //     result.totalCost.toString(), result.orderId,
-                      //     result.workshopId.toString(),
-                      //     paymentType: "Final Bill".tr);
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
+                  // ApiServices.getDefaultPaymentMethods(data.userID,
+                  //     result.totalCost.toString(), result.orderId,
+                  //     result.workshopId.toString(),
+                  //     paymentType: "Final Bill".tr);
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
                       ),
-                      child: Center(
-                        child: Text(
-                          'Pay'.tr,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Pay'.tr,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  isCashBack &&
+                ),
+              ),
+              isCashBack &&
                       double.parse(result.downPayment.toString()) <
                           double.parse(dashboard
                               .promotionCashBackFromJson.result.amount
                               .toString())
-                      ? GestureDetector(
-                    onTap: () async {
-                      var dashboardProvider =
-                      Provider.of<DashboardProvider>(Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                          partID: null,
-                          orderId: result.orderId,
-                          workshopId: result.workshopId.toString());
+                  ? GestureDetector(
+                      onTap: () async {
+                        var dashboardProvider = Provider.of<DashboardProvider>(
+                            Get.context,
+                            listen: false);
+                        dashboardProvider.setPartIdAndORderId(
+                            partID: null,
+                            orderId: result.orderId,
+                            workshopId: result.workshopId.toString());
 
-                      // Final Bill
-                      logger.w(result.totalCost.toString());
-                      if (Get.isBottomSheetOpen) {
-                        Get.back();
-                      }
-                      // await  dashboardProvider.startPayingPayment("Final Bill".tr, result.totalCost.toString());
+                        // Final Bill
+                        logger.w(result.totalCost.toString());
+                        if (Get.isBottomSheetOpen) {
+                          Get.back();
+                        }
+                        // await  dashboardProvider.startPayingPayment("Final Bill".tr, result.totalCost.toString());
 
-                      await ApiServices.payFinalBill(result.orderId.toString(),
-                          isCash: false, isWallet: true);
-                      dashboardProvider.hitWorkshopForOrderProgressed(
-                          result.workshopId.toString() ?? "0",
-                          result.orderId.toString() ?? "0");
+                        await ApiServices.payFinalBill(
+                            result.orderId.toString(),
+                            isCash: false,
+                            isWallet: true);
+                        dashboardProvider.hitWorkshopForOrderProgressed(
+                            result.workshopId.toString() ?? "0",
+                            result.orderId.toString() ?? "0");
 
-                      // ApiServices.getDefaultPaymentMethods(data.userID,
-                      //     result.totalCost.toString(), result.orderId,
-                      //     result.workshopId.toString(),
-                      //     paymentType: "Final Bill".tr);
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin:
-                      EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
+                        // ApiServices.getDefaultPaymentMethods(data.userID,
+                        //     result.totalCost.toString(), result.orderId,
+                        //     result.workshopId.toString(),
+                        //     paymentType: "Final Bill".tr);
+                      },
+                      child: Container(
+                        width: Get.width,
+                        height: Get.height * .065,
+                        margin:
+                            EdgeInsets.symmetric(vertical: Get.height * .02),
+                        decoration: BoxDecoration(
+                          color: themeColor,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff000000).withOpacity(.13),
+                              spreadRadius: .08,
+                              blurRadius: 1,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Final Bill via wallet'.tr,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Final Bill via wallet'.tr,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
                         ),
                       ),
-                    ),
-                  )
-                      : Container(),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      showProgress();
+                    )
+                  : Container(),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  showProgress();
+                  dashboardProvider.setPartIdAndORderId(
+                      partID: null,
+                      orderId: result.orderId,
+                      workshopId: result.workshopId.toString());
 
-                      ApiServices.payFinalBill(result.orderId.toString(),
-                          isCash: true);
-                      // var provider = Provider.of<DashboardProvider>(context, listen: false);
-                      // provider.setPartIdAndORderId(partID:0,orderId:result.orderId,workshopId: result.workshopId.toString());
-                      // ApiServices.makeFinalPaymentCOD( provider.userID,result.totalCost.toString(),true,result.orderId.toString());
-                      // ApiServices.initPayment(
-                      //     provider.userID,
-                      //     0,
-                      //     "visa".tr,
-                      //     (double.parse(result.totalCost.toString()) * 100)
-                      //         .toString(),
-                      //     "${result.orderId.toString()}",
-                      //     isCash: true,
-                      //     orderID: result.orderId.toString());
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      decoration: BoxDecoration(
-                        color: white,
-                        border: Border.all(color: blue),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
+                  ApiServices.payFinalBill(result.orderId.toString(),
+                      isCash: true);
+                  data.hitWorkshopForOrderProgressed(
+                      result.workshopId.toString() ?? "0",
+                      result.orderId.toString() ?? "0");
+
+                  // var provider = Provider.of<DashboardProvider>(context, listen: false);
+                  // provider.setPartIdAndORderId(partID:0,orderId:result.orderId,workshopId: result.workshopId.toString());
+                  // ApiServices.makeFinalPaymentCOD( provider.userID,result.totalCost.toString(),true,result.orderId.toString());
+                  // ApiServices.initPayment(
+                  //     provider.userID,
+                  //     0,
+                  //     "visa".tr,
+                  //     (double.parse(result.totalCost.toString()) * 100)
+                  //         .toString(),
+                  //     "${result.orderId.toString()}",
+                  //     isCash: true,
+                  //     orderID: result.orderId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  decoration: BoxDecoration(
+                    color: white,
+                    border: Border.all(color: blue),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
                       ),
-                      child: Center(
-                        child: Text(
-                          'Cash on Delivery'.tr,
-                          style: TextStyle(
-                              color: themeColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Cash on Delivery'.tr,
+                      style: TextStyle(
+                          color: themeColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
-                ],
+                ),
               ),
-            ),
+              SizedBox(height: 10),
+            ],
           ),
-        );
-      }), isDismissible: true);
+        ),
+      ),
+    );
+  }), isDismissible: true);
 }
 
 bool checkAnyPartIsInPendingApproval(Result result) {
@@ -1083,163 +1086,161 @@ void bottomSheetForCarPickPayment(Result result) {
   if (Get.isBottomSheetOpen) {
     return;
   }
-  Get.bottomSheet(
-      Consumer<DashboardProvider>(builder: (builder, data, child) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(30),
-              topLeft: Radius.circular(30),
-            ),
+  Get.bottomSheet(Consumer<DashboardProvider>(builder: (builder, data, child) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(30),
+          topLeft: Radius.circular(30),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: Get.height * .02,
+            horizontal: Get.width * .06,
           ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: Get.height * .02,
-                horizontal: Get.width * .06,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: Get.width * .2,
+                child: Divider(
+                  thickness: 5,
+                  color: Color(0xffF1F1F1),
+                ),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: Get.width * .2,
-                    child: Divider(
-                      thickness: 5,
-                      color: Color(0xffF1F1F1),
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  Text(
-                    "Pay Car Pick up Bill".tr,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .005),
-                  Text(
-                    "${"SR".tr} ${result.carPickupOrderAmount}",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: Get.height * .022,
-                      color: headingTextColor,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: Get.height * .02),
-                  GestureDetector(
-                    onTap: () {
-                      var dashboardProvider = Provider.of<DashboardProvider>(
-                          Get.context,
-                          listen: false);
-                      dashboardProvider.setPartIdAndORderId(
-                        partID: null,
-                        orderId: result.orderId,
-                      );
-                      Get.back();
-                      Get.dialog(Center(
-                        child: CircularProgressIndicator(),
-                      ));
-
-                      // TOASTS( "result.orderId ${result.orderId}");
-
-                      dashboardProvider.setCarPickOrderID(
-                        result.carPickupOrderId.toString(),
-                        result.carPickUpId.toString(),
-                        result.workshopId.toString(),
-                      );
-
-                      dashboardProvider.startPayingPayment(
-                          "CarPickUp".tr, result.totalCost.toString());
-
-                      // ApiServices.getDefaultPaymentMethods(data.userID,
-                      //     result.carPickupOrderAmount.toString(), result.orderId,
-                      //     result.workshopId.toString(),
-                      //     paymentType: "CarPickUp".tr);
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      margin: EdgeInsets.symmetric(vertical: Get.height * .02),
-                      decoration: BoxDecoration(
-                        color: themeColor,
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Pay'.tr,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                      // Get.dialog(Center(
-                      //   child: CircularProgressIndicator(),
-                      // ));
-                      // // ApiServices.payFinalBill(result.orderId.toString(),isCash:true);
-                      // var provider =
-                      // Provider.of<DashboardProvider>(context, listen: false);
-                      // ApiServices.initPayment(
-                      //     provider.userID,
-                      //     0,
-                      //     "visa",
-                      //     (double.parse(result.totalCost.toString()) * 100)
-                      //         .toString(),
-                      //     "${result.orderId.toString()}",
-                      //     isCash: true,
-                      //     refID: result.orderId.toString());
-                    },
-                    child: Container(
-                      width: Get.width,
-                      height: Get.height * .065,
-                      decoration: BoxDecoration(
-                        color: white,
-                        border: Border.all(color: blue),
-                        borderRadius: BorderRadius.circular(8),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(.13),
-                            spreadRadius: .08,
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          'Cancel'.tr,
-                          style: TextStyle(
-                              color: themeColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                ],
+              SizedBox(height: Get.height * .02),
+              Text(
+                "Pay Car Pick up Bill".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              SizedBox(height: Get.height * .005),
+              Text(
+                "${"SR".tr} ${result.carPickupOrderAmount}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: Get.height * .022,
+                  color: headingTextColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: Get.height * .02),
+              GestureDetector(
+                onTap: () {
+                  var dashboardProvider = Provider.of<DashboardProvider>(
+                      Get.context,
+                      listen: false);
+                  dashboardProvider.setPartIdAndORderId(
+                    partID: null,
+                    orderId: result.orderId,
+                  );
+                  Get.back();
+                  Get.dialog(Center(
+                    child: CircularProgressIndicator(),
+                  ));
+
+                  // TOASTS( "result.orderId ${result.orderId}");
+
+                  dashboardProvider.setCarPickOrderID(
+                    result.carPickupOrderId.toString(),
+                    result.carPickUpId.toString(),
+                    result.workshopId.toString(),
+                  );
+
+                  dashboardProvider.startPayingPayment(
+                      "CarPickUp".tr, result.totalCost.toString());
+
+                  // ApiServices.getDefaultPaymentMethods(data.userID,
+                  //     result.carPickupOrderAmount.toString(), result.orderId,
+                  //     result.workshopId.toString(),
+                  //     paymentType: "CarPickUp".tr);
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  margin: EdgeInsets.symmetric(vertical: Get.height * .02),
+                  decoration: BoxDecoration(
+                    color: themeColor,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Pay'.tr,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Get.back();
+                  // Get.dialog(Center(
+                  //   child: CircularProgressIndicator(),
+                  // ));
+                  // // ApiServices.payFinalBill(result.orderId.toString(),isCash:true);
+                  // var provider =
+                  // Provider.of<DashboardProvider>(context, listen: false);
+                  // ApiServices.initPayment(
+                  //     provider.userID,
+                  //     0,
+                  //     "visa",
+                  //     (double.parse(result.totalCost.toString()) * 100)
+                  //         .toString(),
+                  //     "${result.orderId.toString()}",
+                  //     isCash: true,
+                  //     refID: result.orderId.toString());
+                },
+                child: Container(
+                  width: Get.width,
+                  height: Get.height * .065,
+                  decoration: BoxDecoration(
+                    color: white,
+                    border: Border.all(color: blue),
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0xff000000).withOpacity(.13),
+                        spreadRadius: .08,
+                        blurRadius: 1,
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Cancel'.tr,
+                      style: TextStyle(
+                          color: themeColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
           ),
-        );
-      }), isDismissible: true);
+        ),
+      ),
+    );
+  }), isDismissible: true);
 }
-
 
 getOrderPart(Result result, int index) {
   List<Widget> list = [
@@ -1254,8 +1255,7 @@ getOrderPart(Result result, int index) {
                 color: blue.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(5)),
             child: Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
                 children: [
                   Icon(
@@ -1285,8 +1285,7 @@ getOrderPart(Result result, int index) {
                 color: blue.withOpacity(0.15),
                 borderRadius: BorderRadius.circular(5)),
             child: Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
                 children: [
                   Icon(
@@ -1307,7 +1306,6 @@ getOrderPart(Result result, int index) {
   return Get.locale.toString().contains("ar") ? list.reversed.toList() : list;
 }
 
-
 getOrderPart1(Result result, int index, {Color detailColor: black}) {
   List<Widget> list = [
     Row(
@@ -1320,62 +1318,62 @@ getOrderPart1(Result result, int index, {Color detailColor: black}) {
           width: 5,
         ),
         !result.orderParts[index].pendingApproval &&
-            !result.orderParts[index].isApproved
+                !result.orderParts[index].isApproved
             ? Container(
-            decoration: BoxDecoration(
-                color: Colors.redAccent.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(5)),
-            child: Padding(
-              padding:
-              const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
-              child: Text(
-                'Rejected'.tr,
-                style: TextStyle(color: red),
-              ),
-            ))
+                decoration: BoxDecoration(
+                    color: Colors.redAccent.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(5)),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 5),
+                  child: Text(
+                    'Rejected'.tr,
+                    style: TextStyle(color: red),
+                  ),
+                ))
             : result.orderParts[index].isApproved
-            ? Container(
-            decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(5)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 4, horizontal: 5),
-              child: Text(
-                'Accepted'.tr,
-                style: TextStyle(color: green),
-              ),
-            ))
-            : Container(
-            decoration: BoxDecoration(
-                color: Colors.yellow.withOpacity(0.2),
-                borderRadius: BorderRadius.circular(5)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  vertical: 4, horizontal: 5),
-              child: Text(
-                'New'.tr,
-                style: TextStyle(color: yellow),
-              ),
-            ))
+                ? Container(
+                    decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 5),
+                      child: Text(
+                        'Accepted'.tr,
+                        style: TextStyle(color: green),
+                      ),
+                    ))
+                : Container(
+                    decoration: BoxDecoration(
+                        color: Colors.yellow.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(5)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 5),
+                      child: Text(
+                        'New'.tr,
+                        style: TextStyle(color: yellow),
+                      ),
+                    ))
       ],
     ),
-    Text(
-      '${"SR".tr} ${result.orderParts[index].partCost.toString()}',
-      style: TextStyle(
-          color: detailColor, fontSize: 13, fontWeight: FontWeight.bold),
-    )
+    // Text(
+    //   '${"SR".tr} ${result.orderParts[index].partCost.toString()}',
+    //   style: TextStyle(
+    //       color: detailColor, fontSize: 13, fontWeight: FontWeight.bold),
+    // )
   ];
 
-  return Get.locale.toString().contains("ar") ? list.reversed.toList() : list;
+  return Get.locale.toString().contains("ar") ?  list:list.reversed.toList();
 }
 
 getPartCost(Result result) {
   double priceOfParts = 0;
   for (int i = 0; i < result.orderParts.length; i++) {
     if (result.orderParts[i].isApproved && !result.orderParts[i].isPaid) {
-      priceOfParts = priceOfParts +
-          double.parse(result.orderParts[i].partCost.toString());
+      priceOfParts =
+          priceOfParts + double.parse(result.orderParts[i].partCost.toString());
     }
   }
   return priceOfParts;
@@ -1383,8 +1381,8 @@ getPartCost(Result result) {
 
 getTextList(String title, String detail,
     {Color headingColor: black,
-      Color detailsColor: black,
-      FontWeight detailWeight: FontWeight.w500}) {
+    Color detailsColor: black,
+    FontWeight detailWeight: FontWeight.w500}) {
   List<Widget> list = [
     Text(title,
         style: TextStyle(
@@ -1418,14 +1416,14 @@ String getFualts(Result result) {
 }
 
 String getLastLocation(Result result) {
-
   try {
     var split = result.workshopAddress.toString().split("،");
-    return split[1]+"،"+split[2];
+    return split[1] + "،" + split[2];
   } catch (e) {
     return '';
   }
 }
+
 Widget workhsopProfileWidget(Result result) {
   return Row(
     children: [
@@ -1439,139 +1437,187 @@ Widget workhsopProfileWidget(Result result) {
               color: Colors.grey.shade200,
               image: DecorationImage(
                   fit: BoxFit.fill,
-  // NetworkImage("https://muapi.deeps.info/${order.displayImage}")
-                  image: NetworkImage(
-                      result.displayImage==null
-                          ?
-                      'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
-                          :
-                      'https://muapi.deeps.info/${result.displayImage}'
-                  ))),
+                  // NetworkImage("https://muapi.deeps.info/${order.displayImage}")
+                  image: NetworkImage(result.displayImage == null
+                      ? 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
+                      : 'https://muapi.deeps.info/${result.displayImage}'))),
         ),
       ),
       Expanded(
           child: !result.isTechnicianOrder
               ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                result.workshopName.name,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: Get.height * 0.015,
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      result.workshopName.name,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Get.height * 0.015,
+                      ),
+                    ),
+                    Row(
                       children: [
-                        SvgPicture.asset(
-                          'assets/save_tick_icon.svg',
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Verified Shop".tr,
-                          style: TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: Get.height * 0.016,
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/save_tick_icon.svg',
+                                height: 15,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Verified Shop".tr,
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Get.height * 0.016,
+                                ),
+                              )
+                            ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 35,
-                  ),
-                  Expanded(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/images/google.svg',
-                          height: 15,
                         ),
                         SizedBox(
-                          width: 5,
+                          width: 35,
                         ),
-                        Text(
-                          "${result.googleRatings??0}/5".tr,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Get.height * 0.016),
-                        ),
-                        Icon(
-                          Icons.star,
-                          color: orangeYellow,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/warranty.svg',
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          "Offer Warranty".tr,
-                          style: TextStyle(
-                              color: Colors.blue,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Get.height * 0.016),
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 35,
-                  ),
-                  Expanded(
-                    child: result.isElite
-                        ? Row(
-                      children: [
-                        Image.asset(
-                          'assets/images/yello_starr_filled.png',
-                          height: 15,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 6),
-                          child: Text(
-                            "Elite".tr,
-                            style: TextStyle(
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/google.svg',
+                                height: 15,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "${result.googleRatings ?? 0}/5".tr,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Get.height * 0.016),
+                              ),
+                              Icon(
+                                Icons.star,
                                 color: orangeYellow,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 17),
+                              )
+                            ],
                           ),
                         ),
                       ],
-                    )
-                        : Container(),
-                  ),
-                ],
-              ),
-            ],
-          )
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/warranty.svg',
+                                height: 15,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Offer Warranty".tr,
+                                style: TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: Get.height * 0.016),
+                              )
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 35,
+                        ),
+                        Expanded(
+                          child: result.isElite
+                              ? Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/images/yello_starr_filled.png',
+                                      height: 15,
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 6),
+                                      child: Text(
+                                        "Elite".tr,
+                                        style: TextStyle(
+                                            color: orangeYellow,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              : Container(),
+                        ),
+                      ],
+                    ),
+                  ],
+                )
               : Container())
     ],
   );
 }
 
+void showPaymentDoneBottomSheet(){
 
+  Get.bottomSheet(Material(
+      color: Colors.transparent,
+      child:Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            )
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 10,),
+            Container(height: 5,width: 50,decoration: BoxDecoration(color: grey.withOpacity(0.5),borderRadius: BorderRadius.circular(10)),),
+            SizedBox(height: 20,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SvgPicture.asset('assets/tick_chekc_icon.svg',
+                height: Get.height*0.08,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Payment Done".tr,style: TextStyle(color:blue,fontSize: Get.height *0.035,fontWeight: FontWeight.bold),),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Your payment was done successfully, thank you for using our app.".tr,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 17),),
+            ),
+            SizedBox(height: 30,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: Container(
+                  child: Center(child: Text("Close".tr,style: TextStyle(color: white,fontSize: 20,fontWeight: FontWeight.bold),)),
+                  height: 55,width: Get.width,decoration: BoxDecoration(color: blue,borderRadius: BorderRadius.circular(20)),),
+              ),
+            ),
+            SizedBox(height: 30,),
+
+          ],),
+      )
+  ));
+
+}

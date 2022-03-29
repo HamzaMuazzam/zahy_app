@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
                             onTap: () {
@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               height: 50,
                               width: 50,
                               decoration: BoxDecoration(
-                                border: Border.all(color: grey),
+                                border: Border.all(color: blue),
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white,
                                 boxShadow: [BoxShadow(color: Colors.white)],
@@ -109,10 +109,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
-                 Row(
+                   SizedBox(height: 10,),
+                   Row(
                    children: [
-                     Text("Welcome!".tr,style: TextStyle(fontSize: Get.height * 0.05,color: blue,fontWeight: FontWeight.w900),),
-                     Text(" ${data.userName} ",style: TextStyle(fontSize: Get.height * 0.03,color: Colors.black),),
+                     Text("Welcome!".tr,style: TextStyle(fontSize: Get.height * 0.035,color: blue,fontWeight: FontWeight.w900),),
+                     Expanded(child: Text(" ${data.userName} ",style: TextStyle(fontSize: Get.height * 0.03,color: Colors.black),)),
                    ],
 
                  ),
@@ -159,9 +160,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: (){
-                      bottomForComingSoon("Pickup service".tr,"This service will be available so soon.\n"
-                          "We are collecting the best car pickups for you, please keep in touch.".tr);
-                    },
+                      bottomForComingSoon("Technician service".tr,"This service will be available soon"
+                          "\nWe are testing the technician to make the best check car service for you"
+                          "\nYou can call us directly to take a free consultation at 0507888779".tr);
+                      },
                     child: Container(
                       width: Get.width,
                       child: Padding(
@@ -192,9 +194,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: InkWell(
                     onTap: (){
-                      bottomForComingSoon("Technician service".tr,"This service will be available soon"
-                          "\nWe are testing the technician to make the best check car service for you"
-                          "\nYou can call us directly to take a free consultation at 0507888779".tr);
+
+                      bottomForComingSoon("Pickup service".tr,"This service will be available so soon.\n"
+                          "We are collecting the best car pickups for you, please keep in touch.".tr);
+
 
                     },
                     child: Container(

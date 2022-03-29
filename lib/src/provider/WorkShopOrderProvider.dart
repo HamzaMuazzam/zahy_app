@@ -261,16 +261,12 @@ class WorkShopOrderProvider extends ChangeNotifier {
     this.isUserCarsLoaded = isUserCarsLoaded;
 
     carInformationReponseFromJsonByUserID = carInformationReponseFromJson;
-    // carInformationReponseFromJsonByUserID.result.insert(0, res.Result(company: "Select a car",));
     userCars.clear();
     userCars.add("Select a car".tr);
     initValueForSelectACar = "Select a car".tr;
     for (int i = 0;
         i < carInformationReponseFromJsonByUserID.result.length;
         i++) {
-      //userCars.add("${carInformationReponseFromJsonByUserID.result[i].company}
-      //${carInformationReponseFromJsonByUserID.result[i].model}"
-      //"${carInformationReponseFromJsonByUserID.result[i].carInformationId}");
 
       if (carInformationReponseFromJsonByUserID.result[i].carName != null) {
         if(i==0){
@@ -280,14 +276,14 @@ class WorkShopOrderProvider extends ChangeNotifier {
       }
     }
 
-    Set set = userCars.toSet();
-
-    userCars = set.toList();
+    // Set set = userCars.toSet();
+    //
+    // userCars = set.toList();
 
 
     if(userCars.isNotEmpty){
       logger.e("userCars.isNotEmpty ${carInformationReponseFromJsonByUserID.result.length-1 }");
-      selectedCarIndex= carInformationReponseFromJsonByUserID.result.length-1;
+      selectedCarIndex = carInformationReponseFromJsonByUserID.result.length-1;
       notifyListeners();
 
     }
@@ -330,13 +326,7 @@ class WorkShopOrderProvider extends ChangeNotifier {
       int offerID) {
     List<int> issueTypes = [];
     if (screenNumber == 1) {
-      // for (int i = 0; i < issuetypesList.length; i++) {
-      //   for (int x = 0; x < faultsReponse.result.length; x++) {
-      //     if (faultsReponse.result[x].name == issuetypesList[i]) {
-      //       issueTypes.add(faultsReponse.result[x].id);
-      //     }
-      //   }
-      // }
+
       issueTypes=selectedIssuesList;
     }
     if (screenNumber == 0) {
@@ -372,17 +362,17 @@ class WorkShopOrderProvider extends ChangeNotifier {
           child: CircularProgressIndicator(),
         ),
         barrierDismissible: true);
-    String carInformationId = "0";
-    for (int i = 0;
-        i < carInformationReponseFromJsonByUserID.result.length;
-        i++) {
-      if (carInformationReponseFromJsonByUserID.result[i].carName ==
-          initValueForSelectACar) {
-        carInformationId = carInformationReponseFromJsonByUserID
-            .result[i].carInformationId
-            .toString();
-      }
-    }
+    // String carInformationId = "0";
+    // for (int i = 0;
+    //     i < carInformationReponseFromJsonByUserID.result.length;
+    //     i++) {
+    //   if (carInformationReponseFromJsonByUserID.result[i].carName ==
+    //       initValueForSelectACar) {
+    //     carInformationId = carInformationReponseFromJsonByUserID
+    //         .result[i].carInformationId
+    //         .toString();
+    //   }
+    // }
     SharedPreferences.getInstance().then((value) {
       Map<String, String> body;
       Map<String, String> identifier = {};
@@ -393,7 +383,7 @@ class WorkShopOrderProvider extends ChangeNotifier {
           'Longitude': '$longitude',
           'Latitude': '$latitude',
           'UserId': '${value.getString(Finals.USER_ID)}',
-          'CarInformationId': '$carInformationId',
+          'CarInformationId': '${carInformationReponseFromJsonByUserID.result[selectedCarIndex].carInformationId}',
           'Comment': '$freeComment'
         };
 
@@ -408,7 +398,7 @@ class WorkShopOrderProvider extends ChangeNotifier {
           'latitude': '$latitude',
           'discountOfferId': '$offerID',
           'userId': '${value.getString(Finals.USER_ID)}',
-          'carInformationId': '$carInformationId',
+          'carInformationId': '${carInformationReponseFromJsonByUserID.result[selectedCarIndex].carInformationId}',
           'comment': '$freeComment'
         };
         for (int i = 0; i < issueTypes.length; i++) {
@@ -419,6 +409,9 @@ class WorkShopOrderProvider extends ChangeNotifier {
       body.addAll(identifier);
 
       logger.w(body);
+      print(carInformationReponseFromJsonByUserID.result[selectedCarIndex].carInformationId);
+      print(carInformationReponseFromJsonByUserID.result[selectedCarIndex].carName);
+      print(selectedCarIndex);
 
       ApiServices.submitOrder(context, body, screenNumber, imageList, isFromDicountOffers);
     });

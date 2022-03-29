@@ -372,60 +372,66 @@ class _OrderTrackingState extends State<OrderTracking> {
             color: Colors.blue,
             child: Material(
               color: Colors.white,
-              child: SmartRefresher(
-                  enablePullDown: true,
-                controller: _refreshController,
-                onRefresh: _onRefresh,
-                onLoading: _onLoading,
-                child: Scaffold(
-                  appBar: AppBar(
-                      leading: InkWell(
+              child: Scaffold(
+                appBar: AppBar(
+                    leading: InkWell(
 
-                    onTap: (){
-                      Get.back();
-                    },
-                      child: Icon(Icons.arrow_back)),
-                      backgroundColor: Colors.blue,
-                      elevation:0,
-                    actions: [
-                      _getStepsName(result).contains('Arrive & Deal')?
+                  onTap: (){
+                    Get.back();
+                  },
+                    child: Icon(Icons.arrow_back)),
+                    backgroundColor: Colors.blue,
+                    elevation:0,
+                  actions: [
+                    _getStepsName(result).contains('Arrive & Deal')
 
-                      InkWell(
-                          onTap:(){
+                        ?
 
-                            orderCancelBottomSheet(result);
+                    InkWell(
+                        onTap:(){
 
-                            },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Icon(Icons.more_vert,color:white),
-                          ))
+                          orderCancelBottomSheet(result);
 
-                          :Container()
-                    ],
+                          },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Icon(Icons.more_vert,color:white),
+                        ))
 
-                  ),
-                  body: Container(
-                      child: Stack(
+                        :
 
-                    children: [
-                      Column(
-                        children: [
-                          Container(
-                            color: Colors.blue,
-                            height: Get.height * 0.18,
-                          ),
-                          Expanded(
-                            child: Container(color: Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
+                    Container()
+                  ],
+
+                ),
+                body: Container(
+                    child: Stack(
+
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          color: Colors.blue,
+                          height: Get.height * 0.18,
+                        ),
+                        Expanded(
+                          child: Container(color: Colors.grey.shade200),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                            child:
+
+                            SmartRefresher(
+                              enablePullDown: true,
+                              controller: _refreshController,
+                              onRefresh: _onRefresh,
+                              onLoading: _onLoading,
+                              child: SingleChildScrollView(
                               child: Column(
                                 children: [
                                   Container(
@@ -1169,16 +1175,65 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                                             .length,
                                                                         (index) =>
                                                                             Column(
-                                                                              crossAxisAlignment:
-                                                                                  CrossAxisAlignment.start,
+                                                                              // crossAxisAlignment:
+                                                                              //     CrossAxisAlignment.start,
                                                                               children: [
-                                                                                Padding(
-                                                                                  padding: const EdgeInsets.all(8.0),
-                                                                                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: getOrderPart1(result, index)),
+
+                                                                               Row(
+                                                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                   children:[
+                                                                                 Column(
+                                                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                                            children: [
+                                                                                  Padding(
+                                                                                    padding: const EdgeInsets.all(8.0),
+                                                                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                                        children: getOrderPart1(result, index)),
+                                                                                  ),
+                                                                                  !result.orderParts[index].isApproved && result.orderParts[index].pendingApproval
+                                                                                      ? Row(children: getOrderPart(result, index))
+                                                                                      : Container(),
+                                                                                ],),
+                                                                                 Column(
+                                                                                   children: [
+                                                                                     InkWell(
+                                                                                       onTap:(){
+                                                                                         openImage("https://muapi.deeps.info/${result.orderParts[index].
+                                                                                         pictures[0].imageUrl}");
+
+                                                                                       },
+                                                                                       child: Container(
+                                                                                         decoration:BoxDecoration(
+                                                                                           border: Border.all(color:blue,width: 2),
+                                                                                           borderRadius:BorderRadius.circular(10),
+
+                                                                                         ),
+                                                                                         child: Padding(
+                                                                                           padding: const EdgeInsets.all(8.0),
+                                                                                           child: Container(
+                                                                                            height: 40,
+                                                                                            width: 40,
+                                                                                            decoration:result.orderParts[index].pictures.isNotEmpty?
+                                                                                            BoxDecoration(
+                                                                                                image: DecorationImage(
+                                                                                              image:NetworkImage("https://muapi.deeps.info/${result.orderParts[index].
+                                                                                              pictures[0].imageUrl}"),
+                                                                                                  fit:BoxFit.fill
+
+                                                                                            ))
+                                                                                                :
+                                                                                            Container(),
                                                                                 ),
-                                                                                !result.orderParts[index].isApproved && result.orderParts[index].pendingApproval
-                                                                                    ? Row(children: getOrderPart(result, index))
-                                                                                    : Container()
+                                                                                         ),
+                                                                                       ),
+                                                                                     ),
+                                                                                     Text(
+                                                                                       '${result.orderParts[index].partCost.toString()} ${"SR".tr}',
+                                                                                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                                                                     )
+                                                                                   ],
+                                                                                 ),
+                                                                              ])
                                                                               ],
                                                                             )),
                                                               ),
@@ -1270,19 +1325,8 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                               onTap: ()async {
                                                                 if(data.couponAmount.isEmpty){
                                                                   if(coupon.isEmpty)return;
-                                                                  // Get.back();
-                                                                  String body = await ApiServices.getCashBackValueOfCoupon();
-                                                                  logger.e(body);
-                                                                  if(body!=null){
-                                                                    if(body.contains("successful")){
-                                                                      data.couponAmount = null;
-                                                                      data.notifyListeners();
-                                                                      var decode = json.decode(body);
-                                                                      data.couponAmount = decode['result'].toString();
-                                                                      data.notifyListeners();
-                                                                    }
+                                                                 await ApiServices.getCashBackValueOfCoupon();
 
-                                                                  }
                                                                 }
                                                                 else{
                                                                   Get.back();
@@ -1309,7 +1353,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                   );
                                                 }
                                             ),
-                                           
+
                                           ],
                                         ),
                                       ),
@@ -1321,141 +1365,141 @@ class _OrderTrackingState extends State<OrderTracking> {
                               ),
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(15),
-                                  topLeft: Radius.circular(15),
-                                )),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, right: 15, top: 15, bottom: 10),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                          child: InkWell(
-                                        onTap: () {
-                                          var dashboardProvider =
-                                              Provider.of<DashboardProvider>(
-                                                  Get.context,
-                                                  listen: false);
-                                          Get.to(ChatRoom(
-                                              chatRoomId: "${dashboardProvider.userID}_${result.workshopId}_${result.orderId}",
-                                              messageSendBy: result.userId.toString()));
-                                        },
-                                        child: Container(
-                                          decoration: !result.isTechnicianOrder
-                                              ? BoxDecoration(
-                                                  color: orangeYellow,
-                                                  borderRadius: BorderRadius.only(
-                                                    bottomLeft: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('en')
-                                                        ? 10
-                                                        : 0),
-                                                    topLeft: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('en')
-                                                        ? 10
-                                                        : 0),
-                                                    bottomRight: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('ar')
-                                                        ? 10
-                                                        : 0),
-                                                    topRight: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('ar')
-                                                        ? 10
-                                                        : 0),
-                                                  ))
-                                              : BoxDecoration(
-                                                  color: orangeYellow,
-                                                  borderRadius:
-                                                      BorderRadius.circular(10)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(15.0),
-                                            child: Center(
-                                                child: Text("Chat Room".tr,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 15))),
-                                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(15),
+                                topLeft: Radius.circular(15),
+                              )),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 15, right: 15, top: 15, bottom: 10),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                        child: InkWell(
+                                      onTap: () {
+                                        var dashboardProvider =
+                                            Provider.of<DashboardProvider>(
+                                                Get.context,
+                                                listen: false);
+                                        Get.to(ChatRoom(
+                                            chatRoomId: "${dashboardProvider.userID}_${result.workshopId}_${result.orderId}",
+                                            messageSendBy: result.userId.toString()));
+                                      },
+                                      child: Container(
+                                        decoration: !result.isTechnicianOrder
+                                            ? BoxDecoration(
+                                                color: orangeYellow,
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('en')
+                                                      ? 10
+                                                      : 0),
+                                                  topLeft: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('en')
+                                                      ? 10
+                                                      : 0),
+                                                  bottomRight: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('ar')
+                                                      ? 10
+                                                      : 0),
+                                                  topRight: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('ar')
+                                                      ? 10
+                                                      : 0),
+                                                ))
+                                            : BoxDecoration(
+                                                color: orangeYellow,
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(15.0),
+                                          child: Center(
+                                              child: Text("Chat Room".tr,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15))),
                                         ),
-                                      )),
-                                          !result.isTechnicianOrder
-                                          ? Expanded(
-                                              child: InkWell(
-                                              onTap: () {
-                                                launch(
-                                                    "tel://${result.workshopPhoneNumber}");
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.only(
-                                                    bottomLeft: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('ar')
-                                                        ? 10
-                                                        : 0),
-                                                    topLeft: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('ar')
-                                                        ? 10
-                                                        : 0),
-                                                    bottomRight: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('en')
-                                                        ? 10
-                                                        : 0),
-                                                    topRight: Radius.circular(Get
-                                                            .locale
-                                                            .toString()
-                                                            .contains('en')
-                                                        ? 10
-                                                        : 0),
-                                                  ),
-                                                  color: blue,
+                                      ),
+                                    )),
+                                        !result.isTechnicianOrder
+                                        ? Expanded(
+                                            child: InkWell(
+                                            onTap: () {
+                                              launch(
+                                                  "tel://${result.workshopPhoneNumber}");
+                                            },
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(
+                                                  bottomLeft: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('ar')
+                                                      ? 10
+                                                      : 0),
+                                                  topLeft: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('ar')
+                                                      ? 10
+                                                      : 0),
+                                                  bottomRight: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('en')
+                                                      ? 10
+                                                      : 0),
+                                                  topRight: Radius.circular(Get
+                                                          .locale
+                                                          .toString()
+                                                          .contains('en')
+                                                      ? 10
+                                                      : 0),
                                                 ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(15.0),
-                                                  child: Center(
-                                                      child: Text(
-                                                    "Call Workshop".tr,
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                        fontSize: 15),
-                                                  )),
-                                                ),
+                                                color: blue,
                                               ),
-                                            ))
-                                          : Container(),
-                                    ],
-                                  ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(15.0),
+                                                child: Center(
+                                                    child: Text(
+                                                  "Call Workshop".tr,
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                      fontSize: 15),
+                                                )),
+                                              ),
+                                            ),
+                                          ))
+                                        : Container(),
+                                  ],
                                 ),
-                                SizedBox(height: 25,)
+                              ),
+                              SizedBox(height: 25,)
 
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  )),
-                ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                )),
               ),
             ),
           );
@@ -1543,19 +1587,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                   'قطع الغيار'.tr,
                   style: TextStyle(color: black, fontWeight: FontWeight.bold),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: green.withOpacity(0.25)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    child: Text(
-                      "معتمد",
-                      style: TextStyle(color: green),
-                    ),
-                  ),
-                )
+
               ],
             ),
           ),
@@ -1691,6 +1723,5 @@ class _OrderTrackingState extends State<OrderTracking> {
 
     return "".tr;
   }
-
  
 }

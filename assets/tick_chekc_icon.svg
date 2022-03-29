@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g id="icon" transform="translate(-340 -573.738)">
+    <g id="Group_3310" data-name="Group 3310">
+      <rect id="Background" width="64" height="64" rx="32" transform="translate(340 573.738)" fill="#1caaf1"/>
+    </g>
+    <g id="Group_3311" data-name="Group 3311">
+      <g id="check-round-24px" transform="translate(356 589.738)">
+        <path id="Path_1816" data-name="Path 1816" d="M0,0H32V32H0Z" transform="translate(0)" fill="none"/>
+        <path id="Path_1817" data-name="Path 1817" d="M13.706,25.421,7.079,18.792a1.9,1.9,0,1,0-2.693,2.694l7.983,7.985a1.9,1.9,0,0,0,2.693,0L35.269,9.26a1.9,1.9,0,0,0-2.693-2.694Z" transform="translate(-3.828 -2.019)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

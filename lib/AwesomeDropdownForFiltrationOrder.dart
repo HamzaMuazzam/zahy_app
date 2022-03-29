@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
-import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 
 import 'package:provider/provider.dart';

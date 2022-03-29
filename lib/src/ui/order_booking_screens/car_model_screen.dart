@@ -171,7 +171,7 @@ class _CarModelScreenState extends State<CarModelScreen> {
                                       );
                                     }),
                                   ),
-                                addNewCar()
+                                addNewCar(initiallyExpanded: false)
                                 ],
                               ),
                             ),
@@ -251,7 +251,7 @@ Widget addNewCarOptions (int index,{double addNewCarWidth = 1}){
 }
 
 
-Widget addNewCar(){
+Widget addNewCar({bool initiallyExpanded=true}){
   return   Consumer<WorkShopOrderProvider>(builder: (builder,data,child){
     return Container(
       decoration: BoxDecoration(
@@ -295,7 +295,7 @@ Widget addNewCar(){
           ],
         ),
         maintainState: true,
-        initiallyExpanded: true,
+        initiallyExpanded: initiallyExpanded,
         children: [
           data.isCarRelatedDataLoaded ?
           SingleChildScrollView(

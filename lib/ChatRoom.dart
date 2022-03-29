@@ -6,6 +6,7 @@ import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 
 import 'api_services/ApiServices.dart';
+import 'utils/common_classes.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
@@ -37,7 +38,7 @@ class _ChatRoomState extends State<ChatRoom> {
         "message": _message.text,
         "time": FieldValue.serverTimestamp(),
       };
-
+      logger.e(chatRoomId);
       _message.clear();
       await _firestore
           .collection('chatroom')

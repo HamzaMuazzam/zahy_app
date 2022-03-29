@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:musan_client/api_services/ApiServices.dart';
-import 'package:musan_client/api_services/response_models/LoginReponse.dart';
+import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/new_desgin_login/Signup.dart';
 import 'package:musan_client/src/provider/Login_provider.dart';
-import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
-import 'package:musan_client/src/ui/auth/login_screen.dart';
+import 'package:musan_client/src/ui/splash/SplashScreen.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'dart:math' as math; // import this
+import 'dart:math' as math;
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key key}) : super(key: key);
-
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
-
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-
-
   PageController homePagePictureIndicatorController = new PageController();
       var list=[
         "assets/images/onboarding1.svg",
@@ -30,9 +25,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         "assets/images/3.svg"
       ];
       int index=0;
-@override
-  Widget build(BuildContext context) {
-    return Material(
+    @override
+    Widget build(BuildContext context) {
+
+      return Material(
       color: Colors.transparent,
       child: Container(
         height: Get.height,
@@ -46,7 +42,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 child: SafeArea(
                   child: PageView(
                     controller: homePagePictureIndicatorController,
-                     reverse:Get.locale.toString().contains("ar") ? true :false,
+                     reverse:Get.locale.toString().contains("ar")
+                         ?
+                        true
+                         :
+                        false,
                     scrollDirection: Axis.horizontal,
                         children: List.generate(
                           3,
@@ -95,15 +95,31 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
           )),
           _signupButton(),
-          SizedBox(height: 45,)
-
-
+          SizedBox(height: 15,),
+          InkWell(
+            onTap: ()async {
+              SharedPreferences.getInstance().then((value) {
+                Get.back();
+                value.setString(Finals.USER_Language,Get.locale.toString().contains("en") ? "ar" : "en").then((value){
+                  Get.locale=(Get.locale.toString().contains("en") ? Locale("ar") : Locale("en"));
+                  Get.offAll(SplashScreen());
+                });
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Language".tr),
+                SizedBox(width: 5,),
+                Text(Get.locale.toString().contains("en") ? "English" : "عربي",style: TextStyle(color: blue,fontSize: 20),)
+              ],),
+          ),
+          SizedBox(height: 15,),
 
         ],),
       ),
     );
   }
-
   gteRotation(int index){
     if (index == 2) {
       return 0.0;
@@ -115,15 +131,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       return 0.0;
     }
   }
-
-
-
   Widget _signupButton() {
     return GestureDetector(
       onTap: () {
-        // var dashboardProvider = Provider.of<DashboardProvider>(context,listen: false);
-        // Get.dialog(Center(child: CircularProgressIndicator(color: themeColor,)));
-        // ApiServices.getAllReportsByUserID(dashboardProvider);
+
         Get.offAll(Signup());
       },
       child: Container(
@@ -152,21 +163,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       ),
     );
   }
-
   var loginProvider =Provider.of<LoginProvider>(Get.context, listen: false);
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
     // var body = '''{"message": "POST Request successful.","result": {"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxNjU2IiwidW5pcXVlX25hbWUiOiIxNTk4NzQ1NjMiLCJzdWIiOiJhY2NvdW50T25lQGdtYWlsLmNvbSIsImp0aSI6Ijg1YTRhYzhkLWVjYjItNDFjNC1iNDQ1LTk2YTJlNGFkMjI1MiIsImVtYWlsIjoiYWNjb3VudE9uZUBnbWFpbC5jb20iLCJpZCI6IjE2NTYiLCJuYmYiOjE2NDgzNjc2NDUsImV4cCI6MTY0ODQ1NDA0NSwiaWF0IjoxNjQ4MzY3NjQ1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdCJ9.CLJpEIHUuagPFOCT7QS6sBHLiLJeolCY3b8fik-suxKeSnZr5v5S3LWjFsnVBFxTYSFogQTrTEZAWLZmGyPJrQ","refreshToken": "5a63ef00-88a6-49cb-ba38-817eead989ac","user": {"id": 1659,"name": "any","email": "any@any.com","created": "2022-03-27T10:53:44.043+03:00","phoneNumber": "12365479444798","userTypeId": 1,"isAvailable": false,"vatEnabled": false,"fcmToken": null,"couponCode": "1659AVAODC"}}}''';
-    //
     // LoginReponse loginReponse = loginReponseFromJson(body.toString());
-    //
     // loginProvider.saveLogin(loginReponse);
 
   }
-
 }
