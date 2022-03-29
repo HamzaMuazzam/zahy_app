@@ -55,6 +55,7 @@ FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
 class DashboardProvider extends ChangeNotifier {
 
+  var couponAmount="";
 
   initAnalytics(){
     analytics.logAppOpen();

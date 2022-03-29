@@ -1,3 +1,4 @@
+//@dart=2.9
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:math' as math;
@@ -25,6 +26,7 @@ class _CashBackScreenState extends State<CashBackScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero, () async {
+      provider.setCashback(false,null);
       isOK = await ApiServices.getCashBack();
       if (!isOK) {
         isOK = false;
@@ -60,8 +62,7 @@ class _CashBackScreenState extends State<CashBackScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Consumer<DashboardProvider>(builder: (context, data, child) {
-            return data.isCashBackLoaded
-                ? Column(
+            return  Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 20),
@@ -82,8 +83,8 @@ class _CashBackScreenState extends State<CashBackScreen> {
                                   color: Colors.black,
                                   fontSize: Get.height * 0.04)),
                           const SizedBox(width: 5),
-                          Text(
-                              "${data.promotionCashBackFromJson.result.amount}",
+                          Text(data.isCashBackLoaded
+                              ?"${data.promotionCashBackFromJson.result.amount}":"0",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: Get.height * .08,
@@ -107,7 +108,7 @@ class _CashBackScreenState extends State<CashBackScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      data.isPaymentHistoryLoaded
+                      data.isPaymentHistoryLoaded && data.paymentHistoryResponseFromJson.result.spent.isNotEmpty
                           ?
                       ListView.builder(
                     shrinkWrap: true,
@@ -152,11 +153,9 @@ class _CashBackScreenState extends State<CashBackScreen> {
                     },
                   )
                           :
-                          Container()
+                      Container(child: Text("No Transactions Found".tr),
+                      )
                     ],
-                  )
-                : Center(
-                    child: CircularProgressIndicator(),
                   );
           }),
         ),

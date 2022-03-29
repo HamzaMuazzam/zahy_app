@@ -17,6 +17,10 @@ class StaticStrings extends Translations{
 
 
     "Ok": "انهاء",
+    "Add a coupon": "كود الخصم",
+    "Coupon code here.": "ضع هنا كود الخصم",
+    "Use Coupon code": "استخدم كود الكوبون",
+    "No Transactions Found": "لم يتم العثور على معاملات",
     "Transactions": "العمليات",
     "Year": "سنة",
     "Month": "شهر",
@@ -49,6 +53,7 @@ class StaticStrings extends Translations{
     "Check My Car": "أحتاج فني لفحص عطل السيارة",
     "Fix My Car": "أحتاج صيانة عطل بالسيارة",
     "Call Workshop": "اتصال مباشر",
+    "Call workshop": "اتصال مباشر",
     "Chat Room": "غرفة الدردشة",
     "Please select service you need.": "فضلاً اختر الخدمة التي تحتاجها.",
     "How can I help you?": "كيف يمكنني مساعدتك؟",
@@ -57,7 +62,6 @@ class StaticStrings extends Translations{
     "Car Details": "تفاصيل السيارة",
     "Car model name": "طراز السيارة",
     "you have to add a comment to let the workshop catch your issue easily.": "يجب عليك إضافة تعليق للسماح للورشة بالتعرف على مشكلتك بسهولة.",
-    "Cancel": "يلغي",
     "SAR": "ر.س",
     "Offers Received": "عروض مرسلة",
     "My Orders": "طلباتي",
@@ -249,7 +253,7 @@ class StaticStrings extends Translations{
     "Invoices":"الفواتير",
     "Invoices Details":"تفاصيل الفاتورة",
     "Offers List":"قائمة العروض",
-    "Average Price":"متوسط التكلفة",
+
     "Average Time":"متوسط المدة",
     "Warranty":"الضمان",
     "Verified by Musan":"معتمد من مصان",

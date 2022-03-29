@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/services.dart';
 
 class InviteCodeScreen extends StatefulWidget {
   const InviteCodeScreen({Key key}) : super(key: key);
@@ -26,7 +27,7 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
 
     SharedPreferences.getInstance().then((value) async {
       couponCode = value.getString(Finals.USER_COUPON,);
-
+      setState(() {});
     });
 
 
@@ -69,9 +70,16 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
                      Text("$couponCode",
                         style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19)),
 
-                    Padding(
-                      padding: const EdgeInsets.only(right: 25),
-                      child: SvgPicture.asset('assets/invite_screen_assest/SimpleIC.svg'),
+                    InkWell(
+                      onTap: (){
+                        Clipboard.setData(ClipboardData(text: couponCode)).then((_){
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Coupon '$couponCode' copied to clipboard")));
+                        });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: SvgPicture.asset('assets/invite_screen_assest/SimpleIC.svg'),
+                      ),
                     )
                   ],
                 ),
@@ -82,7 +90,7 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
                   "Share the code to get"
-                      " 100 SAR cash back once "
+                      " SAR cash back once "
                       "they use it And they will "
                       "get discount %10 on their "
                       "first order",

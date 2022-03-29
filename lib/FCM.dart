@@ -10,7 +10,6 @@ import 'package:musan_client/api_services/response_models/OpenScreenForNotificat
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/dashboard/dashboard_screen.dart';
-import 'package:musan_client/src/ui/dashboard/orders/order_tracking.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking_new.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
@@ -28,50 +27,10 @@ import 'api_services/Finals.dart';
 var provider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage event) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
+  print('FirebaseMessaging.onMessage.listen');
+  print("event.data ${event.data.toString()}");
   await Firebase.initializeApp();
-/*  // print('Handling a background message ${message.messageId}');
 
-
-  if (message.data.toString().contains("MethodName") ) {
-    logger.e(message.data);
-    logger.e(Get.currentRoute);
-    logger.i(Get.context);
-
-    if(message.data.toString().contains("NewOfferRecieved")){
-
-      // _listenNewOfferReceived(message.data);
-    }
-
-  }
-
-
-  if(message.data.toString().contains("NewOfferRecieved")){
-
-    logger.e(message.data);
-    // print(message.data);
-    //
-
-  }*/
-
-/*
-  if (event.notification != null) {
-    FlutterRingtonePlayer.playNotification();
-  }
-  else {
-    ///play custom shound here
-    playCustomSound();
-  }
-*/
-  //
-  // await fltrNotification.show(
-  //     provider.notificationNumber,
-  //     "New Offer Received",
-  //     "A workshop recently sent you an offer on your order.",
-  //     generalNotificationDetails,
-  //     payload: "event.data.toString()");
-  // provider.increamentNotificationNumber();
   listenFcm(event);
 }
 
@@ -126,8 +85,9 @@ class FCM {
                 .subscribeToTopic(shared.getString(Finals.USER_ID));
             await FirebaseMessaging.instance
                 .subscribeToTopic(shared.getString(Finals.USER_TYPE_ID));
-          } else if (noti) {
-            // print("Topic Subscribed");
+          }
+          else if (noti) {
+
             shared
                 .setBool(Finals.USER_NOTIFICATION, true)
                 .then((value) => null);
@@ -151,23 +111,27 @@ class FCM {
 
           /// will call when user click on notification created by OS it self or using FCM when app was in BG
           FirebaseMessaging.onMessageOpenedApp.listen((event) {
-            // print('FirebaseMessaging.onMessageOpenedApp');
+
             onFCMNotificationSelected(event.data.toString());
           });
 
           /// generate notification your self
           FirebaseMessaging.onMessage.listen((event) {
-            // print('FirebaseMessaging.onMessage.listen');
-            // print("event.data ${event.data.toString()}");
+
+            print('FirebaseMessaging.onMessage.listen');
+            print("event.data ${event.data.toString()}");
+
             if (event.data.toString().contains("chatID")) {
               var currentRoute = Get.currentRoute;
               if (!currentRoute.contains("ChatRoom")) {
                 _showLocalNotification(event);
               }
-            } else {
+            }
+
+            else {
               _showLocalNotification(event);
             }
-            // TOASTS("Local Notification  ${event.data.toString()}");
+
           });
         }
       });
@@ -175,40 +139,17 @@ class FCM {
   }
 
   Future _showLocalNotification(RemoteMessage event) async {
-/*    var iSODetails = new IOSNotificationDetails();
-    var androidDetails = new AndroidNotificationDetails(
-        "Channel ID", "Desi programmer",
-        // sound: event.notification==null ? RawResourceAndroidNotificationSound('alert'):null,
-        sound: null,
-        playSound: false,
-        priority: Priority.max,
-        importance: Importance.max);
-    var generalNotificationDetails =
-        new NotificationDetails(android: androidDetails, iOS: iSODetails);
-    var androidInitilize = new AndroidInitializationSettings('logo');
-    var iOSinitilize = new IOSInitializationSettings();
-    var initilizationsSettings = new InitializationSettings(
-        android: androidInitilize, iOS: iOSinitilize);
-    FlutterLocalNotificationsPlugin fltrNotification;
-    fltrNotification = new FlutterLocalNotificationsPlugin();
-    fltrNotification.initialize(initilizationsSettings,
-        onSelectNotification: onLocalNotificationSelected);*/
+
 
     logger.e("NOTIFICATION DATA => ${event.data}");
     listenFcm(event);
   }
 
   Future onLocalNotificationSelected(String payload) async {
-    // print(payload);
+
 
     _openScreenForNotifications(payload);
 
-    // showDialog(
-    //   context: Get.context,
-    //   builder: (context) => AlertDialog(
-    //     content: Text("onLocalNotificationSelected PayLoad : $payload"),
-    //   ),
-    // );
   }
 
   onFCMNotificationSelected(String payload) async {

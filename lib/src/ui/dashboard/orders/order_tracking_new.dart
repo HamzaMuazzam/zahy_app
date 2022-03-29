@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -336,7 +338,9 @@ class _OrderTrackingState extends State<OrderTracking> {
   }
 
   @override
-  Widget build(BuildContext context) => Consumer<OrderScreenProvider>(builder: (builder, data, child) {
+  Widget build(BuildContext context) {
+
+    return Consumer<OrderScreenProvider>(builder: (builder, data, child) {
 
         if (isFromSingleOrder && data.isSingleOrderDataLoaded) {
           result = data.singleOrderByUserIdFromJson.result;
@@ -1188,6 +1192,131 @@ class _OrderTrackingState extends State<OrderTracking> {
                                       ),
                                     ),
                                   ),
+                                  ColumnCard(
+                                    color: white,
+                                    isElevated: false,
+                                    children: [
+                                      ExpandablePanel(
+
+                                        // controller: controller2,
+                                        theme: ExpandableThemeData(
+                                            iconColor: Colors.black,
+                                            iconSize: 30),
+                                        header: Container(
+                                          width: Get.width,
+                                          child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("".tr,style:TextStyle(fontSize:19)),
+                                              Text("Use Coupon code".tr,style:TextStyle(fontSize:19,fontWeight:FontWeight.bold,color:blue)),
+                                              Text("".tr,style:TextStyle(fontSize:19)),
+                                            ],
+                                          ),
+                                        ),
+
+                                        expanded: Column(
+                                          children: [
+                                            Divider(
+                                              color: grey,
+                                              thickness: 0.5,
+                                            ),
+                                            Consumer<DashboardProvider>(
+                                                builder: (builder,data,child) {
+                                                  String coupon="";
+                                                  return Container(
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius: BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20))
+                                                      ),
+                                                      child:
+                                                      Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                        children: [
+                                                          SizedBox(height: 10,),
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(10),
+                                                            child: Text("Add a coupon".tr,style: TextStyle(color: Colors.blue,fontSize:
+                                                            Get.height *0.03,fontWeight: FontWeight.bold),),
+                                                          ),
+                                                          SizedBox(height: 10,),
+                                                          data.couponAmount.isEmpty
+                                                              ?
+                                                          Padding(
+                                                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                            child: TextFormField(
+                                                              textAlign: TextAlign.center,
+                                                              onChanged: (value){
+                                                                coupon=value;
+                                                              },
+                                                              decoration: InputDecoration(hintText: "Coupon code here.".tr),
+                                                            ),
+                                                          )
+                                                              :
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(15),
+                                                            child: Container(
+                                                              child: Text('شارك الكود مع أصدقائك واحصل على'
+                                                                  ' ريال مستردة لحسابك بالمحفظة${data.couponAmount}'
+                                                                  'و ١٠٪ خصم على أول طلب لصديقك',
+                                                                style: TextStyle(color: Colors.black,fontSize: 16),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20,),
+                                                          Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: InkWell(
+                                                              onTap: ()async {
+                                                                if(data.couponAmount.isEmpty){
+                                                                  if(coupon.isEmpty)return;
+                                                                  // Get.back();
+                                                                  String body = await ApiServices.getCashBackValueOfCoupon();
+                                                                  logger.e(body);
+                                                                  if(body!=null){
+                                                                    if(body.contains("successful")){
+                                                                      data.couponAmount = null;
+                                                                      data.notifyListeners();
+                                                                      var decode = json.decode(body);
+                                                                      data.couponAmount = decode['result'].toString();
+                                                                      data.notifyListeners();
+                                                                    }
+
+                                                                  }
+                                                                }
+                                                                else{
+                                                                  Get.back();
+                                                                  ApiServices.applyCouponCode(coupon,result.orderId.toString());
+
+                                                                }
+
+
+                                                              },
+                                                              child: Container(
+                                                                height: 55,
+                                                                child: Center(child: Text(
+                                                                  data.couponAmount.isEmpty?
+                                                                  "Check".tr :"Apply",style: TextStyle(color: white,fontSize: 18,fontWeight: FontWeight.bold),),),
+                                                                width: Get.width,
+
+                                                                decoration: BoxDecoration(color: Colors.blue,borderRadius: BorderRadius.circular(10)),
+
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          SizedBox(height: 20,)
+                                                        ],)
+                                                  );
+                                                }
+                                            ),
+                                           
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+
                                 ],
                               ),
                             ),
@@ -1214,10 +1343,8 @@ class _OrderTrackingState extends State<OrderTracking> {
                                                   Get.context,
                                                   listen: false);
                                           Get.to(ChatRoom(
-                                              chatRoomId:
-                                                  "${dashboardProvider.userID}_${result.workshopId}_${result.orderId}",
-                                              messageSendBy:
-                                                  result.userId.toString()));
+                                              chatRoomId: "${dashboardProvider.userID}_${result.workshopId}_${result.orderId}",
+                                              messageSendBy: result.userId.toString()));
                                         },
                                         child: Container(
                                           decoration: !result.isTechnicianOrder
@@ -1264,7 +1391,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                           ),
                                         ),
                                       )),
-                                      !result.isTechnicianOrder
+                                          !result.isTechnicianOrder
                                           ? Expanded(
                                               child: InkWell(
                                               onTap: () {
@@ -1346,6 +1473,7 @@ class _OrderTrackingState extends State<OrderTracking> {
         }
 
       });
+  }
 
   Widget invoiceHeader() {
     return Padding(
@@ -1482,42 +1610,7 @@ class _OrderTrackingState extends State<OrderTracking> {
 
     return Colors.blue;
 
-/*
 
-
-
-    else if (result.isCarPickupOrdered && !result.isTechnicianOrder){
-      if(stepNo=="step1".tr){
-        return "On the way".tr;
-      }
-      else if (stepNo=="step2".tr){
-        return "Picking up".tr;
-      }
-      else if(stepNo=="step3".tr){
-        return "Arrive & Deal".tr;
-      }
-      else if(stepNo=="step4".tr){
-        return "Fixing".tr;
-      }
-      else if(stepNo=="step5".tr){
-        return "Deliver".tr;
-      }
-
-    }
-
-    else if (result.isTechnicianOrder){
-
-      if(stepNo=="step1".tr){
-        return "Arrive & Deal".tr;
-      }
-      else if (stepNo=="step2".tr){
-        return "Checking".tr;
-      }
-      else if(stepNo=="step3".tr){
-        return "Report Deliver".tr;
-      }
-
-    }*/
   }
 
   String _getStepsDescription(Result result) {
@@ -1538,21 +1631,8 @@ class _OrderTrackingState extends State<OrderTracking> {
             .tr;
       }
     } else if (result.isCarPickupOrdered && !result.isTechnicianOrder) {
-      /*     if(stepNo=="step1".tr){
-        return "On the way".tr;
-      }
-      else if (stepNo=="step2".tr){
-        return "Picking up".tr;
-      }
-      else if(stepNo=="step3".tr){
-        return "Arrive & Deal".tr;
-      }
-      else if(stepNo=="step4".tr){
-        return "Fixing".tr;
-      }
-      else if(stepNo=="step5".tr){
-        return "Deliver".tr;
-      }*/
+
+
 
     } else if (result.isTechnicianOrder) {
       if (result.orderSteps[0].orderStepStatus.toString() == "0") {
@@ -1612,4 +1692,5 @@ class _OrderTrackingState extends State<OrderTracking> {
     return "".tr;
   }
 
+ 
 }

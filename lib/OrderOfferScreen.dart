@@ -56,8 +56,6 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<OrderScreenProvider>(builder: (builder, datas, child) {
-
-
         result=datas.offerResult;
 
         return Container(
@@ -1236,7 +1234,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
               InkWell(
                   onTap: () => Get.back(),
                   child: Text(
-                    "Cancel",
+                    "Cancel".tr,
                     style: TextStyle(fontSize: 20),
                   )),
               SizedBox(

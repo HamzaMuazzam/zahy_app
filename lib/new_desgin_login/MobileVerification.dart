@@ -88,7 +88,7 @@ class _MobileVerificationState extends State<MobileVerification> {
     // Get.offAll(DashboardScreen());
 
 
-    String body ='{"mobile": "$phoneNumber","password": "123456789",  "deviceToken": null}';
+    String body ='{"mobile": "$phoneNumber"}';
 
     logger.e("Login Body: ${body}");
 

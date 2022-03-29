@@ -119,7 +119,6 @@ class _MyCarsScreenNewDesignState extends State<MyCarsScreenNewDesign> {
                                                   Radius.circular(10)),
                                               image: DecorationImage(
                                                 image:NetworkImage('https://i.imgur.com/cP53jb6.jpg',),
-                                                filterQuality: FilterQuality.high,
                                                 fit: BoxFit.fill,
                                               )),
                                         ),

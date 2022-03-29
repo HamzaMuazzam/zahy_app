@@ -76,7 +76,7 @@ class LoginProvider extends ChangeNotifier {
 
     });
   }
-String userName;
+  String userName;
   void setName(String name) {
     userName=name;
     notifyListeners();

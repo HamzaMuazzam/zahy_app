@@ -317,9 +317,7 @@ Widget addNewCar(){
                     if(Get.isBottomSheetOpen){
                       Get.back();
                     }
-
                     data.addACar(Get.context);
-
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15),

@@ -49,8 +49,8 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
     return Consumer<DashboardProvider>(builder: (builder,data,child){
       return Container(
         width: Get.width,
+        color: Colors.white,
         child: Drawer(
-          backgroundColor: Colors.white,
           child: Container(
             color: screenBgColor,
             padding: EdgeInsets.symmetric(
@@ -129,7 +129,7 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
                       mainWidget(5, 'Invite'.tr, "assets/drawer_icons/InviteIcon.svg"),
                       mainWidget(8, 'Help'.tr, "assets/drawer_icons/HelpIcon.svg",scale: 4.5),
                       // mainWidget(9, 'Notifications'.tr, notificationImage,scale: 4.5),
-                      // mainWidget(6, 'About us'.tr, drawerAboutIcon),
+                      // mainWidget(6, 'About us'.tr, "assets/images/drawerAboutIcon.png"),
                     ],
                   ),
                   mainWidget(7, 'Log out'.tr, "assets/drawer_icons/LogoutIcon.svg"),
@@ -160,7 +160,7 @@ class _MyAppDrawersState extends State<MyAppDrawers> {
                                             ? Get.to(InviteCodeScreen())
                                                 : index == 6
                                                     ? Get.to(AboutUsScreen())
-            : index == 10
+                                                  : index == 10
                                                     ? Get.to(CashBackScreen())
                                                        : index == 7
                                                           ? logOut()

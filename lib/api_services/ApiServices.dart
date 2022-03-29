@@ -107,6 +107,7 @@ class ApiServices {
   static var _CANCEL_ORDER = "orders/cancel-order/";
 
   static var _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE = "client/SendPaymentReceivedNotification/";
+  static var _GET_COUPON_VALUE = "orders/coupon-value";
 
   static var dashboardProvider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
@@ -118,12 +119,10 @@ class ApiServices {
 
   static Future request({String requestType, String feedUrl, String body}) async {
 
-
-
     requestCall = http.Request(requestType, Uri.parse('$_BASE_URL$feedUrl'));
     if (requestType == "GET") {
     }
-    else if (requestType == "POST") {
+    else if (requestType == "POST" && body!=null) {
       requestCall.body = body;
     }
     else if (requestType == "PUT" && body != null) {
@@ -144,7 +143,8 @@ class ApiServices {
         print("response.reasonPhrase");
         return response.stream.bytesToString();
       }
-    }catch(e){
+    }
+    catch(e){
 
       await analytics.logEvent(name: "API_CALL_FAILED:",parameters: {
         "Method":requestCall.method??"",
@@ -163,6 +163,9 @@ class ApiServices {
   }
 
   static Future<bool> loginAccount(String body, BuildContext context, String phoneNumber, {bool isLoginMethodGoogle = false}) async {
+
+
+
     await ApiServices.request(
             requestType: "POST",
             feedUrl: ApiServices._LOGIN_URL,
@@ -172,12 +175,12 @@ class ApiServices {
         Get.back();
       }
       if (value != null) {
-        print(value);
+        logger.e(value);
         if (value.toString().contains('"isError": true')) {
           /// this means user not registered
           print('setup an account');
-          var loginProvider =
-              Provider.of<LoginProvider>(context, listen: false);
+          var loginProvider = Provider.of<LoginProvider>(context, listen: false);
+
           loginProvider.setUserMobileNumner(phoneNumber);
 
           if (!isLoginMethodGoogle) {
@@ -1877,11 +1880,43 @@ class ApiServices {
       dashboardProvider.setCashback(true,promotionCashBackFromJson(body));
       return true;
     }
+    else if(response.statusCode==404){
+      return false;
+    }
     else {
       print(await response.stream.bytesToString());
       print(response.reasonPhrase);
       return false;
     }
+
+  }
+
+  static Future<String> getCashBackValueOfCoupon()async {
+
+    // return await request(requestType: "POST",feedUrl: _GET_COUPON_VALUE,body: null);
+    var request = http.Request('POST', Uri.parse('https://muapi.deeps.info/api/orders/coupon-value'));
+
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return await response.stream.bytesToString();
+    }
+    else {
+      return response.reasonPhrase;
+    }
+  }
+
+  static void applyCouponCode(String code,String orderId) async {
+    var request = http.Request('POST', Uri.parse('https://muapi.deeps.info/api/orders/coupon-validity?couponCode=$code&userId=${dashboardProvider.userID}&OrderId=$orderId'));
+
+
+    http.StreamedResponse response = await request.send();
+
+     String body = await response.stream.bytesToString();
+     logger.e(body);
+     var decode = json.decode(body);
+      TOASTS(decode['result']);
 
   }
 
