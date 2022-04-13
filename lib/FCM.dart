@@ -211,7 +211,7 @@ class FCM {
       } else if (notificationsFromJson.routeName == "popUpNegotiation") {
         // Get.offAll(DashboardScreen());
 
-        var data = Provider.of<DashboardProvider>(Get.context, listen: false);
+
         Get.dialog(Center(
           child: CircularProgressIndicator(
             color: Colors.blue,

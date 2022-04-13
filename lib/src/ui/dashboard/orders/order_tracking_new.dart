@@ -1440,8 +1440,7 @@ class _OrderTrackingState extends State<OrderTracking> {
                                         ? Expanded(
                                             child: InkWell(
                                             onTap: () {
-                                              launch(
-                                                  "tel://${result.workshopPhoneNumber}");
+                                              launch("tel://${result.workshopPhoneNumber}");
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(

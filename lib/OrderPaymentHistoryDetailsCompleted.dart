@@ -11,7 +11,7 @@ import 'api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart'
 
 
 class OrderPaymentHistoryDetailsCompleted extends StatelessWidget {
-  Result result;
+ final  Result result;
   OrderPaymentHistoryDetailsCompleted(this.result);
 
   @override
@@ -421,37 +421,37 @@ class OrderPaymentHistoryDetailsCompleted extends StatelessWidget {
     );
   }
 
-  Widget _orderNowButton() {
-    return GestureDetector(
-      onTap: () {
-        // Get.bottomSheet(OrderNowBottomSheet());
-      },
-      child: Container(
-        width: Get.width * .88,
-        height: Get.height * .07,
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(bottom: 20),
-        decoration: BoxDecoration(
-          color: themeColor,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xff000000).withOpacity(.13),
-              spreadRadius: 1,
-              blurRadius: 3,
-            ),
-          ],
-        ),
-        child: Text(
-          'Order Now'.tr,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: Get.height * .02,
-          ),
-        ),
-      ),
-    );
-  }
+  // Widget _orderNowButton() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       // Get.bottomSheet(OrderNowBottomSheet());
+  //     },
+  //     child: Container(
+  //       width: Get.width * .88,
+  //       height: Get.height * .07,
+  //       alignment: Alignment.center,
+  //       margin: EdgeInsets.only(bottom: 20),
+  //       decoration: BoxDecoration(
+  //         color: themeColor,
+  //         borderRadius: BorderRadius.circular(10),
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: Color(0xff000000).withOpacity(.13),
+  //             spreadRadius: 1,
+  //             blurRadius: 3,
+  //           ),
+  //         ],
+  //       ),
+  //       child: Text(
+  //         'Order Now'.tr,
+  //         style: TextStyle(
+  //           color: Colors.white,
+  //           fontSize: Get.height * .02,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   String getAllissue2(Result result){
     var faults =result.faults;

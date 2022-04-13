@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
 
-    String os = Platform.operatingSystem;
+    // String os = Platform.operatingSystem;
     if (Platform.isIOS) {
       WidgetsBinding.instance.addPostFrameCallback((_) => initPlugin());
     }

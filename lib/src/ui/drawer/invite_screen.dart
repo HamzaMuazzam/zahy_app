@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:flutter_share_me/flutter_share_me.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_share/flutter_share.dart';
 
 class InviteCodeScreen extends StatefulWidget {
   const InviteCodeScreen({Key key}) : super(key: key);
@@ -18,9 +18,17 @@ class InviteCodeScreen extends StatefulWidget {
 }
 
 class _InviteCodeScreenState extends State<InviteCodeScreen> {
-  Widget verticalSpace = const SizedBox(height: 25);
-  final FlutterShareMe share = FlutterShareMe();
 
+  Widget verticalSpace = const SizedBox(height: 25);
+
+  Future<void> share(String couponCode) async {
+    await FlutterShare.share(
+        title: 'Share Coupon',
+        text: 'Share Your Coupon $couponCode',
+        linkUrl: 'Musan.net',
+        chooserTitle: 'Example Chooser Title'
+    );
+  }
 
   String couponCode="";
   @override
@@ -72,7 +80,7 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(width: 10,),
-                         Text("$couponCode",
+                         Text(couponCode??"",
                             style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19)),
                         InkWell(
                           onTap: (){
@@ -112,9 +120,7 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
                       child: SvgPicture.asset('assets/invite_screen_assest/GmailIC.svg')),
                   InkWell(
                       onTap: () async {
-                        var responce =
-                        await share.shareToWhatsApp(msg: "Example Text");
-                        debugPrint(responce);
+                        share(couponCode);
                       },
                       child: SvgPicture.asset('assets/invite_screen_assest/WhatsAppIC.svg')),
                   InkWell(

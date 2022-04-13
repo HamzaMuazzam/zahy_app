@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/ChatRoom.dart';
-import 'package:musan_client/FCM.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart';
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
@@ -1075,7 +1074,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
     _refreshController.loadComplete();
   }
 
-  Widget acceptOffer(int index) {
+   acceptOffer(int index) {
     Get.dialog(Center(
       child: CircularProgressIndicator(),
     ));

@@ -1,4 +1,3 @@
-// import 'package:custom_switch_button/custom_switch_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,17 +6,12 @@ import 'package:musan_client/localization/language/languages.dart';
 import 'package:musan_client/localization/locale_constant.dart';
 import 'package:musan_client/model/language_data.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
-import 'package:musan_client/src/ui/auth/SignUp.dart';
-import 'package:musan_client/src/ui/auth/login_screen.dart';
-import 'package:musan_client/src/ui/dashboard/dashboard_screen.dart';
 import 'package:musan_client/src/ui/drawer/privacy_screen.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:musan_client/utils/images.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../main.dart';
 import 'edit_profile.dart';
 import 'package:musan_client/main.dart' as app;
 

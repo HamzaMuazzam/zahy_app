@@ -26,7 +26,7 @@ The navigation delegate is set to block navigation to the youtube website.
 
 class PaymentWebView extends StatefulWidget {
 
-  String url;
+  final String url;
   // https://mucp.deeps.info/Home/Payment?userId=1&orderId=12&isCash=false&amount=310
    PaymentWebView({this.url});
 
@@ -237,14 +237,14 @@ class SampleMenu extends StatelessWidget {
       WebViewController controller, BuildContext context) async {
     // Send a message with the user agent string to the Toaster JavaScript channel we registered
     // with the WebView.
-    await controller.evaluateJavascript(
+    await controller.runJavascriptReturningResult(
         'Toaster.postMessage("User Agent: " + navigator.userAgent);');
   }
 
   void _onListCookies(
       WebViewController controller, BuildContext context) async {
     final String cookies =
-    await controller.evaluateJavascript('document.cookie');
+    await controller.runJavascriptReturningResult('document.cookie');
     // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Column(
@@ -259,7 +259,7 @@ class SampleMenu extends StatelessWidget {
   }
 
   void _onAddToCache(WebViewController controller, BuildContext context) async {
-    await controller.evaluateJavascript(
+    await controller.runJavascriptReturningResult(
         'caches.open("test_caches_entry"); localStorage["test_localStorage"] = "dummy_entry";');
     // ignore: deprecated_member_use
     Scaffold.of(context).showSnackBar(const SnackBar(
@@ -268,7 +268,7 @@ class SampleMenu extends StatelessWidget {
   }
 
   void _onListCache(WebViewController controller, BuildContext context) async {
-    await controller.evaluateJavascript('caches.keys()'
+    await controller.runJavascriptReturningResult('caches.keys()'
         '.then((cacheKeys) => JSON.stringify({"cacheKeys" : cacheKeys, "localStorage" : localStorage}))'
         '.then((caches) => Toaster.postMessage(caches))');
   }

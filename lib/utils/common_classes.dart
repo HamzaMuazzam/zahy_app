@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,116 +7,9 @@ import 'package:musan_client/src/provider/WorkShopOrderProvider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
-
-import 'colors.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-/*
-class AddANewCarBottomSheet extends StatefulWidget {
-
-  @override
-  _AddANewCarBottomSheetState createState() => _AddANewCarBottomSheetState();
-}
-
-class _AddANewCarBottomSheetState extends State<AddANewCarBottomSheet> {
-
-  WorkShopOrderProvider provider;
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<WorkShopOrderProvider>(builder: (builder, provider, _) {
-      return addANewCarBottomSheet(provider);
-    });
-  }
-
-  Widget addANewCarBottomSheet(WorkShopOrderProvider provider) {
-    this.provider=provider;
-    return Container(
-      padding: EdgeInsets.symmetric(
-        vertical: Get.height * .02,
-        horizontal: Get.width * .06,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(30),
-          topLeft: Radius.circular(30),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child:Column(
-          children: [
-            Container(
-              width: Get.width * .13,
-              child: Divider(
-                thickness: 6,
-                color: Color(0xffF1F1F1),
-              ),
-            ),
-            SizedBox(height: Get.height * .01),
-            Text(
-              "Add a car".tr,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: Get.height * .022,
-                color: headingTextColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-
-            SizedBox(height: Get.height * .02),
-
-            dropDown(1),
-            SizedBox(height: 15,),
-            dropDown(2),
-            SizedBox(height: 15,),
-            dropDown(3),
-            SizedBox(height: 15,),
-
-            dropDown(4),
-            SizedBox(height: 15,),
-            dropDown(5),
-            GestureDetector(
-              onTap: () {
-
-                provider.addACar(context);
-
-              },
-              child: Container(
-                width: Get.width,
-                height: Get.height * .065,
-                margin: EdgeInsets.symmetric(
-                  vertical: Get.height * .02,
-                ),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: themeColor,
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xff000000).withOpacity(.13),
-                      spreadRadius: 1,
-                      blurRadius: 3,
-                    ),
-                  ],
-                ),
-                child: Text(
-                  'Add a car'.tr,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: Get.height * .02,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        )
-      ),
-    );
-  }
-
-
-}*/
 
 
 Widget dropDown(int indexNumbr){

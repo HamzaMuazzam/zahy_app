@@ -19,14 +19,18 @@ import 'package:provider/provider.dart';
 import 'CreateAccount.dart';
 
 class MobileVerification extends StatefulWidget {
+
   const MobileVerification({Key key}) : super(key: key);
 
   @override
   _MobileVerificationState createState() => _MobileVerificationState();
+
 }
 
 class _MobileVerificationState extends State<MobileVerification> {
+
   var provider = Provider.of<LoginProvider>(Get.context, listen: false);
+
   bool istimerCompleted=false;
 
   TextEditingController numberController = TextEditingController();
@@ -36,7 +40,9 @@ class _MobileVerificationState extends State<MobileVerification> {
   String verificationId;
 
   FirebaseAuth instance;
+
   int resendToken;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -49,8 +55,6 @@ class _MobileVerificationState extends State<MobileVerification> {
       // ApiServices.loginAccount(body, context, provider.userMobileNumber);
     });
   }
-
-
 
   void _signInWithPhoneNumber(String smsCode, LoginProvider data) async {
     if (verificationId == null) {
@@ -266,7 +270,6 @@ class _MobileVerificationState extends State<MobileVerification> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Container(
-
                             decoration: BoxDecoration(
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(18)),
@@ -326,48 +329,11 @@ class _MobileVerificationState extends State<MobileVerification> {
                   )),
               InkWell(
                 onTap: () async{
-
                   if(numberController.value.text.length!=6){
                     return;
                   }
-                  // TOASTS(numberController.value.text);
-                  // try {
-
-                    // var headers = {
-                    //   'Content-Type': 'application/json'
-                    // };
-                    // var request = http.Request('POST', Uri.parse('https://muapi.deeps.info/api/accounts/signin'));
-                    // request.body = json.encode({
-                    //   "mobile": "+966000000000"
-                    // });
-                    // request.headers.addAll(headers);
-                    //
-                    // http.StreamedResponse response = await request.send();
-                    //
-                    // if (response.statusCode == 200) {
-                    //   print(await response.stream.bytesToString());
-                    // }
-                    // else {
-                    //   print(response.reasonPhrase);
-                    // }
-                  // } catch (e) {
-                  //
-                  //   log('your message here $e');
-                  // }
-
-
-                  // var data= await post(Uri.parse('https://muapi.deeps.info/api/accounts/signin'),body: "{\"mobile\": \"+966000000000\"}");
-
                   Get.dialog(Center(child: CircularProgressIndicator()));
-
                   _signInWithPhoneNumber(numberController.value.text,data);
-
-
-
-                  // Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) {
-                  //   return CreateAccount();
-                  // }));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20),
@@ -397,4 +363,6 @@ class _MobileVerificationState extends State<MobileVerification> {
       );
     });
   }
+
+
 }

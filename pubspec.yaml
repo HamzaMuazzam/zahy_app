@@ -73,8 +73,9 @@ dependencies:
   sign_in_apple: ^2.0.0
   firebase_analytics: ^9.0.5
   progress_indicators: ^1.0.0
-  flutter_share_me: ^1.2.0
+#  flutter_share_me: ^1.2.0
   flutter_email_sender: ^5.1.0
+  flutter_share: ^2.0.0
 
 
 dev_dependencies:

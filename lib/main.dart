@@ -33,7 +33,6 @@ Future main() async {
 
 
   runApp(MyApp(sharedPreferences));
-
 }
 
 class MyApp extends StatefulWidget {

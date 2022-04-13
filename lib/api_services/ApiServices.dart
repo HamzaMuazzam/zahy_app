@@ -1,17 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:musan_client/FCM.dart';
-
-// import 'package:logger/logger.dart';
 import 'package:musan_client/OrderPaymentHistoryDetailsCompleted.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/api_services/response_models/CarInformationReponse.dart';
@@ -26,16 +22,12 @@ import 'package:musan_client/api_services/response_models/GetDiscountOffers.dart
 import 'package:musan_client/api_services/response_models/GetMyCarsByUserId.dart';
 import 'package:musan_client/api_services/response_models/GetNotification.dart';
 import 'package:musan_client/api_services/response_models/GetReportsByUserId.dart';
-
-
 import 'package:musan_client/api_services/response_models/GetSinlgeOfferByOfferID.dart';
 import 'package:musan_client/api_services/response_models/GetUserProfile.dart';
-import 'package:musan_client/api_services/response_models/InitPaymentResponse.dart';
 import 'package:musan_client/api_services/response_models/LoginReponse.dart';
 import 'package:musan_client/api_services/response_models/PaymentHistoryResponse.dart';
 import 'package:musan_client/api_services/response_models/PromotionCashBack.dart';
 import 'package:musan_client/api_services/response_models/SignUpReponse.dart';
-import 'package:musan_client/api_services/response_models/UserAllPaymentMethod.dart';
 import 'package:musan_client/new_desgin_login/CreateAccount.dart';
 import 'package:musan_client/locale/constantString.dart';
 import 'package:musan_client/src/provider/Login_provider.dart';
@@ -46,7 +38,6 @@ import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/ThankYou.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/src/ui/dashboard/dashboard_screen.dart';
-import 'package:musan_client/src/ui/dashboard/orders/order_tracking.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking_new.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/common_classes.dart';
@@ -89,11 +80,11 @@ class ApiServices {
 
   static var _GET_DISCOUNT_OFFERS = "DiscountOffer";
 
-  static var _GET_DEFAULT_PAYMENT_METHODS = "users/GetDefaultCards/";
+  // static var _GET_DEFAULT_PAYMENT_METHODS = "users/GetDefaultCards/";
 
   static var _GET_CARTYPE_PICKUP = "CarPickupType";
 
-  static var _ADD_A_CARD = "users/add-card";
+  // static var _ADD_A_CARD = "users/add-card";
 
   static var _headers = {'Content-Type': 'application/json'};
 
@@ -108,7 +99,7 @@ class ApiServices {
   static var _CANCEL_ORDER = "orders/cancel-order/";
 
   static var _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE = "client/SendPaymentReceivedNotification/";
-  static var _GET_COUPON_VALUE = "orders/coupon-value";
+  // static var _GET_COUPON_VALUE = "orders/coupon-value";
 
   static var dashboardProvider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
@@ -228,10 +219,13 @@ class ApiServices {
 
 
 
-      } else {
+      }
+      else {
         Get.snackbar(strError, strSomethingwentwrong);
       }
     });
+
+    return true;
   }
 
   static Future<String> signUpUser(Map<String, String> bodyMap, BuildContext context) async {
@@ -286,68 +280,7 @@ class ApiServices {
       Get.snackbar(strError, strSomethingwentwrong);
     }
 
-/*    await ApiServices.request(requestType: "POST", feedUrl: SIGN_UP_URL, body: body.toString())
-        .then((value) async {
-      if (value != null) {
-        print(value);
-        if (value.toString().contains(' "isError": true,')) {
-          print('Error:  $value');
-          if (Get.isDialogOpen) {
-            Get.back();
-          }
-          return null;
-        }
-        else {
-          print(value);
 
-          SignUpReponse fromJson = signUpReponseFromJson(value);
-
-          print("HElllo sign up response: $value");
-          await SharedPreferences.getInstance().then((value) async {
-            await value
-                .setBool(Finals.USER_LOGGED_IN_OR_NOT, true)
-                .then((value) => null);
-            await value
-                .setString(Finals.USER_EMAIL, fromJson.result.email)
-                .then((value) => null);
-            await value
-                .setString(Finals.USER_ID, fromJson.result.id.toString())
-                .then((value) => null);
-            await value
-                .setString(Finals.USER_NAME, fromJson.result.name)
-                .then((value) => null);
-            await value
-                .setString(
-                    Finals.USER_TYPE_ID, fromJson.result.userTypeId.toString())
-                .then((value) => null);
-            await value
-                .setString(Finals.USER_PHONE, fromJson.result.phoneNumber)
-                .then((value) => null);
-
-            // var data = Provider.of<LoginProvider>(context);
-            // data.setUserMobileNumner(fromJson.result.phoneNumber);
-
-            Get.offAll(DashboardScreen());
-
-            if (Get.isDialogOpen) {
-              Get.back();
-            }
-          });
-
-          return value;
-        }
-
-
-
-
-
-      } else {
-       Get.snackbar(strError, strSomethingwentwrong);
-        if (Get.isDialogOpen) {
-          Get.back();
-        }
-      }
-    });*/
   }
 
   static getDashboardWidgetData(BuildContext context) {
@@ -1242,7 +1175,7 @@ class ApiServices {
             ApiServices.getSignleOrderByUserID(orderID);
             await    getOffersAndOderAtOnce();
 
-            var decode = json.decode(value.toString());
+            // var decode = json.decode(value.toString());
             // TOASTS(decode['result']);
           }
         } catch (e) {
@@ -1594,6 +1527,8 @@ class ApiServices {
 
       }
     });
+
+    return true;
   }
 
   static  Future<bool> acceptAndPayDownPayment(orderId, {bool isCashback=false}) async {

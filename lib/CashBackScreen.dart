@@ -5,7 +5,6 @@ import 'dart:math' as math;
 
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
-import 'package:musan_client/src/ui/order_booking_screens/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -135,7 +134,7 @@ class _CashBackScreenState extends State<CashBackScreen> {
                         Expanded(
                           child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 50,
+                      itemCount: data.paymentHistoryResponseFromJson.result.spent.length,
                       itemBuilder: (BuildContext context, int index) {
                           var spent = data.paymentHistoryResponseFromJson.result.spent[index];
                         return Padding(

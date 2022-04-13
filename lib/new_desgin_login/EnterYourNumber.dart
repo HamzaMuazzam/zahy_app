@@ -36,6 +36,7 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                 color: Colors.white,
                 child: Column(
                   children: [
+
                     Expanded(
                         flex: 2,
                         child: Row(
@@ -48,7 +49,6 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                             ),
                             SizedBox(width: Get.width / 4),
                             Text(
-
                               'Enter your number'.tr,
                               style: TextStyle(
                                   color: Colors.black,
@@ -57,6 +57,7 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                             )
                           ],
                         )),
+
                     Expanded(
                         flex: 9,
                         child: Container(
@@ -130,8 +131,7 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                 SizedBox(height: 50,),
                                 InkWell(
                                   onTap: () {
-                                    data.setUserMobileNumner(
-                                        "+966${numberController.text}");
+                                    data.setUserMobileNumner("+966${numberController.text}");
 
                                     if (data.userMobileNumber.isEmpty ||
                                         data.userMobileNumber.length < 10) {

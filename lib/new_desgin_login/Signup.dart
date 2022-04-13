@@ -156,16 +156,6 @@ class _SignupState extends State<Signup> {
                                     ),
                                   ))
 
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(left: 12),
-                                  //   child: Text(
-                                  //     'Phone number',
-                                  //     style: TextStyle(
-                                  //         color: Colors.grey.shade400,
-                                  //         fontSize: 18
-                                  //     ),
-                                  //   ),
-                                  // )
                                 ],
                               ),
                             ),
@@ -195,96 +185,6 @@ class _SignupState extends State<Signup> {
                           ],
                         ),
                         SizedBox(height: 15,),
-                        // SignInWithAppleButton(
-                        //   onPressed: () async {
-                        //     final credential = await SignInWithApple.getAppleIDCredential(
-                        //       scopes: [
-                        //         AppleIDAuthorizationScopes.email,
-                        //         AppleIDAuthorizationScopes.fullName,
-                        //       ],
-                        //     );
-                        //
-                        //     print(credential);
-                        //
-                        //     // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
-                        //     // after they have been validated with Apple (see `Integration` section for more information on how to do this)
-                        //   },
-                        // ),
-
-
-
-                        // InkWell(
-                        //   onTap:(){},
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(8.0),
-                        //     child: Container(
-                        //       height: Get.height/15,
-                        //       width: Get.width,
-                        //       decoration: BoxDecoration(
-                        //           color: Colors.black,
-                        //           borderRadius: BorderRadius.circular(12)
-                        //       ),
-                        //       child: Row(
-                        //         children: [
-                        //           Padding(
-                        //             padding: const EdgeInsets.all(12.0),
-                        //             child: SvgPicture.asset(
-                        //               'assets/images/whiteapplelogo.svg',
-                        //               height: 32,
-                        //               color: white,
-                        //             ),
-                        //           ),
-                        //           SizedBox(width: Get.width/6),
-                        //           Text(
-                        //             'Sign in with Apple'.tr,
-                        //             style: TextStyle(
-                        //                 color: Colors.white,
-                        //                 fontSize: 18
-                        //             ),
-                        //           )
-                        //         ],
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-/*
-                        InkWell(
-                          onTap:()async{
-                            await data.googleSignIn.signOut();
-                            await data.googleSignIn.signIn();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: Get.height/15,
-                              width: Get.width,
-                              decoration: BoxDecoration(
-                                  border: Border.all(width: 1,color: Colors.grey.shade300),
-                                  borderRadius: BorderRadius.circular(12)
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: SvgPicture.asset(
-                                      'assets/images/google.svg',
-                                      height: 32,
-                                    ),
-                                  ),
-                                  SizedBox(width: Get.width/6),
-                                  Text(
-                                    'Sign in with Google'.tr,
-                                    style: TextStyle(
-                                        color: Colors.blue,
-                                        fontSize: 18
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-*/
                       ],
                     ),
                   )

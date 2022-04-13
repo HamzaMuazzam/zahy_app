@@ -15,7 +15,6 @@ import 'package:musan_client/src/ui/drawer/payments_screen.dart';
 import 'package:musan_client/src/ui/drawer/setting_screen.dart';
 import 'package:musan_client/src/ui/order_booking_screens/utils.dart';
 import 'package:musan_client/utils/colors.dart';
-import 'package:musan_client/utils/images.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';

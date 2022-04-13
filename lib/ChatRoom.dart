@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
@@ -10,7 +9,7 @@ import 'utils/common_classes.dart';
 
 class ChatRoom extends StatefulWidget {
   final String chatRoomId;
-  String messageSendBy;
+ final String messageSendBy;
   ChatRoom({this.chatRoomId:"ClientID_WorkshopID_OrderNumber", this.messageSendBy});
 
   @override
@@ -28,7 +27,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   final TextEditingController _message = TextEditingController();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   void onSendMessage() async {
     _scrolList();
@@ -49,9 +47,9 @@ class _ChatRoomState extends State<ChatRoom> {
         print("ValueIS: $value");
         _scrolList();
         var splitListIDs = chatRoomId.split("_");
-        var clientID = splitListIDs[0];
+        // var clientID = splitListIDs[0];
         var privderID = splitListIDs[1];
-        var orderID = splitListIDs[2];
+        // var orderID = splitListIDs[2];
         // String body='{"topic": "$clientID","fcmToken": "string","title": "Message Received","body": "A new message received from workshop",'
         //     '"route": "string","data": "{\"chatID\":"$chatRoomId",\"routeName\":\"ChatRoom\"}"}';
 
@@ -85,7 +83,7 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
   }
 
-  Widget _scrolList() {
+   _scrolList() {
     try{
       _scrollController.animateTo(
         _scrollController.position.maxScrollExtent,

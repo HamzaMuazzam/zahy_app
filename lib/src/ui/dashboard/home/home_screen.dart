@@ -47,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
   var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -54,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
       SharedPreferences.getInstance().then((value) {
         dashboardProvider.setUserId(value.getString(Finals.USER_ID));
-
       });
 
   }
@@ -306,6 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     );
   }
+
   Widget _commonButton(String title,{double bottomPadding:15, int index, Color bntColor=blue,tap}) {
     var dashboardProvider =
     Provider.of<DashboardProvider>(context, listen: false);
@@ -343,3 +344,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
+
+class t{
+  int _a=0;
+
+  int get a => _a;
+
+  set a(int value) {
+    _a = value;
+  }
+}

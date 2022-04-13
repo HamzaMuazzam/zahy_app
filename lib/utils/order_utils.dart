@@ -757,7 +757,7 @@ String setOrderStatus(int i, List<OrderStep> orderSteps) {
     if (i == 0) {
       if (orderSteps[0].orderStepStatus == 0) {
         return "in process".tr;
-        print("Gello");
+
       } else
         return "Completed".tr;
     }
@@ -818,6 +818,8 @@ String setOrderStatus(int i, List<OrderStep> orderSteps) {
   } catch (e) {
     return " ";
   }
+
+  return " ";
 }
 
 bottomSheetToFinalBill(Result result) async {
