@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:musan_client/CashBackScreen.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/api_services/response_models/GetDiscountOffers.dart';
-import 'package:musan_client/api_services/response_models/GetMyCarsByUserId.dart' as report;
+import 'package:musan_client/api_services/response_models/GetMyCarsByUserId.dart'
+    as report;
 import 'package:musan_client/api_services/response_models/OfferOrderCustomReponse.dart';
 import 'package:musan_client/slider/carousel_slider.dart';
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
@@ -31,32 +33,40 @@ import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
-import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart' as Results;
-
+import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart'
+    as Results;
 
 class HomeScreen extends StatefulWidget {
   HomeScreen();
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
+var orderProvider =
+    Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-  var dashboardProvider = Provider.of<DashboardProvider>(Get.context,listen: false);
-  var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
-
+  var dashboardProvider =
+      Provider.of<DashboardProvider>(Get.context, listen: false);
+  var orderScreenProvider =
+      Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  String couponCode="";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future.delayed(Duration.zero, () async {
+      await ApiServices.getCashBack();
+      ApiServices.getCashBackValueOfCoupon();
 
-      SharedPreferences.getInstance().then((value) {
-        dashboardProvider.setUserId(value.getString(Finals.USER_ID));
+    });
+    SharedPreferences.getInstance().then((value) {
+      dashboardProvider.setUserId(value.getString(Finals.USER_ID));
+      couponCode = value.getString(Finals.USER_COUPON,);
+      setState(() {
       });
-
+    });
   }
 
   @override
@@ -65,12 +75,455 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Consumer<DashboardProvider>(builder: (builder, data, _) {
       return Container(
-
         width: Get.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-           Padding(
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Container(
+                  height: 60,
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.75),
+                      borderRadius: BorderRadius.circular(15)),
+                  child: Row(children: [
+                    SizedBox(width: Get.width *0.25,
+                    child: InkWell(onTap: (){
+                      Get.to(CashBackScreen());
+                    },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/home_assets/Wallet.svg',
+                              color: black,
+                              // height: 55,
+                              // scale: 0.3,
+                            ),
+                            SizedBox(width: 5,),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                              Text("${data.isCashBackLoaded && data. promotionCashBackFromJson!=null? "${data.promotionCashBackFromJson.result.amount}":"0"} ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),),
+                              Text("${"SAR".tr}",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: Colors.black),),
+                                SizedBox(height: 8,),
+
+                            ],)
+                            ],
+                        ),
+                      ),
+                    ),
+                    ),
+                    Expanded(child: Center(child: Text("مُصان لخدمات صيانة السيارات")),),
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      width: Get.width *0.25,
+                    child: InkWell(
+                      onTap: (){
+                        Get.to(NotificationScreen());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: SvgPicture.asset(
+                            'assets/home_assets/bell.svg',
+                            color: black
+                        ),
+                      ),
+                    ),),
+
+                    /*SizedBox(width: 5,),
+                    Expanded(child: Row(
+                      children: [
+                        InkWell(onTap: (){
+                          Get.to(CashBackScreen());
+                        },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/home_assets/Wallet.svg',
+                                  color: black,
+                                  // height: 55,
+                                  // scale: 0.3,
+                                ),
+                                SizedBox(width: 5,),
+                                Text("${"SAR".tr}",style: TextStyle(fontSize: 10,fontWeight: FontWeight.bold,color: Colors.black),),
+                                Text("${data.isCashBackLoaded && data. promotionCashBackFromJson!=null? "${data.promotionCashBackFromJson.result.amount}":"0"} ",style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold,color: Colors.black),),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Center(child: Text("مُصان لخدمات صيانة السيارات")),
+                      ],
+                    )),
+                    InkWell(
+                      onTap: (){
+                        Get.to(NotificationScreen());
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SvgPicture.asset(
+                          'assets/home_assets/bell.svg',
+                          color: black
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 5,),*/
+                  ],),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:25),
+              child: Text("مرحباً ${data.userName}",style: TextStyle(color: Colors.black,fontSize: 25,fontWeight: FontWeight.w900),),
+            ),
+            SizedBox(height: 5,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal:25),
+              child: Text("ايش محتاج؟",style: TextStyle(color: Colors.blueGrey,fontSize: 22,fontWeight: FontWeight.bold),),
+            ),
+            Expanded(
+                child: Column(
+              children: [
+                Expanded(flex: 6,child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: InkWell(
+                    onTap: (){
+                      dashboardProvider.isTechnicianOrder=1;
+                      Get.to(CarLocationScreen(isTechnicianOrder: 1));
+                    },
+                    child: Container(
+
+                      child: Row(
+                            children: [
+                              Expanded(child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal:15),
+                                    child: Text("أفضل ورشه ",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                                  ),
+                                  SizedBox(height: 5,),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal:15),
+                                    child: Text("لصيانة السيارة",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                                  ),
+
+
+                                ],),
+
+                              )),
+                              Expanded(child: Container(child: Image.asset("assets/home_assets/Background1.png",fit: BoxFit.fill,),)),
+
+
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                        color: orangeYellow,
+                        borderRadius: BorderRadius.circular(18)
+                      ),
+                      ),
+                  ),
+                )),
+                Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Container(
+                        child: Row(
+                          children: [
+                            Expanded(child: Padding(
+                              padding: const EdgeInsets.only(left: 4),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: midGrey,
+                                    borderRadius: BorderRadius.circular(18)),
+                                child: Column(
+                                  children: [
+                                    Expanded(
+                                        child: InkWell(
+                                          onTap: (){
+                                            bottomForComingSoon("Technician service".tr,"This service will be available soon"
+                                                "\nWe are testing the technician to make the best check car service for you"
+                                                "\nYou can call us directly to take a free consultation at 0507888779".tr);
+                                          },
+                                          child: Container(
+
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal:10),
+                                                  child: Text("فني زائر",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.symmetric(horizontal:10),
+                                                  child: Text("لفحص السيارة",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                                                ),
+
+                                              ],
+                                            ),
+                                          ),
+                                        )),
+                                    Expanded(child: Container(child: Image.asset("assets/home_assets/Background3.png",fit: BoxFit.fill,),)),
+
+                                  ],
+                                ),
+                              ),
+                            )),
+                            Expanded(child: Padding(
+                              padding: const EdgeInsets.only(right: 4),
+
+                              child: InkWell(
+                                onTap: (){
+
+                                  bottomForComingSoon("Pickup service".tr,"This service will be available so soon.\n"
+                                      "We are collecting the best car pickups for you, please keep in touch.".tr);
+
+
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: blue,
+                                      borderRadius: BorderRadius.circular(18)),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                          child: Container(
+
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal:10),
+                                              child: Text("أقرب سطحة",style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(horizontal:10),
+                                              child: Text("لنقل السيارة",style: TextStyle(color: Colors.white,fontSize: 25,fontWeight: FontWeight.w900),),
+                                            ),
+
+                                          ],
+                                        ),
+                                      )),
+                                      Expanded(child: Container(child: Padding(
+                                        padding: const EdgeInsets.only(top: 25,left: 15,right: 15,bottom: 10),
+                                        child: Image.asset("assets/home_assets/background2.png",fit: BoxFit.fill,),
+                                      ),)),
+
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )),
+                          ],
+                        ),
+                      ),
+                    )),
+                Expanded(
+                    flex: 3,
+                    child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Container(
+                    child: Row(children: [
+                      Expanded(child: Center(child: Text("شارك وأربح ${data.couponAmount} ريال",style: TextStyle(color: Colors.black,fontWeight: FontWeight.w900,fontSize: 18),))),
+                      Expanded(child: Center(child: Container(
+                          decoration: BoxDecoration(color: Colors.black,borderRadius: BorderRadius.circular(8)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InkWell(
+                              onTap: (){
+                                Clipboard.setData(ClipboardData(text: couponCode)).then((_){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Coupon '$couponCode' copied to clipboard")));
+                                });
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 3,),
+                                  Text("كود ${couponCode??"...."}",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 16),),
+                                  SizedBox(width: 3,),
+                                  Icon(Icons.copy,color: Colors.white,),
+                                  SizedBox(width: 3,),
+
+                                ],
+                              ),
+                            ),
+                          ))))
+
+                    ],),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                      width: 1.5,
+                    )),
+                  ),
+                )),
+
+                Expanded(
+                  flex: 3,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5,right: 12),
+                      child: Container(
+                        child: Row(children: [
+                          Expanded(child:
+                          InkWell(
+                            onTap: (){
+                              bottomForComingSoon("بنشر","\nخدمة بنشر الكفرات"
+                              "\nهذه الخدمة ستتوفر قريبا\nً");
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text("بنشر",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w900),),
+                                      SizedBox(height: 5,),
+                                      Image.asset("assets/home_assets/i1.png",fit: BoxFit.fill,)
+
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white,
+                                        blue,
+                                      ],
+                                      begin:  Alignment.bottomCenter,
+                                      end:Alignment.topCenter,
+                                      // begin: const FractionalOffset(0.05, 0.09),
+                                      // end: const FractionalOffset(1.0, 0.0),
+                                      stops: [0.0, 0.35],
+                                      tileMode: TileMode.decal),
+                                ),
+                              ),
+                            ),
+                          )),
+                          Expanded(child:
+                          InkWell(
+                            onTap: (){
+                              bottomForComingSoon("بنشربطارية","خدمة تغيير البطارية"
+                              "\nهذه الخدمة ستتوفر قريبا\nً");
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("بطارية",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w900),),
+                                    SizedBox(height: 5,),
+                                    Image.asset("assets/home_assets/i2.png",fit: BoxFit.fill,)
+
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white,
+                                        blue,
+                                      ],
+                                      begin:  Alignment.bottomCenter,
+                                      end:Alignment.topCenter,
+                                      // begin: const FractionalOffset(0.05, 0.09),
+                                      // end: const FractionalOffset(1.0, 0.0),
+                                      stops: [0.0, 0.35],
+                                      tileMode: TileMode.decal),
+                                ),
+                              ),
+                            ),
+                          )),
+                          Expanded(child:
+                          InkWell(
+                            onTap: (){
+
+                              bottomForComingSoon("زينة","خدمة زينة السيارة"
+                              "\nهذه الخدمة ستتوفر قريباً");
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("زينة ",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w900),),
+                                    SizedBox(height: 5,),
+                                    Image.asset("assets/home_assets/i3.png",fit: BoxFit.fill,)
+
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white,
+                                        blue,
+                                      ],
+                                      begin:  Alignment.bottomCenter,
+                                      end:Alignment.topCenter,
+                                      // begin: const FractionalOffset(0.05, 0.09),
+                                      // end: const FractionalOffset(1.0, 0.0),
+                                      stops: [0.0, 0.35],
+                                      tileMode: TileMode.decal),
+                                ),
+                              ),
+                            ),
+                          )),
+                          Expanded(child:
+                          InkWell(
+                            onTap: (){
+
+                              bottomForComingSoon("زجاج","خدمة تغيير زجاج السيارة"
+                              "\nهذه الخدمة ستتوفر قريباً");
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text("زجاج",style: TextStyle(color: Colors.white,fontSize: 22,fontWeight: FontWeight.w900),),
+                                    SizedBox(height: 5,),
+                                    Image.asset("assets/home_assets/i4.png",fit: BoxFit.fill,)
+
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white,
+                                        blue,
+                                      ],
+                                      begin:  Alignment.bottomCenter,
+                                      end:Alignment.topCenter,
+                                      // begin: const FractionalOffset(0.05, 0.09),
+                                      // end: const FractionalOffset(1.0, 0.0),
+                                      stops: [0.0, 0.35],
+                                      tileMode: TileMode.decal),
+                                ),
+                              ),
+                            ),
+                          )),
+
+
+                        ],),
+                ),
+                    )),
+              ],
+            ))
+
+            /*Padding(
              padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
              child: Container(
                width: Get.width,
@@ -255,65 +708,83 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
 
               ],
-            )),
+            )),*/
           ],
         ),
       );
     });
   }
 
-  void bottomForComingSoon(String title,String message){
+  void bottomForComingSoon(String title, String message) {
     Get.bottomSheet(
         Container(
-
-          decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.only(
-            topRight: Radius.circular(15),
-            topLeft: Radius.circular(15),
-          )),
-          child:
-          Column(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(15),
+                topLeft: Radius.circular(15),
+              )),
+          child: Column(
             // shrinkWrap: true,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(height: 15,),
+              SizedBox(
+                height: 15,
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(child: Container(height: 5,width: Get.width/4,color: grey.withOpacity(0.5),)),
+                child: Center(
+                    child: Container(
+                  height: 5,
+                  width: Get.width / 4,
+                  color: grey.withOpacity(0.5),
+                )),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 12,right: 12),
-                child: Text(title,style: TextStyle(color: blue,fontSize: Get.height *0.027,fontWeight: FontWeight.bold),),
+                padding: const EdgeInsets.only(left: 12, right: 12),
+                child: Text(
+                  title,
+                  style: TextStyle(
+                      color: blue,
+                      fontSize: Get.height * 0.027,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-                child: Text(message,style: TextStyle(color: Colors.grey,fontSize:  Get.height *0.02,fontWeight: FontWeight.bold),),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Text(
+                  message,
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: Get.height * 0.02,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              SizedBox(height: 10,),
-
+              SizedBox(
+                height: 10,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: _commonButton("Ok".tr,tap:(){
+                child: _commonButton("Ok".tr, tap: () {
                   Get.back();
                 }),
-              )
-              ,
-              SizedBox(height: 10,),
-
-
-            ],),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
-        isScrollControlled: true
-
-    );
+        isScrollControlled: true);
   }
 
-  Widget _commonButton(String title,{double bottomPadding:15, int index, Color bntColor=blue,tap}) {
-    var dashboardProvider =
-    Provider.of<DashboardProvider>(context, listen: false);
+  Widget _commonButton(String title, {double bottomPadding: 15, int index, Color bntColor = blue, tap}) {
+
     return InkWell(
       onTap: tap,
       child: Padding(
-        padding:  EdgeInsets.only(bottom: bottomPadding),
+        padding: EdgeInsets.only(bottom: bottomPadding),
         child: Container(
           width: Get.width * .8,
           height: Get.height * .06,
@@ -339,18 +810,5 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
-  }
-
-
-}
-
-
-class t{
-  int _a=0;
-
-  int get a => _a;
-
-  set a(int value) {
-    _a = value;
   }
 }

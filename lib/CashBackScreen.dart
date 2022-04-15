@@ -14,13 +14,13 @@ class CashBackScreen extends StatefulWidget {
   @override
   State<CashBackScreen> createState() => _CashBackScreenState();
 }
+var provider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
 class _CashBackScreenState extends State<CashBackScreen> {
   Color barColor = const Color(0xffF0F2F5);
   List selectionList = ["Week", "Month", "Year"];
   int selectionIndex = 0;
   bool isOK = true;
-  var provider = Provider.of<DashboardProvider>(Get.context, listen: false);
 
   @override
   void initState() {

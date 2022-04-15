@@ -90,7 +90,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
               Expanded(child: bottomWidget(0,''.tr, "assets/home_assets/HomeIcon.svg", dashboardProvider,name: 'Home'.tr)),
               Expanded(child: bottomWidget( 1,''.tr,"assets/home_assets/OrderIcon.svg"  , dashboardProvider,name: "Orders".tr)),
-              Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/PlusIcon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
+              Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/homeICentercon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
               Expanded(child: bottomWidget( 2,''.tr, "assets/home_assets/MyCarsIcon.svg", dashboardProvider,name: "My Cars".tr)),
               // Expanded(child: bottomWidget( 3,''.tr, phoneIcon, dashboardProvider)),
 
@@ -149,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       height: scale,
                       color: dashboardProvider.bottomBarCurrentIndex == index
                           ? themeColor
-                          : index==10 ? orangeYellow : icon_grey_color,
+                          : index==10 ? null : icon_grey_color,
                     ),
                   ),
             dashboardProvider.bottomBarCurrentIndex == index
