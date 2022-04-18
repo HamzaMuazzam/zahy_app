@@ -117,8 +117,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
           }
           else if(index==1){
             dashboardProvider.bottomBarCurrentIndex = index;
-            // Get.to(OrderScreen());
-            // return;
           }
           else {
 
@@ -130,8 +128,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         }
         else if (index == 10) {
-          orderDialoge();
-
+          // orderDialoge();
+          bottomSheetForHelpCall();
         }
         setState(() {});
       },
@@ -170,7 +168,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   orderDialoge(){
     Get.bottomSheet(Container(
-      // height: Get.height * 0.75,
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

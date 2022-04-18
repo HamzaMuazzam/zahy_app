@@ -68,8 +68,8 @@ class LoginProvider extends ChangeNotifier {
       await value.setString(Finals.USER_ID,loginReponse.result.user.id.toString()).then((value) => null);
       await value.setString(Finals.USER_NAME,loginReponse.result.user.name).then((value) => null);
       await value.setString(Finals.USER_TYPE_ID,loginReponse.result.user.userTypeId.toString()).then((value) => null);
-      await value.setString(Finals.USER_PHONE,loginReponse.result.user.phoneNumber).then((value) => null);
-      await value.setString(Finals.USER_COUPON,loginReponse.result.user.couponCode).then((value) => null);
+      await value.setString(Finals.USER_PHONE,loginReponse.result.user.phoneNumber??"").then((value) => null);
+      await value.setString(Finals.USER_COUPON,loginReponse.result.user.couponCode??"").then((value) => null);
       userMobileNumber=loginReponse.result.user.phoneNumber;
 
       Get.offAll(DashboardScreen());

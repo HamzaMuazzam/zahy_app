@@ -23,7 +23,6 @@ import 'package:musan_client/api_services/response_models/PaymentHistoryResponse
 import 'package:musan_client/api_services/response_models/PromotionCashBack.dart';
 import 'package:musan_client/api_services/response_models/UserAllPaymentMethod.dart';
 import 'package:musan_client/lib/my_cars_screens.dart';
-import 'package:musan_client/main2.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/src/ui/dashboard/dashboard_screen.dart';
 import 'package:musan_client/src/ui/dashboard/help/help_screen.dart';

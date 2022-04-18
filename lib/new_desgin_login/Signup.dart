@@ -8,7 +8,7 @@ import 'package:musan_client/src/ui/drawer/TermsConditions.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
 
-import 'package:sign_in_apple/sign_in_apple.dart';
+// import 'package:sign_in_apple/sign_in_apple.dart';
 
 class Signup extends StatefulWidget {
   const Signup({Key key}) : super(key: key);

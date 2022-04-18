@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (context) => MyCarsScreenProvider())
           ],
           child: GetMaterialApp(
+            theme: ThemeData(fontFamily: 'noto_all'),
             debugShowCheckedModeBanner: false,
               locale: new Locale(languageCode,''),
               fallbackLocale: Locale(languageCode, ''),

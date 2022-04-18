@@ -48,11 +48,7 @@ class _MobileVerificationState extends State<MobileVerification> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 1,), () async {
-      var provider=Provider.of<LoginProvider>(context,listen: false);
       _sendOtp(provider);
-      // Get.dialog(Center(child: CircularProgressIndicator()));
-      // String body ='{"mobile": "${provider.userMobileNumber}", "deviceToken": "string", "fcmToken": "string" }';
-      // ApiServices.loginAccount(body, context, provider.userMobileNumber);
     });
   }
 
@@ -129,6 +125,7 @@ class _MobileVerificationState extends State<MobileVerification> {
           this.resendToken = resendToken;
           this.verificationId = verificationId;
           TOASTS("Code sent".tr);
+          print("Code sent");
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           this.verificationId = verificationId;
@@ -270,6 +267,7 @@ class _MobileVerificationState extends State<MobileVerification> {
                         Padding(
                           padding: const EdgeInsets.all(15.0),
                           child: Container(
+                            height: Get.height * .08,
                             decoration: BoxDecoration(
                                 color: Colors.grey.shade200,
                                 borderRadius: BorderRadius.circular(18)),
@@ -280,7 +278,7 @@ class _MobileVerificationState extends State<MobileVerification> {
                               controller: numberController,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
-                                fontSize: Get.width*0.15,
+                                fontSize: Get.width*0.075,
                               ),
                               onChanged: (value){
                                 if(value.length==6){
@@ -289,9 +287,9 @@ class _MobileVerificationState extends State<MobileVerification> {
                               },
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
-                                  // contentPadding: EdgeInsets.only(left: 10,right: 10),
+                                  contentPadding: EdgeInsets.only(left: 10,right: 10),
                                   hintText: '  #  #  #  #  #  #  #   #  #   #  #   #  #   #  #  ',
-                                  hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: Get.width*0.15,),
+                                  hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: Get.width*0.085,),
                               border: InputBorder.none
                               ),
                             ),
@@ -313,7 +311,6 @@ class _MobileVerificationState extends State<MobileVerification> {
                             ),
                             SizedBox(width: 4),
                             istimerCompleted ?  Row(children: [
-                              SvgPicture.asset('assets/icons8-refresh.svg',color: blue,height: 18,),
                               Text(
                                 ' Resend the code '.tr,
                                 style: TextStyle(

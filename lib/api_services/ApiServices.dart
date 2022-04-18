@@ -1789,7 +1789,7 @@ class ApiServices {
 
     var body = await response.stream.bytesToString();
 
-    logger.e(body);
+    // logger.e(body);
 
     if (response.statusCode == 200) {
       dashboardProvider.setCashback(true,promotionCashBackFromJson(body));
