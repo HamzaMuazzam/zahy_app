@@ -8,7 +8,7 @@ import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/api_services/response_models/GetDiscountOffers.dart';
 import 'package:musan_client/api_services/response_models/GetMyCarsByUserId.dart'
-    as report;
+as report;
 import 'package:musan_client/api_services/response_models/OfferOrderCustomReponse.dart';
 import 'package:musan_client/slider/carousel_slider.dart';
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
@@ -28,13 +28,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../OrderOfferScreen.dart';
 import '../DiscountList.dart';
 import 'package:musan_client/api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart'
-    as GetcompletedOrders;
+as GetcompletedOrders;
 import 'dart:math' as math;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/services.dart';
 
 import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart'
-    as Results;
+as Results;
 
 class HomeScreen extends StatefulWidget {
   HomeScreen();
@@ -44,13 +44,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 var orderProvider =
-    Provider.of<OrderScreenProvider>(Get.context, listen: false);
+Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
 class _HomeScreenState extends State<HomeScreen> {
   var dashboardProvider =
-      Provider.of<DashboardProvider>(Get.context, listen: false);
+  Provider.of<DashboardProvider>(Get.context, listen: false);
   var orderScreenProvider =
-      Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  Provider.of<OrderScreenProvider>(Get.context, listen: false);
   String couponCode = "";
 
   @override
@@ -99,12 +99,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: Center(
                               child: Text(
-                            "مُصان "
-                            "لخدمات السيارات",
-                            style: TextStyle(
-                                fontSize: Get.width * 0.055,
-                                fontWeight: FontWeight.w900),
-                          )),
+                                "مُصان "
+                                    "لخدمات السيارات",
+                                style: TextStyle(
+                                    fontSize: Get.width * 0.055,
+                                    fontWeight: FontWeight.w900),
+                              )),
                         ),
                       ),
                       InkWell(
@@ -128,7 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "${data.isCashBackLoaded && data.promotionCashBackFromJson != null ? "${data.promotionCashBackFromJson.result.amount}" : "0"} ",
+                                    "${data.isCashBackLoaded &&
+                                        data.promotionCashBackFromJson != null
+                                        ? "${data.promotionCashBackFromJson
+                                        .result.amount}"
+                                        : "0"} ",
                                     style: TextStyle(
                                         height: 1.45,
                                         letterSpacing: 1.0,
@@ -232,507 +236,552 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Expanded(
                 child: Column(
-              children: [
-                Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12,right: 12,top: 15),
-                      child: InkWell(
-                        onTap: () {
-                          dashboardProvider.isTechnicianOrder = 1;
-                          Get.to(CarLocationScreen(isTechnicianOrder: 1));
-                        },
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      child: Text(
-                                        "أفضل ورشه\nلصيانة السيارة",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "noto_all",
-                                          fontSize: Get.width * 0.065,
-                                          fontWeight: FontWeight.w900,
-                                          height: 1.45,
-                                          letterSpacing: 1.0,
+                  children: [
+                    Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, top: 15),
+                          child: InkWell(
+                            onTap: () {
+                              dashboardProvider.isTechnicianOrder = 1;
+                              Get.to(CarLocationScreen(isTechnicianOrder: 1));
+                            },
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment
+                                          .center,
+                                      crossAxisAlignment: CrossAxisAlignment
+                                          .start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15),
+                                          child: Text(
+                                            "أفضل ورشه\nلصيانة السيارة",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: "noto_all",
+                                              fontSize: Get.width * 0.065,
+                                              fontWeight: FontWeight.w900,
+                                              height: 1.45,
+                                              letterSpacing: 1.0,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                        child: Image.asset(
+                                          "assets/home_assets/Background1.png",
+                                          fit: BoxFit.fill,
+                                          height: Get.width * 0.25,
+                                        ),
+                                      )),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                  color: Color(0xffE8BC2A),
+                                  borderRadius: BorderRadius.circular(18)),
+                            ),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 6,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, top: 10, bottom: 10),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 4),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Color(0xff858585),
+                                            borderRadius: BorderRadius.circular(
+                                                18)),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    bottomForComingSoon(
+                                                        "Technician service".tr,
+                                                        "This service will be available soon"
+                                                            "\nWe are testing the technician to make the best check car service for you"
+                                                            "\nYou can call us directly to take a free consultation at 0507888779"
+                                                            .tr);
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15),
+                                                    child: Container(
+                                                      width: Get.width,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            "فني زائر",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                height: 1.48,
+                                                                letterSpacing: 1.0,
+                                                                fontSize: Get
+                                                                    .width *
+                                                                    0.06,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            "لفحص السيارة",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: Get
+                                                                    .width *
+                                                                    0.055,
+                                                                height: 1.45,
+                                                                letterSpacing: 1.0,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w900),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )),
+                                            Container(
+                                              child: Image.asset(
+                                                "assets/home_assets/Background3.png",
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                  child: Container(
-                                child: Image.asset(
-                                  "assets/home_assets/Background1.png",
-                                  fit: BoxFit.fill,
-                                  height: Get.width * 0.25,
-                                ),
-                              )),
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                              color: Color(0xffE8BC2A),
-                              borderRadius: BorderRadius.circular(18)),
-                        ),
-                      ),
-                    )),
-                Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12,right: 12,top: 10,bottom: 10),
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(left: 4),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xff858585),
-                                    borderRadius: BorderRadius.circular(18)),
-                                child: Column(
-                                  children: [
-                                    Expanded(
-                                        child: InkWell(
-                                      onTap: () {
-                                        bottomForComingSoon(
-                                            "Technician service".tr,
-                                            "This service will be available soon"
-                                                    "\nWe are testing the technician to make the best check car service for you"
-                                                    "\nYou can call us directly to take a free consultation at 0507888779"
-                                                .tr);
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
+                                    )),
+                                Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(right: 4),
+                                      child: InkWell(
+                                        onTap: () {
+                                          bottomForComingSoon(
+                                              "Pickup service".tr,
+                                              "This service will be available so soon.\n"
+                                                  "We are collecting the best car pickups for you, please keep in touch."
+                                                  .tr);
+                                        },
                                         child: Container(
-                                          width: Get.width,
+                                          decoration: BoxDecoration(
+                                              color: Color(0xff419FCF),
+                                              borderRadius: BorderRadius
+                                                  .circular(18)),
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                "فني زائر",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    height: 1.45,
-                                                    letterSpacing: 1.0,
-                                                    fontSize: Get.width * 0.06,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
                                               SizedBox(
                                                 height: 10,
                                               ),
-                                              Text(
-                                                "لفحص السيارة",
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: Get.width * 0.065,
-                                                    height: 1.45,
-                                                    letterSpacing: 1.0,
-                                                    fontWeight:
-                                                        FontWeight.w900),
+                                              Expanded(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 15),
+                                                    child: Container(
+                                                      width: Get.width,
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment.end,
+                                                        children: [
+                                                          Text(
+                                                            "أقرب سطحة",
+                                                            style: TextStyle(
+                                                                height: 1.45,
+                                                                letterSpacing: 1.0,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: Get
+                                                                    .width *
+                                                                    0.055,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                          Text(
+                                                            "لنقل السيارة",
+                                                            style: TextStyle(
+                                                                height: 1.45,
+                                                                letterSpacing: 1.0,
+                                                                color: Colors
+                                                                    .white,
+                                                                fontSize: Get
+                                                                    .width *
+                                                                    0.075,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w900),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 10,
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )),
+                                              Container(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                      top: 0,
+                                                      left: 15,
+                                                      right: 15,
+                                                      bottom: 0),
+                                                  child: Image.asset(
+                                                    "assets/home_assets/background2.png",
+                                                    fit: BoxFit.fill,
+                                                    height: Get.width * 0.16,
+                                                  ),
+                                                ),
                                               ),
                                             ],
                                           ),
                                         ),
                                       ),
                                     )),
-                                    Container(
-                                      child: Image.asset(
-                                        "assets/home_assets/Background3.png",
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: InkWell(
-                                onTap: () {
-                                  bottomForComingSoon(
-                                      "Pickup service".tr,
-                                      "This service will be available so soon.\n"
-                                              "We are collecting the best car pickups for you, please keep in touch."
-                                          .tr);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff419FCF),
-                                      borderRadius: BorderRadius.circular(18)),
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Expanded(
-                                          child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 15),
-                                        child: Container(
-                                          width: Get.width,
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                "أقرب سطحة",
-                                                style: TextStyle(
-                                                    height: 1.45,
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.white,
-                                                    fontSize: Get.width * 0.055,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              Text(
-                                                "لنقل السيارة",
-                                                style: TextStyle(
-                                                    height: 1.45,
-                                                    letterSpacing: 1.0,
-                                                    color: Colors.white,
-                                                    fontSize: Get.width * 0.075,
-                                                    fontWeight:
-                                                        FontWeight.w900),
-                                              ),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )),
-                                      Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              top: 0,
-                                              left: 15,
-                                              right: 15,
-                                              bottom: 0),
-                                          child: Image.asset(
-                                            "assets/home_assets/background2.png",
-                                            fit: BoxFit.fill,
-                                            height: Get.width * 0.16,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                    )),
-                Expanded(
-                    flex: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12,right: 12,bottom: 10),
-                      child: Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Center(
-                                child: Text(
-                              "شارك وأربح ${data.couponAmount} ريال",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  height: 1.45,
-                                  letterSpacing: 1.0,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: Get.width * 0.055),
-                            )),
-                            Center(
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.black,
-                                        borderRadius: BorderRadius.circular(8)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Clipboard.setData(ClipboardData(
-                                                  text: couponCode))
-                                              .then((_) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                                    content: Text(
-                                                        "Coupon '$couponCode' copied to clipboard")));
-                                          });
-                                        },
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              "كود ${couponCode ?? "...."}",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  height: 1.45,
-                                                  letterSpacing: 1.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16),
-                                            ),
-                                            SizedBox(
-                                              width: 3,
-                                            ),
-                                            Icon(
-                                              Icons.copy,
-                                              color: Colors.white,
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    )))
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              width: 1.5,
-                            )),
-                      ),
-                    )),
-                Expanded(
-                    flex: 3,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12),
-                      child: Container(
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                bottomForComingSoon(
-                                    "خدمة بنشر الكفرات",
-                                        "هذه الخدمة ستتوفر قريباً");
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Text(
-                                        "بنشر",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: Get.height*0.025,
-                                            height: 1.45,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Expanded(
-                                        child: Image.asset(
-                                          "assets/home_assets/i1.png",
-                                        ),
-                                      ),
-                                      SizedBox(height: 10,),
-
-
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          Colors.white,
-                                          Color(0xff419FCF),
-                                        ],
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        // begin: const FractionalOffset(0.05, 0.09),
-                                        // end: const FractionalOffset(1.0, 0.0),
-                                        stops: [0.0, 0.35],
-                                        tileMode: TileMode.decal),
-                                  ),
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                bottomForComingSoon(
-                                    "خدمة تغيير البطارية",
-                                        "هذه الخدمة ستتوفر قريباً");
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 10,),
-                                      Text(
-                                        "بطارية",
-                                        style: TextStyle(
-                                            height: 1.45,
-                                            letterSpacing: 1.0,
-                                            color: Colors.white,
-                                            fontSize:  Get.height*0.025,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-
-                                      Expanded(
-                                        child: Image.asset(
-                                          "assets/home_assets/i2.png",
-                                        ),
-                                      ),
-                                      SizedBox(height: 0,),
-
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          Colors.white,
-                                          Color(0xff419FCF),
-                                        ],
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        // begin: const FractionalOffset(0.05, 0.09),
-                                        // end: const FractionalOffset(1.0, 0.0),
-                                        stops: [0.0, 0.35],
-                                        tileMode: TileMode.decal),
-                                  ),
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                bottomForComingSoon(
-                                    "خدمة زينة السيارة",
-                                        "هذه الخدمة ستتوفر قريباً");
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(height: 10,),
-                                      Text(
-                                        "زينة ",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:  Get.height*0.025,
-                                            height: 1.45,
-                                            letterSpacing: 1.0,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-
-                                      Expanded(
-                                        child: Image.asset(
-                                          "assets/home_assets/i3.png",
-                                        ),
-                                      ),
-                                      SizedBox(height: 10,),
-
-                                    ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          Colors.white,
-                                          Color(0xff419FCF),
-                                        ],
-                                        begin: Alignment.bottomCenter,
-                                        end: Alignment.topCenter,
-                                        // begin: const FractionalOffset(0.05, 0.09),
-                                        // end: const FractionalOffset(1.0, 0.0),
-                                        stops: [0.0, 0.35],
-                                        tileMode: TileMode.decal),
-                                  ),
-                                ),
-                              ),
-                            )),
-                            Expanded(
-                                child: InkWell(
-                              onTap: () {
-                                bottomForComingSoon(
-                                    "خدمة تغيير زجاج السيارة",
-                                        "هذه الخدمة ستتوفر قريباً");
-                              },
-                              child: Container(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "زجاج",
+                              ],
+                            ),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 12, right: 12, bottom: 10),
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Center(
+                                    child: Text(
+                                      "شارك وأربح ${data.couponAmount} ريال",
                                       style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:  Get.height*0.025,
+                                          color: Colors.black,
                                           height: 1.45,
                                           letterSpacing: 1.0,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    Expanded(
-                                      child: Image.asset(
-                                        "assets/home_assets/i4.png",
+                                          fontWeight: FontWeight.w900,
+                                          fontSize: Get.width * 0.055),
+                                    )),
+                                Center(
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                            color: Colors.black,
+                                            borderRadius: BorderRadius.circular(
+                                                8)),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: couponCode))
+                                                  .then((_) {
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(SnackBar(
+                                                    content: Text(
+                                                        "Coupon '${couponCode ??
+                                                            ""}' copied to clipboard")));
+                                              });
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Text(
+                                                  "كود ${couponCode ?? "...."}",
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      height: 1.45,
+                                                      letterSpacing: 1.0,
+                                                      fontWeight: FontWeight
+                                                          .bold,
+                                                      fontSize: 16),
+                                                ),
+                                                SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Icon(
+                                                  Icons.copy,
+                                                  color: Colors.white,
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        )))
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  width: 1.5,
+                                )),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 3,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 12, right: 12),
+                          child: Container(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        bottomForComingSoon(
+                                            "خدمة بنشر الكفرات",
+                                            "هذه الخدمة ستتوفر قريباً");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
+                                            children: [
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                "بنشر",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: Get.height *
+                                                        0.025,
+                                                    height: 1.45,
+                                                    letterSpacing: 1.0,
+                                                    fontWeight: FontWeight
+                                                        .w900),
+                                              ),
+                                              SizedBox(
+                                                height: 10,
+                                              ),
+                                              Expanded(
+                                                child: Image.asset(
+                                                  "assets/home_assets/i1.png",
+                                                ),
+                                              ),
+                                              SizedBox(height: 10,),
+
+
+                                            ],
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                20),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white,
+                                                  Color(0xff419FCF),
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter,
+                                                // begin: const FractionalOffset(0.05, 0.09),
+                                                // end: const FractionalOffset(1.0, 0.0),
+                                                stops: [0.0, 0.35],
+                                                tileMode: TileMode.decal),
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 10,),
-                                  ],
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  gradient: LinearGradient(
-                                      colors: [
-                                        Colors.white,
-                                        Color(0xff419FCF),
-                                      ],
-                                      begin: Alignment.bottomCenter,
-                                      end: Alignment.topCenter,
-                                      // begin: const FractionalOffset(0.05, 0.09),
-                                      // end: const FractionalOffset(1.0, 0.0),
-                                      stops: [0.0, 0.35],
-                                      tileMode: TileMode.decal),
-                                ),
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                    )),
-              ],
-            ))
+                                    )),
+                                Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        bottomForComingSoon(
+                                            "خدمة تغيير البطارية",
+                                            "هذه الخدمة ستتوفر قريباً");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
+                                            children: [
+                                              SizedBox(height: 10,),
+                                              Text(
+                                                "بطارية",
+                                                style: TextStyle(
+                                                    height: 1.45,
+                                                    letterSpacing: 1.0,
+                                                    color: Colors.white,
+                                                    fontSize: Get.height *
+                                                        0.025,
+                                                    fontWeight: FontWeight
+                                                        .w900),
+                                              ),
+
+                                              Expanded(
+                                                child: Image.asset(
+                                                  "assets/home_assets/i2.png",
+                                                ),
+                                              ),
+                                              SizedBox(height: 0,),
+
+                                            ],
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                20),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white,
+                                                  Color(0xff419FCF),
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter,
+                                                // begin: const FractionalOffset(0.05, 0.09),
+                                                // end: const FractionalOffset(1.0, 0.0),
+                                                stops: [0.0, 0.35],
+                                                tileMode: TileMode.decal),
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                                Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        bottomForComingSoon(
+                                            "خدمة زينة السيارة",
+                                            "هذه الخدمة ستتوفر قريباً");
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left: 5),
+                                        child: Container(
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .center,
+                                            children: [
+                                              SizedBox(height: 10,),
+                                              Text(
+                                                "زينة ",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: Get.height *
+                                                        0.025,
+                                                    height: 1.45,
+                                                    letterSpacing: 1.0,
+                                                    fontWeight: FontWeight
+                                                        .w900),
+                                              ),
+
+                                              Expanded(
+                                                child: Image.asset(
+                                                  "assets/home_assets/i3.png",
+                                                ),
+                                              ),
+                                              SizedBox(height: 10,),
+
+                                            ],
+                                          ),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                20),
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white,
+                                                  Color(0xff419FCF),
+                                                ],
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter,
+                                                // begin: const FractionalOffset(0.05, 0.09),
+                                                // end: const FractionalOffset(1.0, 0.0),
+                                                stops: [0.0, 0.35],
+                                                tileMode: TileMode.decal),
+                                          ),
+                                        ),
+                                      ),
+                                    )),
+                                Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        bottomForComingSoon(
+                                            "خدمة تغيير زجاج السيارة",
+                                            "هذه الخدمة ستتوفر قريباً");
+                                      },
+                                      child: Container(
+                                        child: Column(
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .center,
+                                          children: [
+                                            SizedBox(
+                                              height: 10,
+                                            ),
+                                            Text(
+                                              "زجاج",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: Get.height * 0.025,
+                                                  height: 1.45,
+                                                  letterSpacing: 1.0,
+                                                  fontWeight: FontWeight.w900),
+                                            ),
+                                            Expanded(
+                                              child: Image.asset(
+                                                "assets/home_assets/i4.png",
+                                              ),
+                                            ),
+                                            SizedBox(height: 10,),
+                                          ],
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              20),
+                                          gradient: LinearGradient(
+                                              colors: [
+                                                Colors.white,
+                                                Color(0xff419FCF),
+                                              ],
+                                              begin: Alignment.bottomCenter,
+                                              end: Alignment.topCenter,
+                                              // begin: const FractionalOffset(0.05, 0.09),
+                                              // end: const FractionalOffset(1.0, 0.0),
+                                              stops: [0.0, 0.35],
+                                              tileMode: TileMode.decal),
+                                        ),
+                                      ),
+                                    )),
+                              ],
+                            ),
+                          ),
+                        )),
+                  ],
+                ))
 
             /*Padding(
              padding: const EdgeInsets.only(left: 15,right: 15,top: 15),
@@ -946,10 +995,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Container(
-                  height: 5,
-                  width: Get.width / 4,
-                  color: grey.withOpacity(0.5),
-                )),
+                      height: 5,
+                      width: Get.width / 4,
+                      color: grey.withOpacity(0.5),
+                    )),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 12, right: 12),
@@ -963,7 +1012,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
                   message,
                   style: TextStyle(

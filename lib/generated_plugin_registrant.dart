@@ -4,6 +4,7 @@
 
 // ignore_for_file: directives_ordering
 // ignore_for_file: lines_longer_than_80_chars
+// ignore_for_file: depend_on_referenced_packages
 
 import 'package:assets_audio_player_web/web/assets_audio_player_web.dart';
 import 'package:cloud_firestore_web/cloud_firestore_web.dart';
