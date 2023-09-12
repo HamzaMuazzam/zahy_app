@@ -25,52 +25,46 @@ The navigation delegate is set to block navigation to the youtube website.
 ''';
 
 class PaymentWebView extends StatefulWidget {
-
   final String url;
   // https://mucp.deeps.info/Home/Payment?userId=1&orderId=12&isCash=false&amount=310
-   PaymentWebView({this.url});
+  PaymentWebView({this.url});
 
   @override
   _PaymentWebViewState createState() => _PaymentWebViewState(this.url);
 }
 
 class _PaymentWebViewState extends State<PaymentWebView> {
+  String url;
 
-
-
-    String url;
-
-
-  _PaymentWebViewState(url){
-    this.url=url;
-
+  _PaymentWebViewState(url) {
+    this.url = url;
   }
-  final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
+  final Completer<WebViewController> _controller = Completer<WebViewController>();
 
   @override
   void initState() {
     super.initState();
-    analytics.logScreenView(screenName: "PaymentWebView",screenClass:"PaymentWebView");
+    analytics.logScreenView(screenName: "PaymentWebView", screenClass: "PaymentWebView");
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
     // Get.to(page)
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: (){
-          Get.back();
-
-        },icon: Icon(Icons.arrow_back,)),
+        leading: IconButton(
+            onPressed: () {
+              Get.back();
+            },
+            icon: Icon(
+              Icons.arrow_back,
+            )),
         title: Text('Payment'.tr),
         // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
         // actions: <Widget>[
         //   NavigationControls(_controller.future),
-          // SampleMenu(_controller.future),
+        // SampleMenu(_controller.future),
         // ],
       ),
       // We're using a Builder here so we have a context that is below the Scaffold
@@ -101,12 +95,9 @@ class _PaymentWebViewState extends State<PaymentWebView> {
           },
           onPageFinished: (String url) {
             print('Page finished loading: $url');
-            if(url.contains('message=Succeeded') && url.contains('status=paid') ){
+            if (url.contains('message=Succeeded') && url.contains('status=paid')) {
               Get.back(result: true);
             }
-
-
-
           },
           gestureNavigationEnabled: true,
         );
@@ -121,7 +112,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
         name: 'Toaster',
         onMessageReceived: (JavascriptMessage message) {
           // ignore: deprecated_member_use
-          Scaffold.of(context).showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(message.message)),
           );
         });
@@ -130,14 +121,13 @@ class _PaymentWebViewState extends State<PaymentWebView> {
   Widget favoriteButton() {
     return FutureBuilder<WebViewController>(
         future: _controller.future,
-        builder: (BuildContext context,
-            AsyncSnapshot<WebViewController> controller) {
+        builder: (BuildContext context, AsyncSnapshot<WebViewController> controller) {
           if (controller.hasData) {
             return FloatingActionButton(
               onPressed: () async {
                 final String url = (await controller.data.currentUrl());
                 // ignore: deprecated_member_use
-                Scaffold.of(context).showSnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Favorited $url')),
                 );
               },
@@ -169,8 +159,7 @@ class SampleMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
       future: controller,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> controller) {
+      builder: (BuildContext context, AsyncSnapshot<WebViewController> controller) {
         return PopupMenuButton<MenuOptions>(
           onSelected: (MenuOptions value) {
             switch (value) {
@@ -233,20 +222,17 @@ class SampleMenu extends StatelessWidget {
     );
   }
 
-  void _onShowUserAgent(
-      WebViewController controller, BuildContext context) async {
+  void _onShowUserAgent(WebViewController controller, BuildContext context) async {
     // Send a message with the user agent string to the Toaster JavaScript channel we registered
     // with the WebView.
-    await controller.runJavascriptReturningResult(
-        'Toaster.postMessage("User Agent: " + navigator.userAgent);');
+    await controller
+        .runJavascriptReturningResult('Toaster.postMessage("User Agent: " + navigator.userAgent);');
   }
 
-  void _onListCookies(
-      WebViewController controller, BuildContext context) async {
-    final String cookies =
-    await controller.runJavascriptReturningResult('document.cookie');
+  void _onListCookies(WebViewController controller, BuildContext context) async {
+    final String cookies = await controller.runJavascriptReturningResult('document.cookie');
     // ignore: deprecated_member_use
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         mainAxisSize: MainAxisSize.min,
@@ -262,7 +248,7 @@ class SampleMenu extends StatelessWidget {
     await controller.runJavascriptReturningResult(
         'caches.open("test_caches_entry"); localStorage["test_localStorage"] = "dummy_entry";');
     // ignore: deprecated_member_use
-    Scaffold.of(context).showSnackBar(const SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text('Added a test entry to cache.'),
     ));
   }
@@ -276,7 +262,7 @@ class SampleMenu extends StatelessWidget {
   void _onClearCache(WebViewController controller, BuildContext context) async {
     await controller.clearCache();
     // ignore: deprecated_member_use
-    Scaffold.of(context).showSnackBar(const SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
       content: Text("Cache cleared."),
     ));
   }
@@ -288,15 +274,13 @@ class SampleMenu extends StatelessWidget {
       message = 'There are no cookies.';
     }
     // ignore: deprecated_member_use
-    Scaffold.of(context).showSnackBar(SnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(message),
     ));
   }
 
-  void _onNavigationDelegateExample(
-      WebViewController controller, BuildContext context) async {
-    final String contentBase64 =
-    base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
+  void _onNavigationDelegateExample(WebViewController controller, BuildContext context) async {
+    final String contentBase64 = base64Encode(const Utf8Encoder().convert(kNavigationExamplePage));
     await controller.loadUrl('data:text/html;base64,$contentBase64');
   }
 
@@ -305,8 +289,7 @@ class SampleMenu extends StatelessWidget {
       return Container();
     }
     final List<String> cookieList = cookies.split(';');
-    final Iterable<Text> cookieWidgets =
-    cookieList.map((String cookie) => Text(cookie));
+    final Iterable<Text> cookieWidgets = cookieList.map((String cookie) => Text(cookie));
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
@@ -325,10 +308,8 @@ class NavigationControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<WebViewController>(
       future: _webViewControllerFuture,
-      builder:
-          (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
-        final bool webViewReady =
-            snapshot.connectionState == ConnectionState.done;
+      builder: (BuildContext context, AsyncSnapshot<WebViewController> snapshot) {
+        final bool webViewReady = snapshot.connectionState == ConnectionState.done;
         final WebViewController controller = snapshot.data;
         return Row(
           children: <Widget>[
@@ -337,41 +318,40 @@ class NavigationControls extends StatelessWidget {
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoBack()) {
-                  await controller.goBack();
-                } else {
-                  // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(content: Text("No back history item")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller.canGoBack()) {
+                        await controller.goBack();
+                      } else {
+                        // ignore: deprecated_member_use
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("No back history item")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_ios),
               onPressed: !webViewReady
                   ? null
                   : () async {
-                if (await controller.canGoForward()) {
-                  await controller.goForward();
-                } else {
-                  // ignore: deprecated_member_use
-                  Scaffold.of(context).showSnackBar(
-                    const SnackBar(
-                        content: Text("No forward history item")),
-                  );
-                  return;
-                }
-              },
+                      if (await controller.canGoForward()) {
+                        await controller.goForward();
+                      } else {
+                        // ignore: deprecated_member_use
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("No forward history item")),
+                        );
+                        return;
+                      }
+                    },
             ),
             IconButton(
               icon: const Icon(Icons.replay),
               onPressed: !webViewReady
                   ? null
                   : () {
-                controller.reload();
-              },
+                      controller.reload();
+                    },
             ),
           ],
         );

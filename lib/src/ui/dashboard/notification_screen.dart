@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
- import 'package:get/get.dart';
+import 'package:get/get.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/response_models/GetNotification.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:provider/provider.dart';
+
 class NotificationScreen extends StatefulWidget {
   NotificationScreen();
   @override
@@ -17,67 +18,67 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     ApiServices.getNotifications();
     super.initState();
-    analytics.logScreenView(screenName: "NotificationScreen",screenClass:"NotificationScreen");
-
+    analytics.logScreenView(screenName: "NotificationScreen", screenClass: "NotificationScreen");
   }
+
   @override
-  Widget build(BuildContext context)=> Consumer<DashboardProvider>(builder: (builder,data,child)=>Scaffold(
-
-    backgroundColor: screenBgColor,
-
-    appBar: AppBar(
-      backgroundColor: screenBgColor,
-      centerTitle: true,
-      leading: IconButton(
-        icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
-        onPressed: () => Get.back(),
-      ),
-      elevation: 0,
-      title: Text(
-        'Notifications'.tr,
-        style: TextStyle(
-          color: headingTextColor,
-          fontSize: Get.height * .026,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    ),
-
-    body: data.isNotiDataLoaded
-        ?  SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: Get.height * .02),
-          child: Column(
-            children: List.generate(data.notificationFromJson.result.length, (index) {
-              return notificationWidget(data.notificationFromJson.result[index]);
-            }),
-          ),
-        )) : Center(child: CircularProgressIndicator(color: blue,),),
-
-  ));
+  Widget build(BuildContext context) => Consumer<DashboardProvider>(
+      builder: (builder, data, child) => Scaffold(
+            backgroundColor: screenBgColor,
+            appBar: AppBar(
+              backgroundColor: screenBgColor,
+              centerTitle: true,
+              leading: IconButton(
+                icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
+                onPressed: () => Get.back(),
+              ),
+              elevation: 0,
+              title: Text(
+                'Notifications'.tr,
+                style: TextStyle(
+                  color: headingTextColor,
+                  fontSize: Get.height * .026,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            body: data.isNotiDataLoaded
+                ? SingleChildScrollView(
+                    child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: Get.height * .02),
+                    child: Column(
+                      children: List.generate(data.notificationFromJson.result.length, (index) {
+                        return notificationWidget(data.notificationFromJson.result[index]);
+                      }),
+                    ),
+                  ))
+                : Center(
+                    child: CircularProgressIndicator(
+                      color: blue,
+                    ),
+                  ),
+          ));
   notificationWidget(Result result) {
     return InkWell(
-      onTap: ()async{
+      onTap: () async {
         await showDialog(
-            context: context,
-            builder: (context) => new AlertDialog(
-          title: new Text('${result.title} '),
-          content: Text(
-              '${result.message} '),
-          actions: <Widget>[
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('${result.title} '),
+            content: Text('${result.message} '),
+            actions: <Widget>[
+              new Text("${"Time".tr}: ${result.notificationTime}"),
+              new ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                  ApiServices.markAsReadNotification(result.id);
 
-            new Text("${"Time".tr}: ${result.notificationTime}"),
-            new FlatButton(
-              onPressed: () {
-                Get.back();
-                ApiServices.markAsReadNotification(result.id);
-
-                // dismisses only the dialog and returns nothing
-              },
-              child: new Text('Mark as read'.tr),
-            ),
-          ],
-        ),
+                  // dismisses only the dialog and returns nothing
+                },
+                child: new Text('Mark as read'.tr),
+              ),
+            ],
+          ),
         );
       },
       child: Container(
