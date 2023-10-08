@@ -14,127 +14,160 @@ import 'dart:math' as math;
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({Key key}) : super(key: key);
+
   @override
   _OnBoardingScreenState createState() => _OnBoardingScreenState();
 }
+
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   PageController homePagePictureIndicatorController = new PageController();
-      var list=[
-        "assets/images/onboarding1.svg",
-        "assets/images/2.svg",
-        "assets/images/3.svg"
-      ];
-      int index=0;
-    @override
-    Widget build(BuildContext context) {
+  var list = ["assets/images/onboarding1.svg", "assets/images/2.svg", "assets/images/3.svg"];
+  int index = 0;
 
-      return Material(
-      color: Colors.transparent,
-      child: Container(
-        height: Get.height,
-        width: Get.width,
-        color: white,
-        child: Column(children: [
-          Expanded(child: Container(
-            child: Column(
-              children: [
-              Expanded(
-                child: SafeArea(
-                  child: PageView(
+  final List<IntroTextModel> introList = <IntroTextModel>[
+    IntroTextModel("Zahy guarantees your comfort",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ."),
+    IntroTextModel("High quality maintenance services",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ."),
+    IntroTextModel("A technology experience that improves your life",
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ."),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+
+        bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  child: SmoothPageIndicator(
                     controller: homePagePictureIndicatorController,
-                     reverse:Get.locale.toString().contains("ar")
-                         ?
-                        true
-                         :
-                        false,
-                    scrollDirection: Axis.horizontal,
-                        children: List.generate(
-                          3,
-                          (index) {
-                            return Container(
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 20,left: index==0 || index==2? 10: 0,right: index==2?10:0),
-                                child: SvgPicture.asset(list[index],fit: BoxFit.fill,),
-                              ),
-                            );
-                          },
-                        ),
-                        onPageChanged: (index) {
-                          this.index=index;
-                          setState(() {
-
-                          });
-                        },
-                      ),
-                ),
+                    count: 3,
+                    effect: JumpingDotEffect(
+                      activeDotColor: themeColor,
+                      dotHeight: 12,
+                      dotWidth: 12,
+                      dotColor: Color(0xFFCED5D9),
+                      radius: 10,
+                      spacing: 6,
+                    ),
                   ),
-               Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
+                ),
+              ),
+            ),
+            
+            _signupButton(),
 
-                          child: SmoothPageIndicator(
-                            controller: homePagePictureIndicatorController,
-                            count: 3,
-                            effect: JumpingDotEffect(
-                              activeDotColor: themeColor,
-                              dotHeight: 12,
-                              dotWidth: 12,
-                              dotColor: Color(0xFFCED5D9),
-                              radius: 10,
-                              spacing: 6,
+            InkWell(
+              onTap: () async {
+                SharedPreferences.getInstance().then((value) {
+                  Get.back();
+                  value
+                      .setString(
+                      Finals.USER_Language, Get.locale.toString().contains("en") ? "ar" : "en")
+                      .then((value) {
+                    Get.locale =
+                    (Get.locale.toString().contains("en") ? Locale("ar") : Locale("en"));
+                    Get.offAll(SplashScreen());
+                  });
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Language".tr),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    Get.locale.toString().contains("en") ? "English" : "عربي",
+                    style: TextStyle(color: blue, fontSize: 20),
+                  )
+                ],
+              ),
+            ),
+          ],
+        ).paddingOnly(bottom: 20),
+
+        body: Container(
+          height: Get.height,
+          width: Get.width,
+          color: white,
+          child: Column(
+            children: [
+              SizedBox(height: 50),
+              Expanded(
+                // height: Get.height * .5
+                child: PageView(
+                  controller: homePagePictureIndicatorController,
+                  reverse: Get.locale.toString().contains("ar") ? true : false,
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(
+                    3,
+                    (index) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 20,
+                                  left: index == 0 || index == 2 ? 10 : 0,
+                                  right: index == 2 ? 10 : 0),
+                              child: SvgPicture.asset(
+                                list[index],
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
+                         Column(children: [
+                           Text(
+                             introList[index].title,
+                             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                           ),
+                           Text(
+                             introList[index].des,
+                             style: TextStyle(),
+                           ),
+                         ],)
+                        ],
+                      );
+                    },
+                  ),
+                  onPageChanged: (index) {
+                    this.index = index;
+                    setState(() {});
+                  },
+                ).paddingSymmetric(horizontal: 20),
+              ),
 
-            ],),
 
-
-          )),
-          _signupButton(),
-          SizedBox(height: 15,),
-          InkWell(
-            onTap: ()async {
-              SharedPreferences.getInstance().then((value) {
-                Get.back();
-                value.setString(Finals.USER_Language,Get.locale.toString().contains("en") ? "ar" : "en").then((value){
-                  Get.locale=(Get.locale.toString().contains("en") ? Locale("ar") : Locale("en"));
-                  Get.offAll(SplashScreen());
-                });
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Language".tr),
-                SizedBox(width: 5,),
-                Text(Get.locale.toString().contains("en") ? "English" : "عربي",style: TextStyle(color: blue,fontSize: 20),)
-              ],),
+            ],
           ),
-          SizedBox(height: 15,),
-
-        ],),
+        ),
       ),
     );
   }
-  gteRotation(int index){
+
+  gteRotation(int index) {
     if (index == 2) {
       return 0.0;
-    }
-    else if (index != 2 && Get.locale.toString().contains('ar')) {
+    } else if (index != 2 && Get.locale.toString().contains('ar')) {
       return math.pi;
-    }
-    else if (index != 2 && Get.locale.toString().contains('en')) {
+    } else if (index != 2 && Get.locale.toString().contains('en')) {
       return 0.0;
     }
   }
+
   Widget _signupButton() {
     return GestureDetector(
       onTap: () {
-
         Get.offAll(Signup());
       },
       child: Container(
@@ -155,15 +188,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: Text(
           'Login'.tr,
           style: TextStyle(
-            color: Colors.white,
-            fontSize: Get.height * .0225,
-            fontWeight: FontWeight.bold
-          ),
+              color: Colors.white, fontSize: Get.height * .0225, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
-  var loginProvider =Provider.of<LoginProvider>(Get.context, listen: false);
+
+  var loginProvider = Provider.of<LoginProvider>(Get.context, listen: false);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -172,6 +204,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     // var body = '''{"message": "POST Request successful.","result": {"token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxNjU2IiwidW5pcXVlX25hbWUiOiIxNTk4NzQ1NjMiLCJzdWIiOiJhY2NvdW50T25lQGdtYWlsLmNvbSIsImp0aSI6Ijg1YTRhYzhkLWVjYjItNDFjNC1iNDQ1LTk2YTJlNGFkMjI1MiIsImVtYWlsIjoiYWNjb3VudE9uZUBnbWFpbC5jb20iLCJpZCI6IjE2NTYiLCJuYmYiOjE2NDgzNjc2NDUsImV4cCI6MTY0ODQ1NDA0NSwiaWF0IjoxNjQ4MzY3NjQ1LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0IiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdCJ9.CLJpEIHUuagPFOCT7QS6sBHLiLJeolCY3b8fik-suxKeSnZr5v5S3LWjFsnVBFxTYSFogQTrTEZAWLZmGyPJrQ","refreshToken": "5a63ef00-88a6-49cb-ba38-817eead989ac","user": {"id": 1659,"name": "any","email": "any@any.com","created": "2022-03-27T10:53:44.043+03:00","phoneNumber": "12365479444798","userTypeId": 1,"isAvailable": false,"vatEnabled": false,"fcmToken": null,"couponCode": "1659AVAODC"}}}''';
     // LoginReponse loginReponse = loginReponseFromJson(body.toString());
     // loginProvider.saveLogin(loginReponse);
-
   }
+}
+
+class IntroTextModel {
+  final String title;
+  final String des;
+
+  IntroTextModel(this.title, this.des);
 }

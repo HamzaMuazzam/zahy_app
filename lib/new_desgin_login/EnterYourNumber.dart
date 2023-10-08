@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/new_desgin_login/Signup.dart';
@@ -19,7 +20,6 @@ class EnterYourNumber extends StatefulWidget {
 }
 
 class _EnterYourNumberState extends State<EnterYourNumber> {
-
   TextEditingController numberController = TextEditingController();
 
   @override
@@ -43,21 +43,24 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: IconButton(onPressed: (){
-                                Get.back();
-                              },icon: Icon(Icons.arrow_back,color: Colors.black,),),
+                              child: IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: Colors.black,
+                                ),
+                              ),
                             ),
                             SizedBox(width: Get.width / 4),
                             Text(
                               'Enter your number'.tr,
                               style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                                  color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                             )
                           ],
                         )),
-
                     Expanded(
                         flex: 9,
                         child: Container(
@@ -70,21 +73,18 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                   height: Get.height / 12,
                                   width: Get.width / 1.1,
                                   decoration: BoxDecoration(
-                                      border: Border.all(
-                                          width: 2, color: Colors.brown),
+                                      border: Border.all(width: 2, color: Colors.brown),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Row(
                                     textDirection: TextDirection.ltr,
                                     children: [
                                       /// Text country number
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 12, right: 12),
+                                        padding: const EdgeInsets.only(left: 12, right: 12),
                                         child: Text(
                                           '+966',
                                           textDirection: TextDirection.ltr,
-                                          style: TextStyle(
-                                              color: Colors.black, fontSize: 18),
+                                          style: TextStyle(color: Colors.black, fontSize: 18),
                                         ),
                                       ),
                                       Container(
@@ -94,28 +94,24 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                       ),
                                       Expanded(
                                           child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                  right: 10, left: 5),
+                                              padding: const EdgeInsets.only(right: 10, left: 5),
                                               child: TextFormField(
                                                 controller: numberController,
                                                 textDirection: TextDirection.ltr,
                                                 autofocus: true,
-                                                onChanged: (phone){
-                                                  if(phone.length==9){
+                                                onChanged: (phone) {
+                                                  if (phone.length == 9) {
                                                     FocusScope.of(context).unfocus();
                                                   }
                                                 },
-                                                keyboardType:
-                                                    TextInputType.number,
+                                                keyboardType: TextInputType.number,
                                                 decoration: InputDecoration(
-                                                  isDense: true,
+                                                    isDense: true,
                                                     border: InputBorder.none,
                                                     hintText: "Phone Number".tr,
                                                     hintTextDirection: TextDirection.ltr,
-
                                                     hintStyle: TextStyle(
-                                                        color: Colors.blueGrey,
-                                                        fontSize: 16)),
+                                                        color: Colors.blueGrey, fontSize: 16)),
                                               )))
                                     ],
                                   ),
@@ -125,10 +121,11 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                 ),
                                 Text(
                                   'we will send you a SMS code to verify your number'.tr,
-                                  style: TextStyle(
-                                      color: Colors.grey.shade600, fontSize: 15),
+                                  style: TextStyle(color: Colors.grey.shade600, fontSize: 15),
                                 ),
-                                SizedBox(height: 50,),
+                                SizedBox(
+                                  height: 50,
+                                ),
                                 InkWell(
                                   onTap: () {
                                     data.setUserMobileNumner("+966${numberController.text}");
@@ -139,15 +136,15 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                       return;
                                     }
 
-                                    Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) {
-                                          return MobileVerification();
-                                        }));
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                      return MobileVerification();
+                                    }));
                                   },
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
                                     child: Container(
-                                      height: Get.height *0.08,
+                                      height: Get.height * 0.08,
                                       width: Get.width,
                                       decoration: BoxDecoration(
                                           color: Colors.blue,
@@ -166,12 +163,10 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                                     ),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
                         )),
-
                   ],
                 ),
               ),
@@ -179,6 +174,4 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
           });
         });
   }
-
-
 }
