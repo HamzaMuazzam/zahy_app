@@ -1021,6 +1021,7 @@ class ApiServices {
     http.StreamedResponse response = await request.send();
 
     response.stream.bytesToString().then((value) {
+      print("VALUE: ${value}");
       if (Get.isDialogOpen) {
         Get.back();
       }

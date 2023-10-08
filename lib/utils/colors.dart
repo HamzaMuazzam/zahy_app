@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-Color themeColor = Color(0xff02aaf1);
+Color themeColor = Color(0xff0085FF);
 Color screenBgColor = Color(0xfffafafa);
 Color headingTextColor = Color(0xff1E1E1E);
 Color textColor = Color(0xff748A9D);

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
@@ -8,6 +9,8 @@ import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/images.dart';
 import 'package:musan_client/utils/validator.dart';
 import 'package:provider/provider.dart';
+
+import '../order_booking_screens/utils.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -43,19 +46,20 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Consumer<DashboardProvider>(builder: (builder, provider, _) {
       return Scaffold(
-        backgroundColor: screenBgColor,
+
         bottomNavigationBar: saveChangesButton(provider),
         appBar: AppBar(
-          backgroundColor: screenBgColor,
+          centerTitle: true,
+          backgroundColor: themeColor,
           leading: IconButton(
-            icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
+            icon: Icon(Icons.keyboard_backspace, color: white, size: 28),
             onPressed: () => Get.back(),
           ),
           elevation: 0,
           title: Text(
             'Edit Profile'.tr,
             style: TextStyle(
-              color: headingTextColor,
+              color: white,
               fontSize: Get.height * .026,
               fontWeight: FontWeight.w600,
             ),
@@ -66,78 +70,86 @@ class _EditProfileState extends State<EditProfile> {
           provider.isUserProfileLoaded ?
           Form(
             key: provider.editProfileFormKey,
-            // autovalidate: provider.autoValidate,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
               children: [
-                SizedBox(height: 20),
-                GestureDetector(
-                  onTap: (){
-                    provider.getGallery().then((value){
-                      image=value;
-                      isImageSelectedFromLocal=true;
-                      setState(() {
+                Container(
+                    width: Get.width,
+                    height: 219,
+                    child: SvgPicture.asset("assets/images/curved.svg",fit: BoxFit.fitWidth,)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
 
-                      });
-                    });
-                  },
-                  child: Container(
-                    width: 90,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: isImageSelectedFromLocal ? AssetImage(image.path,)
-                          :
-                      NetworkImage(
-                          "https://muapi.deeps.info/${provider.userProfileFromJson.result.displayPicture}"),
-                          fit: BoxFit.fill),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color(0xff000000).withOpacity(.13),
-                          spreadRadius: 1,
-                          blurRadius: 3,
+                    SizedBox(height: 170),
+                    GestureDetector(
+                      onTap: (){
+                        provider.getGallery().then((value){
+                          image=value;
+                          isImageSelectedFromLocal=true;
+                          setState(() {
+
+                          });
+                        });
+                      },
+                      child: Container(
+                        width: 90,
+                        height: 90,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          image: DecorationImage(image: isImageSelectedFromLocal ? AssetImage(image.path,)
+                              :
+                          NetworkImage(
+                              "https://muapi.deeps.info/${provider.userProfileFromJson.result.displayPicture}"),
+                              fit: BoxFit.fill),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Color(0xff000000).withOpacity(.13),
+                              spreadRadius: 1,
+                              blurRadius: 3,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(height: 15),
-                Text(
-                  'Upload a new photo'.tr,
-                  style: TextStyle(
-                    color: themeColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: Get.height * .02,
-                  ),
-                ),
-                SizedBox(height: 20),
-                _textFormFiled(
-                    0,
-                    'First Name'.tr,
-                    provider.editProfileFirstNameController,
-                    provider,
-                    (value) {
-                      firstname=value;
-                    }),
-                _textFormFiled(
-                    1,
-                    'Last Name'.tr,
-                    provider.editProfileLastNameController,
-                    provider,
-                    (value) {
-                      lastNAme=value;
-                    }),
-                _textFormFiled(2, 'Email'.tr, provider.editProfileEmailController,
-                    provider, (value) {
-                      email=value;
+                    SizedBox(height: 15),
+                    Text(
+                      'Upload a new photo'.tr,
+                      style: TextStyle(
+                        color: themeColor,
+                        fontWeight: FontWeight.w600,
+                        fontSize: Get.height * .02,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    _textFormFiled(
+                        0,
+                        'First Name'.tr,
+                        provider.editProfileFirstNameController,
+                        provider,
+                        (value) {
+                          firstname=value;
+                        }),
+                    _textFormFiled(
+                        1,
+                        'Last Name'.tr,
+                        provider.editProfileLastNameController,
+                        provider,
+                        (value) {
+                          lastNAme=value;
+                        }),
+                    _textFormFiled(2, 'Email'.tr, provider.editProfileEmailController,
+                        provider, (value) {
+                          email=value;
 
-                    }),
-                _textFormFiled(3, 'Mobile Number'.tr,
-                    provider.editProfileNumberController, provider, (value) {
-                      mobileNumber=value;
+                        }),
+                    _textFormFiled(3, 'Mobile Number'.tr,
+                        provider.editProfileNumberController, provider, (value) {
+                          mobileNumber=value;
 
-                    }),
+                        }),
+                  ],
+                ),
               ],
             ),
           )
@@ -225,30 +237,37 @@ class _EditProfileState extends State<EditProfile> {
         textInputAction:
             index == 3 ? TextInputAction.done : TextInputAction.next,
         decoration: InputDecoration(
-          // floatingLabelBehavior: FloatingLabelBehavior.always,
           isDense: true,
           filled: true,
           fillColor: Colors.white,
           hintText: label,
-          hintStyle: TextStyle(
-              fontSize: Get.height * .018,
-              color: Color(0xff2C4752).withOpacity(.30)),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          // hintStyle: TextStyle(
+          //     fontSize: Get.height * .018,
+          //     color: Color(0xff00b6ff).withOpacity(.30)),
+          border: OutlineInputBorder(
+
+              borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.3)),
+              borderRadius: BorderRadius.circular(5)
+          ),
+
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1, color: Colors.white),
+            borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.3)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1, color: Colors.white),
+            borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.3)),
+
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1, color: Colors.white),
+            borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.3)),
+
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(width: 1, color: Colors.white),
+            borderSide: BorderSide(width: 1, color: Colors.grey.withOpacity(0.3)),
+
           ),
           errorStyle: TextStyle(fontSize: Get.height * .014),
         ),

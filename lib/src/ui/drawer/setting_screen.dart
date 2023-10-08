@@ -12,6 +12,7 @@ import 'package:musan_client/utils/common_classes.dart';
 import 'package:musan_client/utils/images.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../order_booking_screens/utils.dart';
 import 'edit_profile.dart';
 import 'package:musan_client/main.dart' as app;
 
@@ -40,6 +41,7 @@ class _SettingScreenState extends State<SettingScreen> {
       return Scaffold(
         backgroundColor: screenBgColor,
         appBar: AppBar(
+          centerTitle: true,
           backgroundColor: screenBgColor,
           leading: IconButton(
             icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
@@ -62,10 +64,7 @@ class _SettingScreenState extends State<SettingScreen> {
               editProfileWidget(),
               settingWidget(
                   1, 'Language'.tr, Get.locale.toString().contains("en") ? "English" : 'عربي'),
-              // settingWidget(2, 'Theme', 'Light'),
-              // _createLanguageDropDown(),
               settingWidget(3, 'Notifications'.tr, ''),
-              // settingWidget(4, 'Privacy'.tr, ''),
             ],
           ),
         ),
@@ -73,32 +72,6 @@ class _SettingScreenState extends State<SettingScreen> {
     });
   }
 
-  _createLanguageDropDown() {
-    return DropdownButton<LanguageData>(
-      iconSize: 30,
-      hint: Text(Languages.of(context).labelSelectLanguage),
-      onChanged: (LanguageData language) {
-        changeLanguage(context, language.languageCode);
-      },
-      items: LanguageData.languageList()
-          .map<DropdownMenuItem<LanguageData>>(
-            (e) => DropdownMenuItem<LanguageData>(
-              value: e,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    e.flag,
-                    style: TextStyle(fontSize: 30),
-                  ),
-                  Text(e.name)
-                ],
-              ),
-            ),
-          )
-          .toList(),
-    );
-  }
 
   Widget editProfileWidget() {
     return GestureDetector(
@@ -108,8 +81,8 @@ class _SettingScreenState extends State<SettingScreen> {
       child: Container(
         width: Get.width,
         margin: EdgeInsets.only(
-          bottom: Get.height * .01,
-          top: Get.height * .01,
+          bottom: Get.height * .005,
+          top: Get.height * .005,
         ),
         padding: EdgeInsets.symmetric(
           vertical: Get.height * .02,
@@ -128,7 +101,7 @@ class _SettingScreenState extends State<SettingScreen> {
         ),
         child: Row(
           children: [
-            Image.asset(editIcon, scale: 3, color: headingTextColor),
+            Image.asset(editIcon, scale: 3, color: blue),
             SizedBox(width: Get.width * .04),
             Text(
               'Edit Profile'.tr,
@@ -249,13 +222,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 });
                               },
                               child: Container()
-                              /*CustomSwitchButton(
-                                backgroundColor: Color(0xffEFEFEF),
-                                unCheckedColor: Colors.grey,
-                                animationDuration: Duration(milliseconds: 400),
-                                checkedColor: themeColor,
-                                checked: isChecked,
-                              )*/
+
                               ,
                             )
                           : Icon(Icons.keyboard_arrow_down, size: 20, color: themeColor),

@@ -1,5 +1,6 @@
 //@dart=2.9
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'dart:math' as math;
 
@@ -7,6 +8,8 @@ import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'src/ui/order_booking_screens/utils.dart';
 
 class CashBackScreen extends StatefulWidget {
   const CashBackScreen({Key key}) : super(key: key);
@@ -59,7 +62,7 @@ class _CashBackScreenState extends State<CashBackScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Cashback".tr,
+          "Wallet".tr,
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.transparent,
@@ -88,32 +91,37 @@ class _CashBackScreenState extends State<CashBackScreen> {
                       children: [
                         const SizedBox(height: 20),
                         Text(
-                          'Your Wallet'.tr,
+                          'Your current wallet balance'.tr,
                           style: TextStyle(
                               color: Colors.grey,
                               fontWeight: FontWeight.w500,
                               fontSize: 17),
                         ),
-                        const SizedBox(height: 20),
+                        SvgPicture.asset(
+                          "assets/images/Icon-Credit card.svg",
+                          height: 100,width: 100,
+                          // color: Color(0xff000000),
+                        ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                        Text(data.isCashBackLoaded
+                        ?"${data.promotionCashBackFromJson.result.amount}":"0",
+                            style: TextStyle(
+                                color: blue,
+                                fontSize: 53,
+                                fontWeight: FontWeight.w900)),
+                            SizedBox(width: 5,),
                             Text("SAR".tr,
                                 style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: Get.height * 0.04)),
-                            const SizedBox(width: 5),
-                            Text(data.isCashBackLoaded
-                                ?"${data.promotionCashBackFromJson.result.amount}":"0",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: Get.height * .08,
-                                    fontWeight: FontWeight.w900)),
+                                    color: light_green,
+                                    fontSize: 15)),
+
+
                           ],
                         ),
-                        const SizedBox(height: 20),
-
+                        Container(height: 1,width: Get.width,color: grey,),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(

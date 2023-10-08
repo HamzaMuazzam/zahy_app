@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
 
     var languageCode = sharedPreferences.getString(Finals.USER_Language);
     if(languageCode==null || languageCode==""){
-      languageCode="ar";
+      languageCode="en";
     }
     return  KeyedSubtree(
       key: key,
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (context) => LoginProvider()),
             ChangeNotifierProvider(create: (context) => WorkShopOrderProvider()),
             ChangeNotifierProvider(create: (context) => OrderScreenProvider()),
-            ChangeNotifierProvider(create: (context) => MyCarsScreenProvider())
+            ChangeNotifierProvider(create: (context) => MyCarsScreenProvider()),
           ],
           child: GetMaterialApp(
             theme: ThemeData(fontFamily: 'noto_all'),

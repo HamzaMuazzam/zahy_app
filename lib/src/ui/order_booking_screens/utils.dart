@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-const Color blue = Color(0xFF1CAAF1);
+const Color blue = Color(0xFF075AFD);
 Color yellowShade = Color(0xFFFAF1D4);
 Color yellow = Color(0xFFE8BC2A);
 Color blueShade = Color(0xFFEDF2F5);
@@ -17,12 +17,14 @@ const Color black = Color(0xFF000000);
 
 const Color red = Color(0xFFE73939);
 const Color green = Color(0xFF17CE3F);
+const Color light_green = Color(0xFF00E592);
 const Color orangeYellow = Color(0xFFE8BC2A);
 const Color white = CupertinoColors.white;
 const Color grey = Color(0xFFB1B1B1);
 const Color greylight = Color(0xFFBFBFBF);
 const Color icon_grey_color = Color(0xFFCED5D9);
 const Color textgreyColor = Color(0xFF7A8F99);
+const Color lineColor = Color(0xFFE8E8E8);
 
 
 
