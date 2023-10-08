@@ -57,79 +57,87 @@ class _InviteCodeScreenState extends State<InviteCodeScreen> {
       ),
       body: Consumer<DashboardProvider>(
         builder: (builder,data,child) {
-          return SizedBox(
-            width: Get.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(height: 25),
-                SizedBox(
-                    height: Get.width * .5, //for square *width
-                    width: Get.width * .5,
-                    child: Image.asset("assets/invite_screen_assest/QRIC.png", fit: BoxFit.fill)),
-                verticalSpace,
-                Container(
-                  width: Get.width * .8,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 1.5, color: Colors.black),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        SizedBox(width: 10,),
-                         Text(couponCode??"",
-                            style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19)),
-                        InkWell(
-                          onTap: (){
-                            Clipboard.setData(ClipboardData(text: couponCode)).then((_){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Coupon '$couponCode' copied to clipboard")));
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 25),
-                            child: SvgPicture.asset('assets/invite_screen_assest/SimpleIC.svg'),
-                          ),
+          return SingleChildScrollView(
+            child: SizedBox(
+              width: Get.width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 25),
+                  SizedBox(
+                      height: Get.width * .5, //for square *width
+                      width: Get.width * .5,
+                      child: Image.asset("assets/invite_screen_assest/QRIC.png", fit: BoxFit.fill)),
+                  verticalSpace,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: Colors.grey.withOpacity(0.3)),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(width: 10,),
+                            InkWell(
+                              onTap: (){
+                                Clipboard.setData(ClipboardData(text: couponCode)).then((_){
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Coupon '$couponCode' copied to clipboard")));
+                                });
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 25),
+                                child: SvgPicture.asset('assets/invite_screen_assest/ion_copy.svg'),
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            Expanded(
+                              child: Text(couponCode??"--",
+                                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 19)),
+                            ),
+                            SizedBox(width: 10,),
+                          ],
                         ),
-
-                      ],
+                      ),
                     ),
                   ),
-                ),
-                verticalSpace,
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(Get.locale.toString().contains("en")?
-                      "Share the code to get"
-                          " ${data.couponAmount} SAR cash back once "
-                          "they use it And they will "
-                          "get discount %10 on their "
-                          "first order":"شارك الكود مع أصدقائك واحصل على"
-                  " ${data.couponAmount} ريال مستردة لحسابك بالمحفظة "
-                  "و ١٠٪ خصم على أول طلب لصديقك",
-                      textAlign: TextAlign.center),
-                ),
-                verticalSpace,
-                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                  InkWell(
-                      onTap: () async {
-                        await sendEmail();
-                      },
-                      child: SvgPicture.asset('assets/invite_screen_assest/GmailIC.svg')),
-                  InkWell(
-                      onTap: () async {
-                        share(couponCode);
-                      },
-                      child: SvgPicture.asset('assets/invite_screen_assest/WhatsAppIC.svg')),
-                  InkWell(
-                      onTap: () async {
-                        await sendEmail();
-                      },
-                      child: SvgPicture.asset('assets/invite_screen_assest/emailIC.svg')),
-                ])
-              ],
+                  verticalSpace,
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Text(Get.locale.toString().contains("en")?
+                        "Share the code to get"
+                            " ${data.couponAmount} SAR cash back once "
+                            "they use it And they will "
+                            "get discount %10 on their "
+                            "first order":"شارك الكود مع أصدقائك واحصل على"
+                    " ${data.couponAmount} ريال مستردة لحسابك بالمحفظة "
+                    "و ١٠٪ خصم على أول طلب لصديقك",
+                        textAlign: TextAlign.center),
+                  ),
+                  verticalSpace,
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                    InkWell(
+                        onTap: () async {
+                          await sendEmail();
+                        },
+                        child: SvgPicture.asset('assets/invite_screen_assest/GmailIC.svg')),
+                    InkWell(
+                        onTap: () async {
+                          share(couponCode);
+                        },
+                        child: SvgPicture.asset('assets/invite_screen_assest/WhatsAppIC.svg')),
+                    InkWell(
+                        onTap: () async {
+                          await sendEmail();
+                        },
+                        child: SvgPicture.asset('assets/invite_screen_assest/emailIC.svg')),
+                  ])
+                ],
+              ),
             ),
           );
         }
