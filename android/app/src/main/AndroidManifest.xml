@@ -8,7 +8,7 @@
 
 
    <application
-        android:label="مصان"
+        android:label="Zahy"
        android:usesCleartextTraffic="true"
        android:icon="@mipmap/ic_launcher"
        tools:targetApi="m">

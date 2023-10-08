@@ -80,7 +80,7 @@ class _MyAppState extends State<MyApp> {
               locale: new Locale(languageCode,''),
               fallbackLocale: Locale(languageCode, ''),
               translations: StaticStrings(),
-              title: 'مُصان',
+              title: 'Zahy',
               color: Colors.white,
               home: SplashScreen(),
           ),

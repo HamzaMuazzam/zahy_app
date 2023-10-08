@@ -71,33 +71,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
 
   Widget bottomNavigationBar(DashboardProvider dashboardProvider) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: Container(
-        width: Get.width,
+    return Container(
+      width: Get.width,
 
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.grey.withOpacity(0.25), width: 1),
-          borderRadius: BorderRadius.circular(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        // border: Border.all(color: Colors.grey.withOpacity(0.25), width: 1),
+        borderRadius: BorderRadius.circular(15),
 
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all( 10),
-          child: Row(
-            children: [
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all( 10),
+        child: Row(
+          children: [
+            Expanded(child: bottomWidget(0,''.tr, "assets/home_assets/HomeIcon.svg", dashboardProvider,name: 'Home'.tr)),
+            Expanded(child: bottomWidget( 1,''.tr,"assets/home_assets/OrderIcon.svg"  , dashboardProvider,name: "Orders".tr)),
+            Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/homeICentercon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
+            Expanded(child: bottomWidget( 2,''.tr, "assets/home_assets/MyCarsIcon.svg", dashboardProvider,name: "My Cars".tr)),
+            Expanded(child: bottomWidget( 6,''.tr, 'assets/home_assets/ListIcon.svg', dashboardProvider)),
 
-
-              Expanded(child: bottomWidget(0,''.tr, "assets/home_assets/HomeIcon.svg", dashboardProvider,name: 'Home'.tr)),
-              Expanded(child: bottomWidget( 1,''.tr,"assets/home_assets/OrderIcon.svg"  , dashboardProvider,name: "Orders".tr)),
-              Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/homeICentercon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
-              Expanded(child: bottomWidget( 2,''.tr, "assets/home_assets/MyCarsIcon.svg", dashboardProvider,name: "My Cars".tr)),
-              // Expanded(child: bottomWidget( 3,''.tr, phoneIcon, dashboardProvider)),
-
-              Expanded(child: bottomWidget( 6,''.tr, 'assets/home_assets/ListIcon.svg', dashboardProvider)),
-
-            ],
-          ),
+          ],
         ),
       ),
     );
