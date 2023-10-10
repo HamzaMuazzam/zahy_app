@@ -36,7 +36,6 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                 color: Colors.white,
                 child: Column(
                   children: [
-
                     Expanded(
                         flex: 2,
                         child: Row(
@@ -61,6 +60,8 @@ class _EnterYourNumberState extends State<EnterYourNumber> {
                             )
                           ],
                         )),
+                    SvgPicture.asset("assets/message_logo.svg"),
+
                     Expanded(
                         flex: 9,
                         child: Container(

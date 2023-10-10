@@ -13,25 +13,23 @@ import 'package:musan_client/locale/constantString.dart';
 import 'package:musan_client/new_desgin_login/EnterYourNumber.dart';
 import 'package:musan_client/src/provider/Login_provider.dart';
 import 'package:musan_client/src/ui/auth/SignUp.dart';
+import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
 
 import 'CreateAccount.dart';
 
 class MobileVerification extends StatefulWidget {
-
   const MobileVerification({Key key}) : super(key: key);
 
   @override
   _MobileVerificationState createState() => _MobileVerificationState();
-
 }
 
 class _MobileVerificationState extends State<MobileVerification> {
-
   var provider = Provider.of<LoginProvider>(Get.context, listen: false);
 
-  bool istimerCompleted=false;
+  bool istimerCompleted = false;
 
   TextEditingController numberController = TextEditingController();
 
@@ -47,7 +45,10 @@ class _MobileVerificationState extends State<MobileVerification> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 1,), () async {
+    Future.delayed(
+        Duration(
+          seconds: 1,
+        ), () async {
       _sendOtp(provider);
     });
   }
@@ -57,38 +58,35 @@ class _MobileVerificationState extends State<MobileVerification> {
       print("Hello");
       return;
     }
-    var credential = await PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+    var credential =
+        await PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
 
     await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
       print("data.userMobileNumber");
       Get.snackbar(strVerificationCompleted, "");
 
-
       _onVerificationCompleted(data.userMobileNumber);
     }).onError((error, stackTrace) {
-      if(Get.isDialogOpen){
+      if (Get.isDialogOpen) {
         Get.back();
       }
 
-
-      DateTime valEnd = new DateTime(2021,12,25) ;
-      DateTime dateNow =DateTime.now();
+      DateTime valEnd = new DateTime(2021, 12, 25);
+      DateTime dateNow = DateTime.now();
       bool valDate = dateNow.isBefore(valEnd);
       logger.e("VAL DTAE: $valDate");
-      if(valDate){
+      if (valDate) {
         _onVerificationCompleted(data.userMobileNumber);
         return;
       }
       Get.snackbar(strError, error.toString());
-
     });
   }
 
   void _onVerificationCompleted(String phoneNumber) {
     // Get.offAll(DashboardScreen());
 
-
-    String body ='{"mobile": "$phoneNumber"}';
+    String body = '{"mobile": "$phoneNumber"}';
 
     logger.e("Login Body: ${body}");
 
@@ -110,16 +108,13 @@ class _MobileVerificationState extends State<MobileVerification> {
           Get.snackbar(strVerificationFailed, "${e.message}");
           print("verification Failed".tr);
 
-
-          DateTime valEnd = new DateTime(2021,12,25) ;
-          DateTime dateNow =DateTime.now();
+          DateTime valEnd = new DateTime(2021, 12, 25);
+          DateTime dateNow = DateTime.now();
           bool valDate = dateNow.isBefore(valEnd);
           logger.e("VAL DTAE: $valDate");
-          if(valDate){
+          if (valDate) {
             _onVerificationCompleted(data.userMobileNumber);
           }
-
-
         },
         codeSent: (String verificationId, int resendToken) {
           this.resendToken = resendToken;
@@ -146,14 +141,15 @@ class _MobileVerificationState extends State<MobileVerification> {
           color: Colors.white,
           child: Column(
             children: [
-              Expanded(flex: 2, child: Row(
+              Expanded(
+                  flex: 2,
+                  child: Row(
                     children: [
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: InkWell(
                             onTap: () {
-                              Navigator.pop(context,
-                                  MaterialPageRoute(builder: (context) {
+                              Navigator.pop(context, MaterialPageRoute(builder: (context) {
                                 return EnterYourNumber();
                               }));
                             },
@@ -161,41 +157,38 @@ class _MobileVerificationState extends State<MobileVerification> {
                       ),
                       SizedBox(width: Get.width / 4),
                       Text(
-                        'Mobile verification'.tr,
+                        'Mobile number verification'.tr,
                         style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
+                            color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
                       )
                     ],
                   )),
-              Expanded(flex: 9, child: Container(
+              SvgPicture.asset("assets/message_logo.svg"),
+              Expanded(
+                  flex: 9,
+                  child: Container(
                     height: Get.height,
                     width: Get.width,
                     child: Column(
                       children: [
                         /// Text for sending verification on mobile number.
                         Padding(
-                          padding: const EdgeInsets.only(left: 18,right: 15),
+                          padding: const EdgeInsets.only(left: 18, right: 15),
                           child: RichText(
                             // textDirection: TextDirection.ltr,
-                            text: TextSpan(
-                                locale: Locale("en"),
-                                children: [
+                            text: TextSpan(locale: Locale("en"), children: [
                               TextSpan(
-                                  text:
-                                      'We will send you an SMS code to verify your number '.tr,
-                                  style:
-                                      TextStyle(color: Colors.grey.shade600)),
+                                  text: 'We will send you an SMS code to verify your number '.tr,
+                                  style: TextStyle(color: Colors.grey.shade600)),
                               TextSpan(
-                                locale: Locale("en"),
+                                  locale: Locale("en"),
                                   text: '${provider.userMobileNumber}',
-                                  style: TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold)),
+                                  style:
+                                      TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
                             ]),
                           ),
                         ),
+
                         /// timer and Wrong number buttons.
                         Padding(
                           padding: const EdgeInsets.all(15.0),
@@ -209,10 +202,8 @@ class _MobileVerificationState extends State<MobileVerification> {
                                   tween: Tween(begin: Duration(minutes: 1), end: Duration.zero),
                                   onEnd: () {
                                     print('Timer ended');
-                                    istimerCompleted=true;
-                                    setState(() {
-
-                                    });
+                                    istimerCompleted = true;
+                                    setState(() {});
                                   },
                                   builder: (BuildContext context, Duration value, Widget child) {
                                     final minutes = value.inMinutes;
@@ -221,14 +212,13 @@ class _MobileVerificationState extends State<MobileVerification> {
                                         padding: const EdgeInsets.symmetric(vertical: 5),
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  width: 2, color: orangeYellow),
+                                              border: Border.all(width: 2, color: red),
                                               borderRadius: BorderRadius.circular(8)),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 3),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 15, vertical: 3),
                                             child: Text('$minutes:$seconds',
                                                 textAlign: TextAlign.center,
-
                                                 style: TextStyle(
                                                     color: Colors.blueGrey,
                                                     fontWeight: FontWeight.bold,
@@ -236,21 +226,22 @@ class _MobileVerificationState extends State<MobileVerification> {
                                           ),
                                         ));
                                   }),
-                              SizedBox(width: 12,),
+                              SizedBox(
+                                width: 12,
+                              ),
+
                               /// Wrong number button to go back older screen to
                               /// re enter you mobile number.
                               InkWell(
                                 onTap: Get.back,
                                 child: Container(
-
                                   decoration: BoxDecoration(
-                                      color: orangeYellow,
-                                      borderRadius: BorderRadius.circular(8)),
+                                      color: red, borderRadius: BorderRadius.circular(8)),
                                   alignment: Alignment.center,
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 10),
                                     child: Text(
-                                      'Wrong number?'.tr,
+                                      'Number is incorrect?'.tr,
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),
@@ -278,20 +269,22 @@ class _MobileVerificationState extends State<MobileVerification> {
                               controller: numberController,
                               style: TextStyle(
                                 color: Colors.grey.shade600,
-                                fontSize: Get.width*0.075,
+                                fontSize: Get.width * 0.075,
                               ),
-                              onChanged: (value){
-                                if(value.length==6){
+                              onChanged: (value) {
+                                if (value.length == 6) {
                                   FocusScope.of(context).unfocus();
                                 }
                               },
                               textAlign: TextAlign.center,
                               decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10,right: 10),
+                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
                                   hintText: '  #  #  #  #  #  #  #   #  #   #  #   #  #   #  #  ',
-                                  hintStyle: TextStyle(color: Colors.grey.shade600, fontSize: Get.width*0.085,),
-                              border: InputBorder.none
-                              ),
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontSize: Get.width * 0.085,
+                                  ),
+                                  border: InputBorder.none),
                             ),
                           ),
                         ),
@@ -303,43 +296,41 @@ class _MobileVerificationState extends State<MobileVerification> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            istimerCompleted
+                                ? Row(
+                                    children: [
+                                      Text(
+                                        ' Didn`t  Receive the code?'.tr,
+                                        style: TextStyle(color: Colors.grey.shade600, fontSize: 17),
+                                      ),
+                                      Text(
+                                        ' Resend'.tr,
+                                        style: TextStyle(color: themeColor, fontSize: 17),
+                                      )
+                                    ],
+                                  )
+                                : Container(),
                             SizedBox(width: 4),
-
-                            SvgPicture.asset(
-                              'assets/images/refresh.svg',
-                              height: 15,
-                            ),
-                            SizedBox(width: 4),
-                            istimerCompleted ?  Row(children: [
-                              Text(
-                                ' Resend the code '.tr,
-                                style: TextStyle(
-                                    color: Colors.grey.shade600, fontSize: 17),
-                              )
-                            ],) : Container(),
-                            SizedBox(width: 4),
-
                           ],
                         )
                       ],
                     ),
                   )),
               InkWell(
-                onTap: () async{
-                  if(numberController.value.text.length!=6){
+                onTap: () async {
+                  if (numberController.value.text.length != 6) {
                     return;
                   }
                   Get.dialog(Center(child: CircularProgressIndicator()));
-                  _signInWithPhoneNumber(numberController.value.text,data);
+                  _signInWithPhoneNumber(numberController.value.text, data);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Container(
                     height: Get.height * 0.08,
                     width: Get.width,
-                    decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(20)),
+                    decoration:
+                        BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
                     alignment: Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -360,6 +351,4 @@ class _MobileVerificationState extends State<MobileVerification> {
       );
     });
   }
-
-
 }
