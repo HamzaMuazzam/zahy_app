@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:musan_client/CashBackScreen.dart';
-import 'package:musan_client/api_services/ApiServices.dart';
-import 'package:musan_client/api_services/Finals.dart';
-import 'package:musan_client/src/provider/OrderScreenProvider.dart';
-import 'package:musan_client/src/provider/dashboard_provider.dart';
-import 'package:musan_client/src/ui/auth/SignUp.dart';
-import 'package:musan_client/src/ui/order_booking_screens/car_location_screen.dart';
-import 'package:musan_client/utils/colors.dart';
+import '/CashBackScreen.dart';
+import '/api_services/ApiServices.dart';
+import '/api_services/Finals.dart';
+import '/src/provider/OrderScreenProvider.dart';
+import '/src/provider/dashboard_provider.dart';
+import '/src/ui/auth/SignUp.dart';
+import '/src/ui/order_booking_screens/car_location_screen.dart';
+import '/utils/colors.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: Get.width * 0.1,
+              height: Get.width * 0.05,
             ),
             Row(
               children: [
@@ -270,7 +270,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       child: Container(
                                         child: SvgPicture.asset("assets/home_assets/repair.svg"),
                                       ),
-                                    ),
+                                    ).paddingOnly(bottom: 10),
+
                                   ],
                                 ),
                               ),
@@ -413,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  child: Icon(Icons.arrow_back).paddingAll(20),
+                                  child: Icon(Icons.arrow_back).paddingAll(10),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(0xffFAFAFA),
@@ -436,9 +437,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  child: SvgPicture.asset(
-                                    "assets/home_assets/i2.svg",
-                                  ),
+
+                                  child:
+                                      SvgPicture.asset("assets/home_assets/device_mentinance.svg").paddingAll(10),
                                   decoration:
                                       BoxDecoration(color: themeColor, shape: BoxShape.circle),
                                 ),
@@ -465,9 +466,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                  child: SvgPicture.asset("assets/home_assets/house_cleaning.svg"),
+
+                                  child: SvgPicture.asset("assets/home_assets/house_cleaning.svg").paddingAll(10),
                                   decoration:
-                                      BoxDecoration(color: themeColor, shape: BoxShape.circle),
+                                      BoxDecoration(color: Color(0xff00E592), shape: BoxShape.circle),
                                 ),
                                 Text(
                                   "House",
@@ -493,9 +495,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Column(
                               children: [
                                 Container(
-                                    child: SvgPicture.asset("assets/home_assets/washing_clothes.svg"),
+
+                                    child:
+                                        SvgPicture.asset("assets/home_assets/washing_clothes.svg").paddingAll(10),
                                     decoration:
-                                        BoxDecoration(color: themeColor, shape: BoxShape.circle)),
+                                        BoxDecoration(color: Color(0xffFFB516), shape: BoxShape.circle)),
                                 Text("Washing", style: TextStyle(fontWeight: FontWeight.w400)),
                                 Text("clothes", style: TextStyle(fontWeight: FontWeight.w400)),
                               ],
@@ -572,7 +576,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _commonButton(String title,
-      {double bottomPadding: 15, int index, Color bntColor = blue, tap}) {
+      {double bottomPadding= 15, Color bntColor = blue, tap}) {
     return InkWell(
       onTap: tap,
       child: Padding(
