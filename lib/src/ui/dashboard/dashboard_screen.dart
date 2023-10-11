@@ -89,7 +89,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Expanded(child: bottomWidget(10,''.tr, "assets/home_assets/homeICentercon.svg", dashboardProvider,name: 'Order'.tr ,scale: 40)),
             Expanded(child: bottomWidget( 2,''.tr, "assets/home_assets/MyCarsIcon.svg", dashboardProvider,name: "My Cars".tr)),
             Expanded(child: bottomWidget( 6,''.tr, 'assets/home_assets/ListIcon.svg', dashboardProvider)),
-
           ],
         ),
       ),
