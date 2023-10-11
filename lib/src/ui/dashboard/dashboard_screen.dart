@@ -34,8 +34,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
       print("USerID: ${value.getString(Finals.USER_ID)}");
       dashboardProvider.initlizeRealTimeDatabase();
 
-      FCM(userID: value.getString(Finals.USER_ID), userTypeId: "1");
-      Future.delayed(Duration(seconds: 2), () {
+      // FCM(userID: value.getString(Finals.USER_ID),userTypeId: "1");
+      Future.delayed(Duration(seconds: 2),(){
         ApiServices.getNotifications();
       });
     });

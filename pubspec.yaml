@@ -52,7 +52,8 @@ dependencies:
   flutter_polyline_points: ^1.0.0
   logger: ^1.0.0
   cupertino_icons: ^1.0.2
-  geolocator: ^7.0.3
+#  geolocator: ^7.0.3
+  geolocator: ^10.1.0
   http:  0.13.4
   dio: ^4.0.4
   signalr_core: ^1.1.1

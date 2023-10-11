@@ -151,7 +151,8 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                                     color: Colors.blue.shade100,
                                     borderRadius: BorderRadius.circular(6)),
                                 alignment: Alignment.center,
-                                child: GMaps(title: '', showItems: false)),
+                                child: GMaps(title: '', showItems: false)
+                            ),
                             SizedBox(
                               height: 8,
                             ),
