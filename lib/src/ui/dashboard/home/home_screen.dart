@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.bottom]);
 
     return Consumer<DashboardProvider>(builder: (builder, data, _) {
       return Container(
@@ -54,9 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: Get.width * 0.05,
-            ),
+
             Row(
               children: [
                 Image.asset("assets/dummy_profile.png", scale: 1.5),

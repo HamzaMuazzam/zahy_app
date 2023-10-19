@@ -211,7 +211,10 @@ class AdditionalInformationScreen extends StatefulWidget {
                                     },
                                     child: customNextButton(text: 'Order'.tr)),
                               ],
-                            )
+                            ),
+                            SizedBox(
+                              height: 12,
+                            ),
                           ],
                         ),
                       ),

@@ -52,7 +52,8 @@ class ApiServices {
   static var _LOGIN_URL = "accounts/signin";
   static var _GET_DASHBOARD_WIDGET_DATA = "workshops/getcounts";
   static var _GET_FAULTS = "faults";
-  static var _GET_CAR_RELATED_INFORMATION = "carinformation/car-related-new-info";
+  static var _GET_CAR_RELATED_INFORMATION =
+      "carinformation/car-related-new-info";
   static var _GET_CAR_INFORMATION_BY_ID = "carinformation";
   static var _GET_FRESH_ORDER_BY_USER_ID = "orders/get-pending-orders/";
   static var _GET_FRESH_HOME_ORDER_BY_USER_ID = "orders/get-homepage-orders/";
@@ -98,66 +99,65 @@ class ApiServices {
 
   static var _CANCEL_ORDER = "orders/cancel-order/";
 
-  static var _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE = "client/SendPaymentReceivedNotification/";
+  static var _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE =
+      "client/SendPaymentReceivedNotification/";
+
   // static var _GET_COUPON_VALUE = "orders/coupon-value";
 
-  static var dashboardProvider = Provider.of<DashboardProvider>(Get.context, listen: false);
+  static var dashboardProvider =
+      Provider.of<DashboardProvider>(Get.context, listen: false);
 
-  static var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  static var orderScreenProvider =
+      Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
-  static final  workShopOrderProvider = Provider.of<WorkShopOrderProvider>(Get.context, listen: false);
+  static final workShopOrderProvider =
+      Provider.of<WorkShopOrderProvider>(Get.context, listen: false);
 
   static http.Request requestCall;
 
-  static Future request({String requestType, String feedUrl, String body}) async {
-
+  static Future request(
+      {String requestType, String feedUrl, String body}) async {
     requestCall = http.Request(requestType, Uri.parse('$_BASE_URL$feedUrl'));
     if (requestType == "GET") {
-    }
-    else if (requestType == "POST" && body!=null) {
+    } else if (requestType == "POST" && body != null) {
+      requestCall.body = body;
+    } else if (requestType == "PUT" && body != null) {
       requestCall.body = body;
     }
-    else if (requestType == "PUT" && body != null) {
-      requestCall.body = body;
-    }
-    try{
-
+    try {
       requestCall.headers.addAll(_headers);
-      http.StreamedResponse response = await requestCall.send().timeout(Duration(minutes: 5));
+      http.StreamedResponse response =
+          await requestCall.send().timeout(Duration(minutes: 5));
+      var s = await response.stream.bytesToString();
       if (response.statusCode == 200) {
-        print("await response.stream.bytesToString()");
-        return await response.stream.bytesToString();
-      }
-      else {
-        if(Get.isDialogOpen){
+        print(s);
+        return s;
+      } else {
+        if (Get.isDialogOpen) {
           Get.back();
         }
         print("response.reasonPhrase");
         return response.stream.bytesToString();
       }
-    }
-    catch(e){
-
-      await analytics.logEvent(name: "API_CALL_FAILED:",parameters: {
-        "Method":requestCall.method??"",
-        "url_path":requestCall.url.path??"",
-        "url_origin":requestCall.url.origin??"",
-        "body":requestCall.body??"",
-        "Error":e.toString()??"",
+    } catch (e) {
+      await analytics.logEvent(name: "API_CALL_FAILED:", parameters: {
+        "Method": requestCall.method ?? "",
+        "url_path": requestCall.url.path ?? "",
+        "url_origin": requestCall.url.origin ?? "",
+        "body": requestCall.body ?? "",
+        "Error": e.toString() ?? "",
       });
-      while(Get.isDialogOpen){
-        if(Get.isDialogOpen){
+      while (Get.isDialogOpen) {
+        if (Get.isDialogOpen) {
           Get.back();
         }
       }
     }
-
   }
 
-  static Future<bool> loginAccount(String body, BuildContext context, String phoneNumber, {bool isLoginMethodGoogle = false}) async {
-
-
-
+  static Future<bool> loginAccount(
+      String body, BuildContext context, String phoneNumber,
+      {bool isLoginMethodGoogle = false}) async {
     await ApiServices.request(
             requestType: "POST",
             feedUrl: ApiServices._LOGIN_URL,
@@ -171,17 +171,18 @@ class ApiServices {
         if (value.toString().contains('"isError": true')) {
           /// this means user not registered
           print('setup an account');
-          var loginProvider = Provider.of<LoginProvider>(context, listen: false);
+          var loginProvider =
+              Provider.of<LoginProvider>(context, listen: false);
 
           loginProvider.setUserMobileNumner(phoneNumber);
 
           if (!isLoginMethodGoogle) {
             Get.to(CreateAccount());
-            analytics.logLogin(loginMethod: "CREATE_ACCOUNT_USING_MOBILE_NUMBER");
+            analytics.logLogin(
+                loginMethod: "CREATE_ACCOUNT_USING_MOBILE_NUMBER");
 
             // Get.to(EmailEnter());
-          }
-          else {
+          } else {
             /// sign up the user by google sign in details not email and name etc
             analytics.logLogin(loginMethod: "CREATE_ACCOUNT_USING_GOOGLE ");
 
@@ -202,11 +203,11 @@ class ApiServices {
             };
             signUpUser(body, context);
           }
-        }
-        else {
+        } else {
           /// this means user already registered
           LoginReponse loginReponse = loginReponseFromJson(value);
-          var loginProvider =Provider.of<LoginProvider>(context, listen: false);
+          var loginProvider =
+              Provider.of<LoginProvider>(context, listen: false);
 
           loginProvider.saveLogin(loginReponse);
           analytics.logLogin(loginMethod: "LOGIN_ACCOUNT");
@@ -215,12 +216,7 @@ class ApiServices {
             Get.back();
           }
         }
-
-
-
-
-      }
-      else {
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
       }
     });
@@ -228,7 +224,8 @@ class ApiServices {
     return true;
   }
 
-  static Future<String> signUpUser(Map<String, String> bodyMap, BuildContext context) async {
+  static Future<String> signUpUser(
+      Map<String, String> bodyMap, BuildContext context) async {
     TOASTS("Sign up");
 
     var request = http.MultipartRequest(
@@ -279,8 +276,6 @@ class ApiServices {
       print(e);
       Get.snackbar(strError, strSomethingwentwrong);
     }
-
-
   }
 
   static getDashboardWidgetData(BuildContext context) {
@@ -347,13 +342,16 @@ class ApiServices {
               Get.back();
             }
             // Get.back();
-            Provider.of<WorkShopOrderProvider>(context, listen: false).setisNewCarAdded(true);
+            Provider.of<WorkShopOrderProvider>(context, listen: false)
+                .setisNewCarAdded(true);
             Get.dialog(Center(
               child: CircularProgressIndicator(),
             ));
             SharedPreferences.getInstance().then((value) {
-              print("value.getString(Finals.USER_ID) ${value.getString(Finals.USER_ID)}");
-              getCarInformationByUserID(context, value.getString(Finals.USER_ID));
+              print(
+                  "value.getString(Finals.USER_ID) ${value.getString(Finals.USER_ID)}");
+              getCarInformationByUserID(
+                  context, value.getString(Finals.USER_ID));
             });
           }
         } catch (e) {
@@ -375,16 +373,15 @@ class ApiServices {
       if (value != null) {
         print("Value of data is: $value");
 
-          if (!value.toString().contains('isError": true')) {
-            var provider =
-                Provider.of<WorkShopOrderProvider>(context, listen: false);
-            provider.setCarRelatedDataResponse(
-                true, carRelatedInfoReponseFromJson(value.toString()));
-          }
-          if (Get.isDialogOpen) {
-            Get.back();
-          }
-
+        if (!value.toString().contains('isError": true')) {
+          var provider =
+              Provider.of<WorkShopOrderProvider>(context, listen: false);
+          provider.setCarRelatedDataResponse(
+              true, carRelatedInfoReponseFromJson(value.toString()));
+        }
+        if (Get.isDialogOpen) {
+          Get.back();
+        }
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -399,16 +396,15 @@ class ApiServices {
             requestType: "GET", feedUrl: "$_GET_CAR_INFORMATION_BY_ID/$useRID")
         .then((value) async {
       if (value != null) {
-
         if (Get.isDialogOpen) {
           Get.back();
         }
         if (!value.toString().contains('isError": true')) {
           var provider =
               Provider.of<WorkShopOrderProvider>(Get.context, listen: false);
-          provider.setCarInformationByUserIDResponse(true, carInformationReponseFromJson(value.toString()));
+          provider.setCarInformationByUserIDResponse(
+              true, carInformationReponseFromJson(value.toString()));
         }
-
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -418,13 +414,16 @@ class ApiServices {
     });
   }
 
-  static submitOrder(BuildContext context,Map<String, dynamic> body,
-      int screenNumber,List<PickedFile> imageList,bool isFromDicountOffers) async {
+  static submitOrder(
+      BuildContext context,
+      Map<String, dynamic> body,
+      int screenNumber,
+      List<PickedFile> imageList,
+      bool isFromDicountOffers) async {
     String url;
     if (isFromDicountOffers) {
       url = "https://muapi.deeps.info/api/DiscountOffer/avail";
-    }
-    else {
+    } else {
       url = "https://muapi.deeps.info/api/orders/client-order";
     }
 
@@ -439,20 +438,19 @@ class ApiServices {
     http.StreamedResponse response = await request.send();
 
     response.stream.bytesToString().then((value) async {
-
+      print(value);
       if (Get.isDialogOpen) {
         Get.back();
       }
       if (value.toString().contains("successful")) {
-
         ///if service booked that's mean 0 and service is booked if not then workshop is booked and passed true for isWorkshop?
-        dashboardProvider.hitWorkshopOrTechnician(screenNumber==0 ? false : true );
+        dashboardProvider
+            .hitWorkshopOrTechnician(screenNumber == 0 ? false : true);
 
         Get.back();
         if (screenNumber == 0) {
           Get.snackbar(strServiceBooked, strYourservicehasbeenbooked);
-        }
-        else {
+        } else {
           Get.snackbar(strOrderBooked, strYourorderhasbeenbooked);
         }
         workShopOrderProvider.setImageSeletedOrNot(false);
@@ -461,28 +459,28 @@ class ApiServices {
         workShopOrderProvider.setissuetypesList([]);
         workShopOrderProvider.setAddress("$strSelectLocation");
         workShopOrderProvider.imageList.clear();
-        workShopOrderProvider.freeComment="";
+        workShopOrderProvider.freeComment = "";
         await getOffersAndOderAtOnce();
         var decoded = json.decode(value.toString());
 
         Get.to(ThankYou(decoded['result']['id'].toString()));
-        await analytics.logEvent(name: "NEW_ORDER_BOOKED",parameters:body);
-
-      }
-      else {
+        await analytics.logEvent(name: "NEW_ORDER_BOOKED", parameters: body);
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
       }
     });
-
-
   }
 
-  static Future<void> getFreshOrderByUserId(BuildContext context, String body) async{
+  static Future<void> getFreshOrderByUserId(
+      BuildContext context, String body) async {
     print("body $body");
 
-   await  request(requestType: "GET",feedUrl: "$_GET_FRESH_ORDER_BY_USER_ID$body?sortBy=${orderScreenProvider.sortoffers}&sortDir=desc",
-
-   ).then((value) {
+    await request(
+      requestType: "GET",
+      feedUrl:
+          "$_GET_FRESH_ORDER_BY_USER_ID$body?sortBy=${orderScreenProvider.sortoffers}&sortDir=desc",
+    ).then((value) {
+      print(value);
       if (Get.isDialogOpen) {
         Get.back();
       }
@@ -493,7 +491,8 @@ class ApiServices {
         }
 
         orderScreenProvider.setIsOrderDataLoaded(true);
-        orderScreenProvider.setFreshOrderData(getFreshOrderByUserIdReponseFromJson(value.toString()));
+        orderScreenProvider.setFreshOrderData(
+            getFreshOrderByUserIdReponseFromJson(value.toString()));
         // orderScreenProvider.getSetOfferAndOrderAtOnce(value.toString(), null);
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
@@ -502,15 +501,12 @@ class ApiServices {
         }
       }
     });
-
-
   }
 
-  static acceptOffer(BuildContext context, String offerid, offers, String orderId, String workshopId) {
-
-    request(requestType: "PUT", feedUrl: "$_ACCEPT_OFFER$offerid").then((value) async{
-
-
+  static acceptOffer(BuildContext context, String offerid, offers,
+      String orderId, String workshopId) {
+    request(requestType: "PUT", feedUrl: "$_ACCEPT_OFFER$offerid")
+        .then((value) async {
       if (Get.isDialogOpen) {
         Get.back();
       }
@@ -520,58 +516,17 @@ class ApiServices {
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
-            dashboardProvider.hitSpecificWorkshop(workshopId,orderId);
+            dashboardProvider.hitSpecificWorkshop(workshopId, orderId);
 
             dashboardProvider.hitWorkshopOrTechnician(true);
-            if (offers != null) {
-            }
+            if (offers != null) {}
             Get.back();
             Get.snackbar("$strSuccessful", strOfferaccepted);
-            await  getOffersAndOderAtOnce();
+            await getOffersAndOderAtOnce();
 
-            Get.to(OrderTracking(null,true,int.parse(orderId)));
-
+            Get.to(OrderTracking(null, true, int.parse(orderId)));
 
             analytics.logEvent(name: "Offer Accepted");
-          }
-        } catch (e) {
-          print("Exception $e");
-        }
-      }
-
-      else {
-        Get.snackbar(strError, strSomethingwentwrong);
-        if (Get.isDialogOpen) {
-          Get.back();
-        }
-      }
-
-
-    });
-
-  }
-
-  static negotiateOffer(BuildContext context, String offerid, String price, {workshopId}) async {
-    print(price);
-    request(
-      requestType: "PUT",
-      feedUrl: "$_NegotiateOffer$offerid?price=$price",
-    ).then((value) async{
-      if (value != null) {
-        print(value);
-        try {
-          if (Get.isDialogOpen) {
-            Get.back();
-          }
-
-          if (value.toString().contains("successful")) {
-            dashboardProvider.hitWorkshopForOfferNegotiation(offerid,price,workshopId.toString());
-            await  getOffersAndOderAtOnce();
-
-            Get.back();
-            Get.snackbar(strSuccessful, strRequestsuccessful);
-            analytics.logEvent(name: "negotiateOffer");
-
           }
         } catch (e) {
           print("Exception $e");
@@ -585,11 +540,47 @@ class ApiServices {
     });
   }
 
-  static Future<void> rejectOffer(BuildContext context, String offerid, int index, workshopId) async {
-  await   request(
+  static negotiateOffer(BuildContext context, String offerid, String price,
+      {workshopId}) async {
+    print(price);
+    request(
+      requestType: "PUT",
+      feedUrl: "$_NegotiateOffer$offerid?price=$price",
+    ).then((value) async {
+      if (value != null) {
+        print(value);
+        try {
+          if (Get.isDialogOpen) {
+            Get.back();
+          }
+
+          if (value.toString().contains("successful")) {
+            dashboardProvider.hitWorkshopForOfferNegotiation(
+                offerid, price, workshopId.toString());
+            await getOffersAndOderAtOnce();
+
+            Get.back();
+            Get.snackbar(strSuccessful, strRequestsuccessful);
+            analytics.logEvent(name: "negotiateOffer");
+          }
+        } catch (e) {
+          print("Exception $e");
+        }
+      } else {
+        Get.snackbar(strError, strSomethingwentwrong);
+        if (Get.isDialogOpen) {
+          Get.back();
+        }
+      }
+    });
+  }
+
+  static Future<void> rejectOffer(
+      BuildContext context, String offerid, int index, workshopId) async {
+    await request(
       requestType: "PUT",
       feedUrl: "$_REJECT_OFFER$offerid",
-    ).then((value) async{
+    ).then((value) async {
       if (value != null) {
         logger.i(value);
         logger.e(offerid);
@@ -602,7 +593,6 @@ class ApiServices {
             dashboardProvider.hitSpecificWorkshopForOfferRejected(workshopId);
             Get.snackbar(strSuccessful, strRequestsuccessful);
             analytics.logEvent(name: "rejectOffer");
-
           }
         } catch (e) {
           print("Exception $e");
@@ -616,14 +606,15 @@ class ApiServices {
     });
   }
 
-  static Future<void> getInProgressOrders(BuildContext context, String userID) async {
+  static Future<void> getInProgressOrders(
+      BuildContext context, String userID) async {
     await request(
       requestType: "GET",
       feedUrl:
           "$_GET_INPROGRESSORDER$userID?sortBy=${orderScreenProvider.sortOrderForApi}&sortDir=desc",
     ).then((value) {
       if (value != null) {
-        // logger.e("getInProgressOrders $value");
+        logger.e("getInProgressOrders $value");
         try {
           if (Get.isDialogOpen) {
             Get.back();
@@ -632,9 +623,10 @@ class ApiServices {
           if (value.toString().contains("successful")) {
             var provider =
                 Provider.of<OrderScreenProvider>(context, listen: false);
-            provider.setIsInprogressCompletedOrderDataLoaded(true,getCompletedOrInProgressOrderByUserIdFromJson(
+            provider.setIsInprogressCompletedOrderDataLoaded(
+                true,
+                getCompletedOrInProgressOrderByUserIdFromJson(
                     value.toString()));
-
           }
         } catch (e) {
           print("Exception $e");
@@ -654,7 +646,6 @@ class ApiServices {
       feedUrl: "$_GET_FRESH_HOME_ORDER_BY_USER_ID$userID?sortDir=desc",
     ).then((value) {
       if (value != null) {
-
         try {
           if (Get.isDialogOpen) {
             Get.back();
@@ -720,14 +711,12 @@ class ApiServices {
       }
 
       if (value != null) {
-
-          if (value.toString().contains("successful")) {
-            var provider =
-                Provider.of<OrderScreenProvider>(Get.context, listen: false);
-            provider.setSignleOrder(
-                true, getSingleOrderByUserIdFromJson(value.toString()));
-          }
-
+        if (value.toString().contains("successful")) {
+          var provider =
+              Provider.of<OrderScreenProvider>(Get.context, listen: false);
+          provider.setSignleOrder(
+              true, getSingleOrderByUserIdFromJson(value.toString()));
+        }
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -749,14 +738,11 @@ class ApiServices {
       if (value != null) {
         print(value);
 
-
         if (value.toString().contains("successful")) {
-
           var orderByUserId = getSingleOrderByUserIdFromJson(value.toString());
 
           Get.to(OrderPaymentHistoryDetailsCompleted(orderByUserId.result));
         }
-
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
@@ -766,17 +752,19 @@ class ApiServices {
     });
   }
 
-  static void orderCarPickUp(orderId, String comments, String workshopId, int carPickupTypeId) {
+  static void orderCarPickUp(
+      orderId, String comments, String workshopId, int carPickupTypeId) {
+    String body =
+        '{"workshopOrderId": $orderId,"comment": "$comments ","CarPickupTypeId":$carPickupTypeId}';
 
-    String body = '{"workshopOrderId": $orderId,"comment": "$comments ","CarPickupTypeId":$carPickupTypeId}';
-
-    ApiServices.request(requestType: "POST", feedUrl: _ORDER_CAR_PICKUP, body: body)
+    ApiServices.request(
+            requestType: "POST", feedUrl: _ORDER_CAR_PICKUP, body: body)
         .then((value) async {
       if (value != null) {
         print("Value of data is::::: $value");
         try {
           if (!value.toString().contains('isError": true')) {
-            dashboardProvider.hitAllCarPickups(workshopId,orderId.toString());
+            dashboardProvider.hitAllCarPickups(workshopId, orderId.toString());
             if (Get.isDialogOpen) {
               Get.back();
             }
@@ -786,16 +774,14 @@ class ApiServices {
               ),
             ));
             getSignleOrderByUserID(orderId.toString());
-            await  getOffersAndOderAtOnce();
+            await getOffersAndOderAtOnce();
 
             analytics.logEvent(name: "orderCarPickUp");
-
           }
         } catch (e) {
           print(e);
         }
-      }
-      else {
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
@@ -824,10 +810,9 @@ class ApiServices {
         try {
           if (!value.toString().contains('"isError": true')) {
             Get.bottomSheet(serviceCostBottomSheet());
-            await  getOffersAndOderAtOnce();
+            await getOffersAndOderAtOnce();
 
             analytics.logEvent(name: "orderFromReport");
-
           } else {
             Get.snackbar(strError, strSomethingwentwrong);
           }
@@ -851,11 +836,10 @@ class ApiServices {
         Get.back();
       }
       try {
+        await getOffersAndOderAtOnce();
 
-        await    getOffersAndOderAtOnce();
-
-        orderScreenProvider.setORderFromReortsData(true, getReportsByUserIdFromJson(value.toString()));
-
+        orderScreenProvider.setORderFromReortsData(
+            true, getReportsByUserIdFromJson(value.toString()));
       } catch (e) {}
 
       if (value != null) {
@@ -968,7 +952,7 @@ class ApiServices {
     ApiServices.request(
             requestType: "GET", feedUrl: "$_GET_USERPROFILE${userID}")
         .then((value) async {
-          logger.e(value);
+      logger.e(value);
       if (Get.isDialogOpen) {
         Get.back();
       }
@@ -977,26 +961,23 @@ class ApiServices {
         print("Value of data is: $value");
         if (!value.toString().contains("isError")) {
           try {
-
-            dashboardProvider.setUserProfileData(getUserProfileFromJson(value.toString()), true);
-
-          }
-          catch (e) {
+            dashboardProvider.setUserProfileData(
+                getUserProfileFromJson(value.toString()), true);
+          } catch (e) {
             print(e);
           }
         }
-      }
-      else {
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
         }
       }
-
     });
   }
 
-  static void updateUserSettings(String firstname, String lastNAme,String email, String mobileNumber, File image) async {
+  static void updateUserSettings(String firstname, String lastNAme,
+      String email, String mobileNumber, File image) async {
     Get.dialog(Center(
       child: CircularProgressIndicator(
         color: Colors.blue,
@@ -1126,10 +1107,9 @@ class ApiServices {
       // Get.back();
       // }
       if (value.toString().contains("successful")) {
-        dashboardProvider.hitWorkshopForOrderProgressed(workshopId,orderID);
+        dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderID);
         ApiServices.getSignleOrderByUserID(orderID);
-        await   getOffersAndOderAtOnce();
-
+        await getOffersAndOderAtOnce();
       }
     });
   }
@@ -1140,14 +1120,14 @@ class ApiServices {
 
     http.StreamedResponse response = await request.send();
 
-    response.stream.bytesToString().then((value)async {
+    response.stream.bytesToString().then((value) async {
       print(value);
       if (Get.isDialogOpen) {
         Get.back();
       }
       if (value.toString().contains("successful")) {
         dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderID);
-        await  getOffersAndOderAtOnce();
+        await getOffersAndOderAtOnce();
         ApiServices.getSignleOrderByUserID(orderID);
       } else {
         if (Get.isDialogOpen) {
@@ -1172,9 +1152,10 @@ class ApiServices {
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
-            dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderID);
+            dashboardProvider.hitWorkshopForOrderProgressed(
+                workshopId, orderID);
             ApiServices.getSignleOrderByUserID(orderID);
-            await    getOffersAndOderAtOnce();
+            await getOffersAndOderAtOnce();
 
             // var decode = json.decode(value.toString());
             // TOASTS(decode['result']);
@@ -1216,253 +1197,255 @@ class ApiServices {
     });
   }
 
-  static _showBottomSheetForCarPickupPayment(ord.Result result, CarPickUpType upType) {
+  static _showBottomSheetForCarPickupPayment(
+      ord.Result result, CarPickUpType upType) {
     if (upType == null) {
       return;
     }
 
-    dashboardProvider.setcarpickCost(upType.result[0].cost.toString(),0);
+    dashboardProvider.setcarpickCost(upType.result[0].cost.toString(), 0);
 
     Get.bottomSheet(
-        Consumer<DashboardProvider>(builder: (builder, data, child) {
-      return Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30),
-                topRight: Radius.circular(30)
-            )
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                height: 35,
-              ),
-              Text(
-                "Do you need to pick up your car?".tr,
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-
-                    Expanded(
-                        child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                data.setcarpickCost(upType.result[0].cost.toString(), 0);
-                                print(upType.result[0].cost.toString());
-                              },
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: data.cardTypeGroupNumber == 0
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/images/Hydraulic.svg",
-                                        fit: BoxFit.fill,
-                                        height: 28,
-                                        color: data.cardTypeGroupNumber == 0
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${upType.result[0].type}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: data.cardTypeGroupNumber == 0
-                                              ? Colors.blue
-                                              : Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))),
-                    Expanded(
-                        child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                data.setcarpickCost(upType.result[1].cost.toString(), 1);
-                                print(upType.result[1].cost.toString());
-                              },
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: data.cardTypeGroupNumber == 1
-                                          ? Colors.blue
-                                          : Colors.grey,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/images/regular.svg",
-                                        fit: BoxFit.fill,
-                                        height: 22,
-                                        color: data.cardTypeGroupNumber == 1
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${upType.result[1].type} ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: data.cardTypeGroupNumber == 1
-                                              ? Colors.blue
-                                              : Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))),
-                  ],
+      Consumer<DashboardProvider>(builder: (builder, data, child) {
+        return Container(
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  height: 35,
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                data.setcarpickCost(upType.result[2].cost.toString(), 2);
-                                print(upType.result[2].cost.toString());
-                              },
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: data.cardTypeGroupNumber == 2
-                                          ? Colors.blue
-                                          : Colors.grey,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/images/regular.svg",
-                                        fit: BoxFit.fill,
-                                        height: 22,
-                                        color: data.cardTypeGroupNumber == 2
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${upType.result[2].type} ",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: data.cardTypeGroupNumber == 2
-                                              ? Colors.blue
-                                              : Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))),
-                    Expanded(
-                        child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                data.setcarpickCost(upType.result[3].cost.toString(), 3);
-                                print(upType.result[3].cost.toString());
-                              },
-                              child: Container(
-                                height: 100,
-                                width: 100,
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: data.cardTypeGroupNumber == 3
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset("assets/images/Hydraulic.svg",
-                                        fit: BoxFit.fill,
-                                        height: 28,
-                                        color: data.cardTypeGroupNumber == 3
-                                            ? Colors.blue
-                                            : Colors.grey),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "${upType.result[3].type}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 16,
-                                          color: data.cardTypeGroupNumber == 3
-                                              ? Colors.blue
-                                              : Colors.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ))),
-                  ],
+                Text(
+                  "Do you need to pick up your car?".tr,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
                 ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: InkWell(
-                  onTap: () {
-                    Get.back();
-                    Get.dialog(Center(
-                      child: CircularProgressIndicator(),
-                    ));
-                    ApiServices.orderCarPickUp(result.orderId.toString(), result.comments,result.workshopId.toString(),data.cardTypeGroupNumber);
-                  },
-                  child: Container(
-                    height: 50,
-                    child: Center(
-                      child:
-                          Text(strConfirm, style: TextStyle(color: Colors.white)),
-                    ),
-                    decoration: BoxDecoration(
-                        color: blue, borderRadius: BorderRadius.circular(10)),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Center(
+                              child: InkWell(
+                        onTap: () {
+                          data.setcarpickCost(
+                              upType.result[0].cost.toString(), 0);
+                          print(upType.result[0].cost.toString());
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: data.cardTypeGroupNumber == 0
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/Hydraulic.svg",
+                                  fit: BoxFit.fill,
+                                  height: 28,
+                                  color: data.cardTypeGroupNumber == 0
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${upType.result[0].type}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: data.cardTypeGroupNumber == 0
+                                        ? Colors.blue
+                                        : Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                      Expanded(
+                          child: Center(
+                              child: InkWell(
+                        onTap: () {
+                          data.setcarpickCost(
+                              upType.result[1].cost.toString(), 1);
+                          print(upType.result[1].cost.toString());
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: data.cardTypeGroupNumber == 1
+                                    ? Colors.blue
+                                    : Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/regular.svg",
+                                  fit: BoxFit.fill,
+                                  height: 22,
+                                  color: data.cardTypeGroupNumber == 1
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${upType.result[1].type} ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: data.cardTypeGroupNumber == 1
+                                        ? Colors.blue
+                                        : Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                    ],
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              )
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: Center(
+                              child: InkWell(
+                        onTap: () {
+                          data.setcarpickCost(
+                              upType.result[2].cost.toString(), 2);
+                          print(upType.result[2].cost.toString());
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: data.cardTypeGroupNumber == 2
+                                    ? Colors.blue
+                                    : Colors.grey,
+                              ),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/regular.svg",
+                                  fit: BoxFit.fill,
+                                  height: 22,
+                                  color: data.cardTypeGroupNumber == 2
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${upType.result[2].type} ",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: data.cardTypeGroupNumber == 2
+                                        ? Colors.blue
+                                        : Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                      Expanded(
+                          child: Center(
+                              child: InkWell(
+                        onTap: () {
+                          data.setcarpickCost(
+                              upType.result[3].cost.toString(), 3);
+                          print(upType.result[3].cost.toString());
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: data.cardTypeGroupNumber == 3
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              borderRadius: BorderRadius.circular(8)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SvgPicture.asset("assets/images/Hydraulic.svg",
+                                  fit: BoxFit.fill,
+                                  height: 28,
+                                  color: data.cardTypeGroupNumber == 3
+                                      ? Colors.blue
+                                      : Colors.grey),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "${upType.result[3].type}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: data.cardTypeGroupNumber == 3
+                                        ? Colors.blue
+                                        : Colors.grey),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: InkWell(
+                    onTap: () {
+                      Get.back();
+                      Get.dialog(Center(
+                        child: CircularProgressIndicator(),
+                      ));
+                      ApiServices.orderCarPickUp(
+                          result.orderId.toString(),
+                          result.comments,
+                          result.workshopId.toString(),
+                          data.cardTypeGroupNumber);
+                    },
+                    child: Container(
+                      height: 50,
+                      child: Center(
+                        child: Text(strConfirm,
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                      decoration: BoxDecoration(
+                          color: blue, borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    }),
-
-
+        );
+      }),
     );
   }
 
@@ -1474,14 +1457,14 @@ class ApiServices {
             'https://muapi.deeps.info/api/OrderPart/reject-part/$orderPartId'));
 
     http.StreamedResponse response = await request.send();
-    response.stream.bytesToString().then((value)async {
+    response.stream.bytesToString().then((value) async {
       print(value);
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
             provider.hitWorkshopForOrderProgressed(workshopId, orderId);
             TOASTS("Request successful");
-            await  getOffersAndOderAtOnce();
+            await getOffersAndOderAtOnce();
             getSignleOrderByUserID(orderId.toString());
           }
         } catch (e) {
@@ -1497,87 +1480,91 @@ class ApiServices {
     });
   }
 
-  static Future<bool> acceptPart({bool isPaid, int partID, orderId, String workshopId,isCashBack=false}) async {
+  static Future<bool> acceptPart(
+      {bool isPaid,
+      int partID,
+      orderId,
+      String workshopId,
+      isCashBack = false}) async {
     var request = http.Request(
         'PUT',
-        Uri.parse('https://muapi.deeps.info/api/OrderPart/approve-part/$partID?isPaid=$isPaid&isWallet=$isCashBack'));
+        Uri.parse(
+            'https://muapi.deeps.info/api/OrderPart/approve-part/$partID?isPaid=$isPaid&isWallet=$isCashBack'));
 
     http.StreamedResponse response = await request.send();
 
-    response.stream.bytesToString().then((value) async{
+    response.stream.bytesToString().then((value) async {
       print(value);
 
       if (value != null) {
-        dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderId.toString());
-        await  getOffersAndOderAtOnce();
+        dashboardProvider.hitWorkshopForOrderProgressed(
+            workshopId, orderId.toString());
+        await getOffersAndOderAtOnce();
 
         getSignleOrderByUserID(orderId.toString());
 
-        if(isPaid){
+        if (isPaid) {
           showPaymentDoneBottomSheet();
         }
         return true;
-
-
       } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
         }
         return false;
-
       }
     });
 
     return true;
   }
 
-  static  Future<bool> acceptAndPayDownPayment(orderId, {bool isCashback=false}) async {
-    var request = http.Request('PUT', Uri.parse('https://muapi.deeps.info/api/orders/down-payment/$orderId?isWallet=$isCashback'));
+  static Future<bool> acceptAndPayDownPayment(orderId,
+      {bool isCashback = false}) async {
+    var request = http.Request(
+        'PUT',
+        Uri.parse(
+            'https://muapi.deeps.info/api/orders/down-payment/$orderId?isWallet=$isCashback'));
     http.StreamedResponse response = await request.send();
-    response.stream.bytesToString().then((value) async{
+    response.stream.bytesToString().then((value) async {
       print(value);
 
       if (value != null) {
-        await  getOffersAndOderAtOnce();
+        await getOffersAndOderAtOnce();
         getSignleOrderByUserID(orderId.toString());
         showPaymentDoneBottomSheet();
 
         return true;
-      }
-      else {
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
         }
         return false;
-
       }
     });
   }
 
-  static Future<void> payFinalBill(String orderId, {  bool isCash: false,  bool isWallet=false }) async {
-
-
-
-    var request = http.Request('PUT',
-        Uri.parse('https://muapi.deeps.info/api/orders/pay-order/$orderId?isCash=$isCash&isWallet=$isWallet'));
+  static Future<void> payFinalBill(String orderId,
+      {bool isCash: false, bool isWallet = false}) async {
+    var request = http.Request(
+        'PUT',
+        Uri.parse(
+            'https://muapi.deeps.info/api/orders/pay-order/$orderId?isCash=$isCash&isWallet=$isWallet'));
     // request.body='{"isCash":$isCash}';
 
     http.StreamedResponse response = await request.send();
-    response.stream.bytesToString().then((value) async{
+    response.stream.bytesToString().then((value) async {
       print(value);
       if (value != null) {
-
-        await  getOffersAndOderAtOnce();
+        await getOffersAndOderAtOnce();
 
         getSignleOrderByUserID(orderId.toString());
 
-        if(!isCash){
+        if (!isCash) {
           showPaymentDoneBottomSheet();
         }
-      }
-      else {
+      } else {
         Get.snackbar(strError, strSomethingwentwrong);
         if (Get.isDialogOpen) {
           Get.back();
@@ -1614,13 +1601,14 @@ class ApiServices {
     });
   }
 
-  static void giveFeedBack(orderId, String rating, String feedback, {bool isRefreshHomeScreenData}) async{
+  static void giveFeedBack(orderId, String rating, String feedback,
+      {bool isRefreshHomeScreenData}) async {
     String body = '{"review": "$feedback","rating": $rating}';
     request(
             requestType: "PUT",
             feedUrl: "orders/client-review/$orderId",
             body: body)
-        .then((value) async{
+        .then((value) async {
       if (Get.isDialogOpen) {
         Get.back();
       }
@@ -1660,19 +1648,20 @@ class ApiServices {
     });
   }
 
-  static void cancelOrder(String orderId, String workshopId) async{
-    request(requestType: "PUT", feedUrl: _CANCEL_ORDER + orderId).then((value) async{
+  static void cancelOrder(String orderId, String workshopId) async {
+    request(requestType: "PUT", feedUrl: _CANCEL_ORDER + orderId)
+        .then((value) async {
       print("valureactive $value");
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
-            dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderId,data:"OrderCancelled");
+            dashboardProvider.hitWorkshopForOrderProgressed(workshopId, orderId,
+                data: "OrderCancelled");
 
             if (Get.isDialogOpen) {
               Get.back();
             }
-            await  getOffersAndOderAtOnce();
-
+            await getOffersAndOderAtOnce();
           }
         } catch (e) {
           print("Exception $e");
@@ -1686,20 +1675,22 @@ class ApiServices {
     });
   }
 
-  static void payCarPickUpFinalBill(String carPickIDOrderID, String carPickUpId) async {
+  static void payCarPickUpFinalBill(
+      String carPickIDOrderID, String carPickUpId) async {
     request(
       requestType: "PUT",
       feedUrl: _PAY_CAR_PICK_FINAL_BILL + carPickIDOrderID,
-    ).then((value) async{
-
+    ).then((value) async {
       print("payCarPickUpFinalBill $value");
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
-
             ///I need car pick up id here for notify car pick about change in order progressed...
             logger.wtf(dashboardProvider.carPickUpId);
-            dashboardProvider.hitCarPickUpForFInalPaymenDone(carPickIDOrderID,dashboardProvider.orderId.toString(),dashboardProvider.carPickUpId);
+            dashboardProvider.hitCarPickUpForFInalPaymenDone(
+                carPickIDOrderID,
+                dashboardProvider.orderId.toString(),
+                dashboardProvider.carPickUpId);
             await getOffersAndOderAtOnce();
 
             getSignleOrderByUserID(dashboardProvider.orderId.toString());
@@ -1724,10 +1715,12 @@ class ApiServices {
       if (value != null) {
         try {
           if (value.toString().contains("successful")) {
-            var offerByOfferId = getSinlgeOfferByOfferIdFromJson(value.toString());
+            var offerByOfferId =
+                getSinlgeOfferByOfferIdFromJson(value.toString());
             var result = offerByOfferId.result;
             for (int i = 0; i < orderScreenProvider.offers.length; i++) {
-              if (offerID.contains(orderScreenProvider.offers[i].offerId.toString())) {
+              if (offerID
+                  .contains(orderScreenProvider.offers[i].offerId.toString())) {
                 orderScreenProvider.offers.removeAt(i);
                 orderScreenProvider.offers.insert(
                     i,
@@ -1754,7 +1747,6 @@ class ApiServices {
               }
             }
             orderScreenProvider.notifyListeners();
-
           }
         } catch (e) {
           print("Exception $e");
@@ -1768,23 +1760,20 @@ class ApiServices {
     });
   }
 
-  static void hitNotificationAfterPaymentMade(String orderID)async {
-    await request(requestType: "GET",feedUrl: _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE+orderID).then((value) {
-
-    });
-
+  static void hitNotificationAfterPaymentMade(String orderID) async {
+    await request(
+            requestType: "GET",
+            feedUrl: _HIT_NOTIFICATION_AFTER_PAYEMENT_DONE + orderID)
+        .then((value) {});
   }
 
   static Future<bool> getCashBack() async {
-
-    dashboardProvider.isCashBackLoaded=false;
+    dashboardProvider.isCashBackLoaded = false;
     dashboardProvider.notifyListeners();
-      print("dashboardProvider.userID ${dashboardProvider.userID}");
-    var request = http.MultipartRequest('POST', Uri.parse('https://muapi.deeps.info/api/orders/client-wallet'));
-    request.fields.addAll({
-      'userId': '${dashboardProvider.userID}'
-    });
-
+    print("dashboardProvider.userID ${dashboardProvider.userID}");
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('https://muapi.deeps.info/api/orders/client-wallet'));
+    request.fields.addAll({'userId': '${dashboardProvider.userID}'});
 
     http.StreamedResponse response = await request.send();
 
@@ -1793,32 +1782,28 @@ class ApiServices {
     // logger.e(body);
 
     if (response.statusCode == 200) {
-      dashboardProvider.setCashback(true,promotionCashBackFromJson(body));
+      dashboardProvider.setCashback(true, promotionCashBackFromJson(body));
       return true;
-    }
-    else if(response.statusCode==404){
+    } else if (response.statusCode == 404) {
       return false;
-    }
-    else {
+    } else {
       print(await response.stream.bytesToString());
       print(response.reasonPhrase);
       return false;
     }
-
   }
 
-  static Future<String> getCashBackValueOfCoupon()async {
-
+  static Future<String> getCashBackValueOfCoupon() async {
     // return await request(requestType: "POST",feedUrl: _GET_COUPON_VALUE,body: null);
-    var request = http.Request('POST', Uri.parse('https://muapi.deeps.info/api/orders/coupon-value'));
-
+    var request = http.Request(
+        'POST', Uri.parse('https://muapi.deeps.info/api/orders/coupon-value'));
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      String body= await response.stream.bytesToString();
-      if(body!=null){
-        if(body.contains("successful")){
+      String body = await response.stream.bytesToString();
+      if (body != null) {
+        if (body.contains("successful")) {
           dashboardProvider.couponAmount = null;
           dashboardProvider.notifyListeners();
           var decode = json.decode(body);
@@ -1828,28 +1813,28 @@ class ApiServices {
       }
 
       return "";
-
-    }
-    else {
+    } else {
       return response.reasonPhrase;
     }
   }
 
-  static void applyCouponCode(String code,String orderId) async {
-    var request = http.Request('POST', Uri.parse('https://muapi.deeps.info/api/orders/coupon-validity?couponCode=$code&userId=${dashboardProvider.userID}&OrderId=$orderId'));
-
+  static void applyCouponCode(String code, String orderId) async {
+    var request = http.Request(
+        'POST',
+        Uri.parse(
+            'https://muapi.deeps.info/api/orders/coupon-validity?couponCode=$code&userId=${dashboardProvider.userID}&OrderId=$orderId'));
 
     http.StreamedResponse response = await request.send();
 
-     String body = await response.stream.bytesToString();
-     logger.e(body);
-     var decode = json.decode(body);
-      TOASTS(decode['result']);
-
+    String body = await response.stream.bytesToString();
+    logger.e(body);
+    var decode = json.decode(body);
+    TOASTS(decode['result']);
   }
-
 }
 
-showProgress(){
-  Get.dialog(Center(child: CircularProgressIndicator(),));
+showProgress() {
+  Get.dialog(Center(
+    child: CircularProgressIndicator(),
+  ));
 }

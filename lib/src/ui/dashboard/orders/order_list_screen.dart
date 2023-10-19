@@ -5,8 +5,10 @@ import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:musan_client/FCM.dart';
 import 'package:musan_client/OrderOfferScreen.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
-import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart' as offer;
-import 'package:musan_client/api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart' as order;
+import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart'
+    as offer;
+import 'package:musan_client/api_services/response_models/GetCompletedOrInProgressOrderByUserId.dart'
+    as order;
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
 import 'package:musan_client/src/ui/dashboard/orders/order_tracking_new.dart';
@@ -21,8 +23,6 @@ class OrderListScreen extends StatefulWidget {
 }
 
 class _OrderListScreenState extends State<OrderListScreen> {
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -31,12 +31,15 @@ class _OrderListScreenState extends State<OrderListScreen> {
         screenName: "OrderScreen", screenClass: "OrderScreen");
     getOffersAndOderAtOnce();
   }
-var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
+
+  var orderProvider =
+      Provider.of<OrderScreenProvider>(Get.context, listen: false);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderScreenProvider>(builder: (builder, data, child) {
       return Scaffold(
-        backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
             leading: null,
             centerTitle: true,
@@ -47,55 +50,53 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
               style: TextStyle(color: Colors.black),
             ),
           ),
-          body:
-
-              data.isInprogressCompletedOrderDataLoaded
-                  ||
-              data.isFreshOrderDataLoaded?
-              SingleChildScrollView(
-            child:
-
-            Column(
-              children: [
-                data.isFreshOrderDataLoaded
-                    ? Column(
-                        children: List.generate(
-                            data.getFreshOrderByUserIdReponse.result.length,
-                            (index) => offerItem(offer:data.getFreshOrderByUserIdReponse.result[index])),
-                      )
-                    : Container(),
-                data.isInprogressCompletedOrderDataLoaded
-                    ? Column(
-                        children: List.generate(
-                            data.completedOrInProgressOrderByUserIdFromJson
-                                .result.length,
-                            (index) => orderItem(
-                                order: data
-                                    .completedOrInProgressOrderByUserIdFromJson
-                                    .result[index])),
-                      )
-                    : Container()
-              ],
-            )
-
-          )
-              :
-              Center(child: CircularProgressIndicator(color: Colors.blue,),)
-
-      );
+          body: data.isInprogressCompletedOrderDataLoaded ||
+                  data.isFreshOrderDataLoaded
+              ? SingleChildScrollView(
+                  child: Column(
+                  children: [
+                    data.isFreshOrderDataLoaded
+                        ? Column(
+                            children: List.generate(
+                                data.getFreshOrderByUserIdReponse.result.length,
+                                (index) => offerItem(
+                                    offer: data.getFreshOrderByUserIdReponse
+                                        .result[index])),
+                          )
+                        : Container(),
+                    data.isInprogressCompletedOrderDataLoaded
+                        ? Column(
+                            children: List.generate(
+                                data.completedOrInProgressOrderByUserIdFromJson
+                                    .result.length,
+                                (index) => orderItem(
+                                    order: data
+                                        .completedOrInProgressOrderByUserIdFromJson
+                                        .result[index])),
+                          )
+                        : Container()
+                  ],
+                ))
+              : Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
+                ));
     });
   }
 
   Widget orderItem({order.Result order}) {
     return InkWell(
-      onTap: (){
-        orderProvider.isSingleOrderDataLoaded=false;
-        Get.to(OrderTracking(null,true,order.orderId));
+      onTap: () {
+        orderProvider.isSingleOrderDataLoaded = false;
+        Get.to(OrderTracking(null, true, order.orderId));
       },
       child: Padding(
         padding: const EdgeInsets.all(6),
         child: Container(
-          decoration: BoxDecoration(color: greyShade.withOpacity(0.1),borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: greyShade.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -106,15 +107,13 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: order.displayImage==null
-                                ?
-                            AssetImage("assets/logo.png"):
-                            NetworkImage("https://muapi.deeps.info/${order.displayImage}")
-                        )),
+                            image: order.displayImage == null
+                                ? AssetImage("assets/logo.png")
+                                : NetworkImage(
+                                    "https://muapi.deeps.info/${order.displayImage}"))),
                   ),
                   Expanded(
                       child: Container(
-
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -123,17 +122,39 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
                         children: [
                           Row(
                             children: [
-                              Text(order.workshopName.name ?? "",style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),),
+                              Text(
+                                order.workshopName.name ?? "",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              ),
                               Spacer(),
-                              Text("${double.parse(order.totalCost.toString()).toInt()} ${"SAR".tr}",style: TextStyle(color: blue,
-                              fontWeight: FontWeight.w600,fontSize: 17),),
+                              Text(
+                                "${double.parse(order.totalCost.toString()).toInt()} ${"SAR".tr}",
+                                style: TextStyle(
+                                    color: blue,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17),
+                              ),
                             ],
                           ),
-                          Text(_getStepsName(order),
-                          style: TextStyle(color: _getStepsName(order).contains("Completed") ? green:orangeYellow,fontSize: 16),
+                          Text(
+                            _getStepsName(order),
+                            style: TextStyle(
+                                color:
+                                    _getStepsName(order).contains("Completed")
+                                        ? green
+                                        : orangeYellow,
+                                fontSize: 16),
                           ),
-                          SizedBox(height: 5,),
-                          Text(order.creationDate.replaceAll("T00:00:00", ""),style: TextStyle(color: Colors.grey),),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            order.creationDate.replaceAll("T00:00:00", ""),
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ],
                       ),
                     ),
@@ -145,16 +166,17 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
     );
   }
 
-
   Widget offerItem({offer.Result offer}) {
     return InkWell(
-      onTap: (){
-        Get.to(()=> OrderOfferScreen(offer.orderId.toString()));
+      onTap: () {
+        Get.to(() => OrderOfferScreen(offer.orderId.toString()));
       },
       child: Padding(
         padding: const EdgeInsets.all(6),
         child: Container(
-          decoration: BoxDecoration(color: greyShade.withOpacity(0.1),borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+                color: greyShade.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -165,12 +187,10 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: AssetImage(
-                                "assets/logo.png"))),
+                            image: AssetImage("assets/logo.png"))),
                   ),
                   Expanded(
                       child: Container(
-
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -188,16 +208,29 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-
-                              Text("${getAveragePrice(offer)} ${"SAR".tr}",style: TextStyle(color: blue,
-                              fontWeight: FontWeight.w600,fontSize: 17),),
+                              Text(
+                                "${getAveragePrice(offer)} ${"SAR".tr}",
+                                style: TextStyle(
+                                    color: blue,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 17),
+                              ),
                             ],
                           ),
-                          Text("${offer.offers.length} ${"Offers Received".tr}",
-                          style: TextStyle(color:orangeYellow,fontSize: 16,fontWeight: FontWeight.bold),
+                          Text(
+                            "${offer.offers.length} ${"Offers Received".tr}",
+                            style: TextStyle(
+                                color: orangeYellow,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
-                          SizedBox(height: 5,),
-                          Text(offer.creationDate.replaceAll("T00:00:00", ""),style: TextStyle(color: Colors.grey),),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Text(
+                            offer.creationDate.replaceAll("T00:00:00", ""),
+                            style: TextStyle(color: Colors.grey),
+                          ),
                         ],
                       ),
                     ),
@@ -251,5 +284,3 @@ var orderProvider=Provider.of<OrderScreenProvider>(Get.context,listen: false);
     return "".tr;
   }
 }
-
-

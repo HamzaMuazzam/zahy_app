@@ -24,12 +24,12 @@ Future main() async {
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   WidgetsApp.debugAllowBannerOverride = false;
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.blue,
-      statusBarIconBrightness: Brightness.light));
+  // SystemChrome.setPreferredOrientations([
+  //   DeviceOrientation.portraitUp,
+  // ]);
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //     statusBarColor: Colors.blue,
+  //     statusBarIconBrightness: Brightness.light));
 
 
   runApp(MyApp(sharedPreferences));
