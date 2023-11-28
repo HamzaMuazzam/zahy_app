@@ -1,13 +1,8 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/locale/constantString.dart';
 import 'package:musan_client/new_desgin_login/EnterYourNumber.dart';
@@ -16,8 +11,6 @@ import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/utils/colors.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
-
-import 'CreateAccount.dart';
 
 class MobileVerification extends StatefulWidget {
   const MobileVerification({Key key}) : super(key: key);
@@ -58,10 +51,12 @@ class _MobileVerificationState extends State<MobileVerification> {
       print("Hello");
       return;
     }
-    var credential =
-        await PhoneAuthProvider.credential(verificationId: verificationId, smsCode: smsCode);
+    var credential = await PhoneAuthProvider.credential(
+        verificationId: verificationId, smsCode: smsCode);
 
-    await FirebaseAuth.instance.signInWithCredential(credential).then((value) async {
+    await FirebaseAuth.instance
+        .signInWithCredential(credential)
+        .then((value) async {
       print("data.userMobileNumber");
       Get.snackbar(strVerificationCompleted, "");
 
@@ -133,219 +128,246 @@ class _MobileVerificationState extends State<MobileVerification> {
   @override
   Widget build(BuildContext context) {
     return Consumer<LoginProvider>(builder: (builder, data, child) {
-      return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Container(
-          height: Get.height,
-          width: Get.width,
-          color: Colors.white,
-          child: Column(
-            children: [
-              Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                            onTap: () {
-                              Navigator.pop(context, MaterialPageRoute(builder: (context) {
-                                return EnterYourNumber();
-                              }));
-                            },
-                            child: Icon(Icons.arrow_back)),
-                      ),
-                      SizedBox(width: Get.width / 4),
-                      Text(
-                        'Mobile number verification'.tr,
-                        style: TextStyle(
-                            color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  )),
-              SvgPicture.asset("assets/message_logo.svg"),
-              Expanded(
-                  flex: 9,
-                  child: Container(
-                    height: Get.height,
-                    width: Get.width,
-                    child: Column(
+      return SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: Container(
+            height: Get.height,
+            width: Get.width,
+            color: Colors.white,
+            child: Column(
+              children: [
+                Expanded(
+                    flex: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /// Text for sending verification on mobile number.
                         Padding(
-                          padding: const EdgeInsets.only(left: 18, right: 15),
-                          child: RichText(
-                            // textDirection: TextDirection.ltr,
-                            text: TextSpan(locale: Locale("en"), children: [
-                              TextSpan(
-                                  text: 'We will send you an SMS code to verify your number '.tr,
-                                  style: TextStyle(color: Colors.grey.shade600)),
-                              TextSpan(
-                                  locale: Locale("en"),
-                                  text: '${provider.userMobileNumber}',
-                                  style:
-                                      TextStyle(color: Colors.blue, fontWeight: FontWeight.bold)),
-                            ]),
-                          ),
-                        ),
-
-                        /// timer and Wrong number buttons.
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            children: [
-                              /// Timer button for duration count to send msg again
-                              /// on your mobile number.
-
-                              TweenAnimationBuilder<Duration>(
-                                  duration: Duration(minutes: 1),
-                                  tween: Tween(begin: Duration(minutes: 1), end: Duration.zero),
-                                  onEnd: () {
-                                    print('Timer ended');
-                                    istimerCompleted = true;
-                                    setState(() {});
-                                  },
-                                  builder: (BuildContext context, Duration value, Widget child) {
-                                    final minutes = value.inMinutes;
-                                    final seconds = value.inSeconds % 60;
-                                    return Padding(
-                                        padding: const EdgeInsets.symmetric(vertical: 5),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(width: 2, color: red),
-                                              borderRadius: BorderRadius.circular(8)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 15, vertical: 3),
-                                            child: Text('$minutes:$seconds',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: Colors.blueGrey,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 16)),
-                                          ),
-                                        ));
-                                  }),
-                              SizedBox(
-                                width: 12,
-                              ),
-
-                              /// Wrong number button to go back older screen to
-                              /// re enter you mobile number.
-                              InkWell(
-                                onTap: Get.back,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: red, borderRadius: BorderRadius.circular(8)),
-                                  alignment: Alignment.center,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                                    child: Text(
-                                      'Number is incorrect?'.tr,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 22,
-                        ),
-
-                        /// Container for pasting verification code.
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            height: Get.height * .08,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(18)),
-                            alignment: Alignment.center,
-                            child: TextFormField(
-                              keyboardType: TextInputType.number,
-                              // maxLength: 6,
-                              controller: numberController,
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: Get.width * 0.075,
-                              ),
-                              onChanged: (value) {
-                                if (value.length == 6) {
-                                  FocusScope.of(context).unfocus();
-                                }
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                              onTap: () {
+                                Navigator.pop(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return EnterYourNumber();
+                                }));
                               },
-                              textAlign: TextAlign.center,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(left: 10, right: 10),
-                                  hintText: '  #  #  #  #  #  #  #   #  #   #  #   #  #   #  #  ',
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontSize: Get.width * 0.085,
-                                  ),
-                                  border: InputBorder.none),
+                              child: Icon(Icons.arrow_back)),
+                        ),
+                        Text(
+                          'Mobile number verification'.tr,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Container(),
+                      ],
+                    )),
+                SvgPicture.asset("assets/message_logo.svg"),
+                Expanded(
+                    flex: 9,
+                    child: Container(
+                      height: Get.height,
+                      width: Get.width,
+                      child: Column(
+                        children: [
+                          /// Text for sending verification on mobile number.
+                          Padding(
+                            padding: const EdgeInsets.only(left: 18, right: 15),
+                            child: RichText(
+                              // textDirection: TextDirection.ltr,
+                              text: TextSpan(locale: Locale("en"), children: [
+                                TextSpan(
+                                    text:
+                                        'We will send you an SMS code to verify your number '
+                                            .tr,
+                                    style:
+                                        TextStyle(color: Colors.grey.shade600)),
+                                TextSpan(
+                                    locale: Locale("en"),
+                                    text: '${provider.userMobileNumber}',
+                                    style: TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold)),
+                              ]),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 22,
-                        ),
 
-                        /// SVG image and text for resend code.
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            istimerCompleted
-                                ? Row(
-                                    children: [
-                                      Text(
-                                        ' Didn`t  Receive the code?'.tr,
-                                        style: TextStyle(color: Colors.grey.shade600, fontSize: 17),
+                          /// timer and Wrong number buttons.
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              children: [
+                                /// Timer button for duration count to send msg again
+                                /// on your mobile number.
+
+                                TweenAnimationBuilder<Duration>(
+                                    duration: Duration(minutes: 1),
+                                    tween: Tween(
+                                        begin: Duration(minutes: 1),
+                                        end: Duration.zero),
+                                    onEnd: () {
+                                      print('Timer ended');
+                                      istimerCompleted = true;
+                                      setState(() {});
+                                    },
+                                    builder: (BuildContext context,
+                                        Duration value, Widget child) {
+                                      final minutes = value.inMinutes;
+                                      final seconds = value.inSeconds % 60;
+                                      return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                    width: 2, color: red),
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 15,
+                                                      vertical: 3),
+                                              child: Text('$minutes:$seconds',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Colors.blueGrey,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16)),
+                                            ),
+                                          ));
+                                    }),
+                                SizedBox(
+                                  width: 12,
+                                ),
+
+                                /// Wrong number button to go back older screen to
+                                /// re enter you mobile number.
+                                InkWell(
+                                  onTap: Get.back,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: red,
+                                        borderRadius: BorderRadius.circular(8)),
+                                    alignment: Alignment.center,
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text(
+                                        'Number is incorrect?'.tr,
+                                        style: TextStyle(color: Colors.white),
                                       ),
-                                      Text(
-                                        ' Resend'.tr,
-                                        style: TextStyle(color: themeColor, fontSize: 17),
-                                      )
-                                    ],
-                                  )
-                                : Container(),
-                            SizedBox(width: 4),
-                          ],
-                        )
-                      ],
-                    ),
-                  )),
-              InkWell(
-                onTap: () async {
-                  if (numberController.value.text.length != 6) {
-                    return;
-                  }
-                  Get.dialog(Center(child: CircularProgressIndicator()));
-                  _signInWithPhoneNumber(numberController.value.text, data);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Container(
-                    height: Get.height * 0.08,
-                    width: Get.width,
-                    decoration:
-                        BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(20)),
-                    alignment: Alignment.center,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Verify Number'.tr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 22,
+                          ),
+
+                          /// Container for pasting verification code.
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Container(
+                              height: Get.height * .08,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade200,
+                                  borderRadius: BorderRadius.circular(18)),
+                              alignment: Alignment.center,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                // maxLength: 6,
+                                controller: numberController,
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: Get.width * 0.075,
+                                ),
+                                onChanged: (value) {
+                                  if (value.length == 6) {
+                                    FocusScope.of(context).unfocus();
+                                  }
+                                },
+                                textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    contentPadding:
+                                        EdgeInsets.only(left: 10, right: 10),
+                                    hintText:
+                                        '  #  #  #  #  #  #  #   #  #   #  #   #  #   #  #  ',
+                                    hintStyle: TextStyle(
+                                      color: Colors.grey.shade600,
+                                      fontSize: Get.width * 0.085,
+                                    ),
+                                    border: InputBorder.none),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 22,
+                          ),
+
+                          /// SVG image and text for resend code.
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              istimerCompleted
+                                  ? Row(
+                                      children: [
+                                        Text(
+                                          ' Didn`t  Receive the code?'.tr,
+                                          style: TextStyle(
+                                              color: Colors.grey.shade600,
+                                              fontSize: 17),
+                                        ),
+                                        Text(
+                                          ' Resend'.tr,
+                                          style: TextStyle(
+                                              color: themeColor, fontSize: 17),
+                                        )
+                                      ],
+                                    )
+                                  : Container(),
+                              SizedBox(width: 4),
+                            ],
+                          )
+                        ],
+                      ),
+                    )),
+                InkWell(
+                  onTap: () async {
+                    if (numberController.value.text.length != 6) {
+                      return;
+                    }
+                    Get.dialog(Center(child: CircularProgressIndicator()));
+                    _signInWithPhoneNumber(numberController.value.text, data);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Container(
+                      height: Get.height * 0.08,
+                      width: Get.width,
+                      decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(20)),
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Verify Number'.tr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       );

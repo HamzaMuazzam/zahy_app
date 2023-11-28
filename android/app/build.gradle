@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.musan.musan_client"
+        applicationId "com.roboteam.zahy"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -58,7 +58,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    namespace 'com.musan.musan_client'
+    namespace 'com.roboteam.zahy'
 }
 
 flutter {
