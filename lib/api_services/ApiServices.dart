@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -14,9 +13,9 @@ import 'package:musan_client/api_services/response_models/CarInformationReponse.
 import 'package:musan_client/api_services/response_models/CarPickUpType.dart';
 import 'package:musan_client/api_services/response_models/CarRelatedInfoReponse.dart';
 import 'package:musan_client/api_services/response_models/FaultsReponse.dart';
+import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart';
 import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart'
     as WorkshopOffer;
-import 'package:musan_client/api_services/response_models/GerOrderByUserIDReponse.dart';
 import 'package:musan_client/api_services/response_models/GetDashboardCountsReponse.dart';
 import 'package:musan_client/api_services/response_models/GetDiscountOffers.dart';
 import 'package:musan_client/api_services/response_models/GetMyCarsByUserId.dart';
@@ -28,8 +27,8 @@ import 'package:musan_client/api_services/response_models/LoginReponse.dart';
 import 'package:musan_client/api_services/response_models/PaymentHistoryResponse.dart';
 import 'package:musan_client/api_services/response_models/PromotionCashBack.dart';
 import 'package:musan_client/api_services/response_models/SignUpReponse.dart';
-import 'package:musan_client/new_desgin_login/CreateAccount.dart';
 import 'package:musan_client/locale/constantString.dart';
+import 'package:musan_client/new_desgin_login/CreateAccount.dart';
 import 'package:musan_client/src/provider/Login_provider.dart';
 import 'package:musan_client/src/provider/MyCarsScreenProvider.dart';
 import 'package:musan_client/src/provider/OrderScreenProvider.dart';
@@ -44,8 +43,9 @@ import 'package:musan_client/utils/common_classes.dart';
 import 'package:musan_client/utils/order_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'response_models/GetCompletedOrInProgressOrderByUserId.dart';
+
 import 'response_models/GetCompletedOrInProgressOrderByUserId.dart' as ord;
+import 'response_models/GetCompletedOrInProgressOrderByUserId.dart';
 
 class ApiServices {
   static var _BASE_URL = 'https://muapi.deeps.info/api/';
@@ -164,7 +164,7 @@ class ApiServices {
             body: body.toString())
         .then((value) {
       if (Get.isDialogOpen) {
-        Get.back();
+        // Get.back();
       }
       if (value != null) {
         logger.e(value);

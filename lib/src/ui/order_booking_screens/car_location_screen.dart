@@ -13,30 +13,29 @@ class CarLocationScreen extends StatefulWidget {
   bool isFromDicountOffers;
   int offerID;
 
-  CarLocationScreen({this.isTechnicianOrder, this.isFromDicountOffers: false, this.offerID});
+  CarLocationScreen(
+      {this.isTechnicianOrder, this.isFromDicountOffers: false, this.offerID});
 
   @override
   _CarLocationScreenState createState() => _CarLocationScreenState();
 }
 
 class _CarLocationScreenState extends State<CarLocationScreen> {
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    analytics.logScreenView(screenName: "CarLocationScreen",screenClass:"CarLocationScreen");
-
+    analytics.logScreenView(
+        screenName: "CarLocationScreen", screenClass: "CarLocationScreen");
   }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<WorkShopOrderProvider>(builder: (builder, data, child) {
-
-
-
       /// 0 for technician
       ///  1 for workshop
-      data.setOrderTyepe(widget.isTechnicianOrder,widget.offerID,widget.isFromDicountOffers);
+      data.setOrderTyepe(
+          widget.isTechnicianOrder, widget.offerID, widget.isFromDicountOffers);
 
       return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -50,9 +49,7 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
               Expanded(
                   flex: 1,
                   child: Container(
-                      height: Get.height,
-                      width: Get.width,
-                      child: stepBar())),
+                      height: Get.height, width: Get.width, child: stepBar())),
               Expanded(
                   flex: 6,
                   child: Container(
@@ -67,7 +64,7 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                       padding: const EdgeInsets.only(left: 22, right: 22),
                       child: SingleChildScrollView(
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
@@ -89,7 +86,8 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                             ),
                             Text(
                               'Please enter your car location on the map'.tr,
-                              style: TextStyle(color: textGreyColor, fontSize: 18),
+                              style:
+                                  TextStyle(color: textGreyColor, fontSize: 17),
                             ),
 
                             /// Container for search placees on the map.
@@ -109,7 +107,8 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                                   // });
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12.0),
                                   child: Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
@@ -143,7 +142,9 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                                 ),
                               ),
                             ),
-
+SizedBox(
+  height: 10,
+),
                             /// Container for Map view
                             Container(
                                 height: Get.height / 2,
@@ -151,11 +152,11 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                                     color: Colors.blue.shade100,
                                     borderRadius: BorderRadius.circular(6)),
                                 alignment: Alignment.center,
-                                child: GMaps(title: '', showItems: false)
-                            ),
+                                child: GMaps(title: '', showItems: false)),
                             SizedBox(
                               height: 8,
                             ),
+
                             /// Row for tow buttons. Cancel and Next buttons.
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,26 +168,16 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
                                     child: customCancelbackbutton()),
                                 InkWell(
                                   onTap: () {
-
-
-                                    if(data.latitude==0 || data.longitude==0){
-
-
-
+                                    if (data.latitude == 0 ||
+                                        data.longitude == 0) {
                                       return;
                                     }
-                                    if(data.screenChecked==0){
+                                    if (data.screenChecked == 0) {
                                       data.selectedIssuesList.clear();
                                       Get.to(CarModelScreen());
-
+                                    } else {
+                                      Get.to(IssueTypeScreen());
                                     }
-                                    else{
-                                    Get.to(IssueTypeScreen());
-                                    }
-
-
-
-
                                   },
                                   child: customNextButton(),
                                 ),
@@ -206,5 +197,4 @@ class _CarLocationScreenState extends State<CarLocationScreen> {
       );
     });
   }
-
 }

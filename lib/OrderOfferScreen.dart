@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:expandable/expandable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -14,10 +13,8 @@ import 'package:musan_client/src/ui/auth/SignUp.dart';
 import 'package:musan_client/src/ui/dashboard/orders/workshop_offer.dart';
 import 'package:musan_client/utils/common_classes.dart';
 import 'package:provider/provider.dart';
-import 'package:progress_indicators/progress_indicators.dart';
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderOfferScreen extends StatefulWidget {
   final String orderId;
@@ -35,7 +32,8 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
 
   ExpandableController expandableController =
       ExpandableController(initialExpanded: false);
-  var orderProvider =Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  var orderProvider =
+      Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
   @override
   void initState() {
@@ -44,9 +42,8 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
         screenName: "OrderOfferScreen", screenClass: "OrderOfferScreen");
     analytics.logEvent(name: "user_entered_offer_screen");
     orderProvider.getOfferrdersList();
-    orderProvider.orderIdForOfferScreen=orderId;
+    orderProvider.orderIdForOfferScreen = orderId;
   }
-
 
   Result result;
   RefreshController _refreshController =
@@ -55,7 +52,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
   @override
   Widget build(BuildContext context) =>
       Consumer<OrderScreenProvider>(builder: (builder, datas, child) {
-        result=datas.offerResult;
+        result = datas.offerResult;
 
         return Container(
           color: Colors.blue,
@@ -89,7 +86,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                     result != null
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
+                            mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
                                 child: Column(
@@ -131,7 +128,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(10),
                                             boxShadow: [
                                               BoxShadow(
                                                   color: Colors.grey,
@@ -333,9 +330,6 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                                                               0.018,
                                                                       color: Colors
                                                                           .blueGrey)),
-                                                              SizedBox(
-                                                                height: 5,
-                                                              ),
                                                               Text(
                                                                 "${result.orderId}",
                                                                 style: TextStyle(
@@ -388,7 +382,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                                                         color: Colors
                                                                             .blueGrey)),
                                                                 SizedBox(
-                                                                  height: 5,
+                                                                  height: 14,
                                                                 ),
                                                                 Text(
                                                                   "${result.creationDate.toString().replaceAll("00:00:00.000", '').replaceAll("T00:00:00", '')}",
@@ -966,7 +960,8 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                                                         .workshopId
                                                                         .toString());
 
-                                                                orderProvider.getOfferrdersList();
+                                                                orderProvider
+                                                                    .getOfferrdersList();
                                                               },
                                                               child: Text(
                                                                 !result
@@ -1017,9 +1012,6 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                             CrossAxisAlignment.center,
                                         children: [
                                           // SvgPicture.asset('assets/images/emoji_laugh.svg'),
-                                          SizedBox(
-                                            height: 25,
-                                          ),
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 12.0),
@@ -1031,19 +1023,19 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
                                                       .tr,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                  fontSize: 22,
+                                                  fontSize: 18,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           ),
-                                          JumpingDotsProgressIndicator(
-                                            fontSize: 50,
-                                            dotSpacing: 5,
-                                            color: Colors.blue,
-                                            milliseconds: 150,
-                                          ),
-                                          SizedBox(
-                                            height: 50,
-                                          ),
+                                          // JumpingDotsProgressIndicator(
+                                          //   fontSize: 50,
+                                          //   dotSpacing: 5,
+                                          //   color: Colors.blue,
+                                          //   milliseconds: 150,
+                                          // ),
+                                          // SizedBox(
+                                          //   height: 50,
+                                          // ),
                                         ],
                                       ),
                                     )),
@@ -1065,7 +1057,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
       });
 
   void _onRefresh() async {
-   orderProvider. getOfferrdersList();
+    orderProvider.getOfferrdersList();
 
     _refreshController.refreshCompleted();
   }
@@ -1074,7 +1066,7 @@ class _OrderOfferScreenState extends State<OrderOfferScreen> {
     _refreshController.loadComplete();
   }
 
-   acceptOffer(int index) {
+  acceptOffer(int index) {
     Get.dialog(Center(
       child: CircularProgressIndicator(),
     ));

@@ -29,10 +29,7 @@ class TabItem extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(height: 10),
-          iconData??SizedBox(),
-
-        const SizedBox(height: 10),
+        iconData ?? SizedBox(),
         Text(
           label ?? "",
           style: TextStyle(

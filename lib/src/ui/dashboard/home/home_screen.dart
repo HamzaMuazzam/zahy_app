@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '/CashBackScreen.dart';
 import '/api_services/ApiServices.dart';
 import '/api_services/Finals.dart';
@@ -9,9 +13,6 @@ import '/src/provider/dashboard_provider.dart';
 import '/src/ui/auth/SignUp.dart';
 import '/src/ui/order_booking_screens/car_location_screen.dart';
 import '/utils/colors.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen();
@@ -20,11 +21,14 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-var orderProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
+var orderProvider =
+    Provider.of<OrderScreenProvider>(Get.context, listen: false);
 
 class _HomeScreenState extends State<HomeScreen> {
-  var dashboardProvider = Provider.of<DashboardProvider>(Get.context, listen: false);
-  var orderScreenProvider = Provider.of<OrderScreenProvider>(Get.context, listen: false);
+  var dashboardProvider =
+      Provider.of<DashboardProvider>(Get.context, listen: false);
+  var orderScreenProvider =
+      Provider.of<OrderScreenProvider>(Get.context, listen: false);
   String couponCode = "";
 
   @override
@@ -54,7 +58,9 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
+            SizedBox(
+              height: Get.height * 0.05,
+            ),
             Row(
               children: [
                 Image.asset("assets/dummy_profile.png", scale: 1.5),
@@ -171,7 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                     flex: 6,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12, top: 15),
+                      padding:
+                          const EdgeInsets.only(left: 12, right: 12, top: 15),
                       child: InkWell(
                         onTap: () {
                           dashboardProvider.isTechnicianOrder = 1;
@@ -182,7 +189,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Expanded(
                                   child: Container(
-                                child: SvgPicture.asset("assets/home_assets/laundry.svg"),
+                                child: SvgPicture.asset(
+                                    "assets/home_assets/laundry.svg"),
                               )),
                               Container(
                                 child: Column(
@@ -190,7 +198,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
                                       child: Text(
                                         "Laundry service",
                                         style: TextStyle(
@@ -209,14 +218,16 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                           decoration: BoxDecoration(
-                              color: themeColor, borderRadius: BorderRadius.circular(18)),
+                              color: themeColor,
+                              borderRadius: BorderRadius.circular(18)),
                         ),
                       ),
                     )),
                 Expanded(
                     flex: 6,
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12, top: 10, bottom: 10),
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 10, bottom: 10),
                       child: Container(
                         child: Row(
                           children: [
@@ -240,23 +251,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .tr);
                                       },
                                       child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: Container(
                                           width: Get.width,
                                           child: Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
                                               children: [
                                                 Text(
                                                   "Smart home",
                                                   style: TextStyle(
-                                                      fontSize: 13, fontWeight: FontWeight.w700),
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w700),
                                                 ),
                                                 Text(
                                                   "Service",
                                                   style: TextStyle(
-                                                      fontSize: 13, fontWeight: FontWeight.w700),
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w700),
                                                 ),
                                               ],
                                             ),
@@ -266,10 +284,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     )),
                                     Expanded(
                                       child: Container(
-                                        child: SvgPicture.asset("assets/home_assets/repair.svg"),
+                                        child: SvgPicture.asset(
+                                            "assets/home_assets/repair.svg"),
                                       ),
                                     ).paddingOnly(bottom: 10),
-
                                   ],
                                 ),
                               ),
@@ -296,23 +314,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                       Expanded(
                                           child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
                                         child: Container(
                                           width: Get.width,
                                           child: Expanded(
                                             child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              mainAxisAlignment: MainAxisAlignment.end,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.end,
                                               children: [
                                                 Text(
                                                   "House maintenance",
                                                   style: TextStyle(
-                                                      fontSize: 13, fontWeight: FontWeight.w700),
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w700),
                                                 ),
                                                 Text(
                                                   "Service",
                                                   style: TextStyle(
-                                                      fontSize: 13, fontWeight: FontWeight.w700),
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w700),
                                                 ),
                                               ],
                                             ),
@@ -337,7 +362,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   flex: 2,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 12, right: 12, bottom: 10),
+                    padding:
+                        const EdgeInsets.only(left: 12, right: 12, bottom: 10),
                     child: Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -355,16 +381,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           Center(
                               child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: InkWell(
                                       onTap: () {
-                                        Clipboard.setData(ClipboardData(text: couponCode))
+                                        Clipboard.setData(
+                                                ClipboardData(text: couponCode))
                                             .then((_) {
-                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                              content: Text(
-                                                  "Coupon '${couponCode ?? ""}' copied to clipboard")));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "Coupon '${couponCode ?? ""}' copied to clipboard")));
                                         });
                                       },
                                       child: Row(
@@ -407,7 +436,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                               child: InkWell(
                             onTap: () {
-                              bottomForComingSoon("خدمة بنشر الكفرات", "هذه الخدمة ستتوفر قريباً");
+                              bottomForComingSoon("خدمة بنشر الكفرات",
+                                  "هذه الخدمة ستتوفر قريباً");
                             },
                             child: Column(
                               children: [
@@ -420,8 +450,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 Text(
                                   "Show all",
-                                  style:
-                                      TextStyle(color: Colors.black, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ],
                             ),
@@ -429,17 +460,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                               child: InkWell(
                             onTap: () {
-                              bottomForComingSoon(
-                                  "خدمة تغيير البطارية", "هذه الخدمة ستتوفر قريباً");
+                              bottomForComingSoon("خدمة تغيير البطارية",
+                                  "هذه الخدمة ستتوفر قريباً");
                             },
                             child: Column(
                               children: [
                                 Container(
-
-                                  child:
-                                      SvgPicture.asset("assets/home_assets/device_mentinance.svg").paddingAll(10),
-                                  decoration:
-                                      BoxDecoration(color: themeColor, shape: BoxShape.circle),
+                                  child: SvgPicture.asset(
+                                          "assets/home_assets/device_mentinance.svg")
+                                      .paddingAll(10),
+                                  decoration: BoxDecoration(
+                                      color: themeColor,
+                                      shape: BoxShape.circle),
                                 ),
                                 Text(
                                   "Devices",
@@ -459,15 +491,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                               child: InkWell(
                             onTap: () {
-                              bottomForComingSoon("خدمة زينة السيارة", "هذه الخدمة ستتوفر قريباً");
+                              bottomForComingSoon("خدمة زينة السيارة",
+                                  "هذه الخدمة ستتوفر قريباً");
                             },
                             child: Column(
                               children: [
                                 Container(
-
-                                  child: SvgPicture.asset("assets/home_assets/house_cleaning.svg").paddingAll(10),
-                                  decoration:
-                                      BoxDecoration(color: Color(0xff00E592), shape: BoxShape.circle),
+                                  child: SvgPicture.asset(
+                                          "assets/home_assets/house_cleaning.svg")
+                                      .paddingAll(10),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff00E592),
+                                      shape: BoxShape.circle),
                                 ),
                                 Text(
                                   "House",
@@ -487,19 +522,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           Expanded(
                               child: InkWell(
                             onTap: () {
-                              bottomForComingSoon(
-                                  "خدمة تغيير زجاج السيارة", "هذه الخدمة ستتوفر قريباً");
+                              bottomForComingSoon("خدمة تغيير زجاج السيارة",
+                                  "هذه الخدمة ستتوفر قريباً");
                             },
                             child: Column(
                               children: [
                                 Container(
-
-                                    child:
-                                        SvgPicture.asset("assets/home_assets/washing_clothes.svg").paddingAll(10),
-                                    decoration:
-                                        BoxDecoration(color: Color(0xffFFB516), shape: BoxShape.circle)),
-                                Text("Washing", style: TextStyle(fontWeight: FontWeight.w400)),
-                                Text("clothes", style: TextStyle(fontWeight: FontWeight.w400)),
+                                    child: SvgPicture.asset(
+                                            "assets/home_assets/washing_clothes.svg")
+                                        .paddingAll(10),
+                                    decoration: BoxDecoration(
+                                        color: Color(0xffFFB516),
+                                        shape: BoxShape.circle)),
+                                Text("Washing",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w400)),
+                                Text("clothes",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.w400)),
                               ],
                             ),
                           )),
@@ -544,15 +584,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   title,
                   style: TextStyle(
-                      color: blue, fontSize: Get.height * 0.027, fontWeight: FontWeight.bold),
+                      color: blue,
+                      fontSize: Get.height * 0.027,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Text(
                   message,
                   style: TextStyle(
-                      color: Colors.grey, fontSize: Get.height * 0.02, fontWeight: FontWeight.bold),
+                      color: Colors.grey,
+                      fontSize: Get.height * 0.02,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
@@ -574,7 +619,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _commonButton(String title,
-      {double bottomPadding= 15, Color bntColor = blue, tap}) {
+      {double bottomPadding = 15, Color bntColor = blue, tap}) {
     return InkWell(
       onTap: tap,
       child: Padding(
@@ -597,7 +642,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text(
             '$title'.tr,
             style: TextStyle(
-                color: Colors.white, fontSize: Get.height * .0225, fontWeight: FontWeight.w600),
+                color: Colors.white,
+                fontSize: Get.height * .0225,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),

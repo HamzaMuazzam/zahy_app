@@ -8,7 +8,6 @@ import 'package:musan_client/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatefulWidget {
-  NotificationScreen();
   @override
   _NotificationScreenState createState() => _NotificationScreenState();
 }
@@ -18,7 +17,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     ApiServices.getNotifications();
     super.initState();
-    analytics.logScreenView(screenName: "NotificationScreen", screenClass: "NotificationScreen");
+    analytics.logScreenView(
+        screenName: "NotificationScreen", screenClass: "NotificationScreen");
   }
 
   @override
@@ -29,7 +29,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               backgroundColor: screenBgColor,
               centerTitle: true,
               leading: IconButton(
-                icon: Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
+                icon:
+                    Icon(Icons.keyboard_backspace, color: themeColor, size: 28),
                 onPressed: () => Get.back(),
               ),
               elevation: 0,
@@ -47,8 +48,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     child: Padding(
                     padding: EdgeInsets.symmetric(vertical: Get.height * .02),
                     child: Column(
-                      children: List.generate(data.notificationFromJson.result.length, (index) {
-                        return notificationWidget(data.notificationFromJson.result[index]);
+                      children: List.generate(
+                          data.notificationFromJson.result.length, (index) {
+                        return notificationWidget(
+                            data.notificationFromJson.result[index]);
                       }),
                     ),
                   ))

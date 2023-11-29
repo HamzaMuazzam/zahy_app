@@ -1,22 +1,15 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:musan_client/FCM.dart';
 import 'package:musan_client/Plugins/bottom_nav_bar/animated_bottom_navigation_bar.dart';
 import 'package:musan_client/api_services/ApiServices.dart';
 import 'package:musan_client/api_services/Finals.dart';
 import 'package:musan_client/src/provider/dashboard_provider.dart';
-import 'package:musan_client/src/ui/auth/SignUp.dart';
-import 'package:musan_client/src/ui/dashboard/orders/order_screen.dart';
 import 'package:musan_client/src/ui/order_booking_screens/car_location_screen.dart';
 import 'package:musan_client/src/widgets/my_app_drawers.dart';
 import 'package:musan_client/utils/colors.dart';
-import 'package:musan_client/utils/common_classes.dart';
-import 'package:musan_client/utils/images.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'notification_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -27,7 +20,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   void initState() {
     SharedPreferences.getInstance().then((value) {
-      var dashboardProvider = Provider.of<DashboardProvider>(Get.context, listen: false);
+      var dashboardProvider =
+          Provider.of<DashboardProvider>(Get.context, listen: false);
       dashboardProvider.userID = value.getString(Finals.USER_ID);
       dashboardProvider.userName = value.getString(Finals.USER_NAME);
       dashboardProvider.initAnalytics();
@@ -35,7 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       dashboardProvider.initlizeRealTimeDatabase();
 
       // FCM(userID: value.getString(Finals.USER_ID),userTypeId: "1");
-      Future.delayed(Duration(seconds: 2),(){
+      Future.delayed(Duration(seconds: 2), () {
         ApiServices.getNotifications();
       });
     });
@@ -44,11 +38,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<DashboardProvider>(builder: (builder, dashboardProvider, _) {
+    return Consumer<DashboardProvider>(
+        builder: (builder, dashboardProvider, _) {
       return WillPopScope(
         onWillPop: dashboardProvider.onWillPop,
         child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: FloatingActionButton(
             backgroundColor: themeColor,
             child: SvgPicture.asset("assets/logo_white.svg"),
@@ -61,21 +57,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
             gapLocation: GapLocation.center,
             // gapWidth: 100,
             notchSmoothness: NotchSmoothness.defaultEdge,
-            activeColor: Colors.white,
-            inactiveColor: Colors.white.withOpacity(.5),
+            activeColor: themeColor,
+            inactiveColor: Colors.grey,
             iconSize: 15,
-            icons:  [
-              SvgPicture.asset("assets/home_icon.svg",height: 20,),
-              SvgPicture.asset("assets/cart_icon.svg",height: 20,),
-              SvgPicture.asset("assets/shopping_icon.svg",height: 20,),
-              SvgPicture.asset("assets/menu_icon.svg",height: 20,),
-
+            icons: [
+              SvgPicture.asset(
+                "assets/home_icon.svg",
+                height: 20,
+                color: dashboardProvider.bottomBarCurrentIndex == 0
+                    ? Colors.blue
+                    : Colors.grey,
+              ),
+              SvgPicture.asset(
+                "assets/cart_icon.svg",
+                height: 20,
+                color: dashboardProvider.bottomBarCurrentIndex == 1
+                    ? Colors.blue
+                    : Colors.grey,
+              ),
+              SvgPicture.asset(
+                "assets/shopping_icon.svg",
+                height: 20,
+                color: dashboardProvider.bottomBarCurrentIndex == 2
+                    ? Colors.blue
+                    : Colors.grey,
+                // color: Colors.red,
+              ),
+              SvgPicture.asset(
+                "assets/menu_icon.svg",
+                height: 20,
+                color: dashboardProvider.bottomBarCurrentIndex == 3
+                    ? Colors.blue
+                    : Colors.grey,
+              ),
             ],
             labels: const ["Home", "Team", "Stack", "Statics"],
-            activeIndex: 0,
+            activeIndex: dashboardProvider.bottomBarCurrentIndex,
             onTap: (int index) {
-              dashboardProvider.bottomBarCurrentIndex=index;
-
+              dashboardProvider.bottomBarCurrentIndex = index;
               setState(() {});
             },
           ),
@@ -87,7 +106,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Column(
               children: [
                 Expanded(
-                    child: dashboardProvider.childrens[dashboardProvider.bottomBarCurrentIndex]),
+                    child: dashboardProvider
+                        .childrens[dashboardProvider.bottomBarCurrentIndex]),
                 // bottomNavigationBar(dashboardProvider),
               ],
             ),
@@ -139,62 +159,65 @@ class _DashboardScreenState extends State<DashboardScreen> {
   //   );
   // }
 
-  Widget bottomWidget(int index, String title, icon, DashboardProvider dashboardProvider,
-      {double scale = 25, String name: ""}) {
-    return GestureDetector(
-      onTap: () {
-        if (index != 10) {
-          if (index == 6) {
-            dashboardProvider.dashboardBoardScaffoldKey.currentState.openDrawer();
-            return;
-          }
-          if (index == 3) {
-            bottomSheetForHelpCall();
-          } else if (index == 1) {
-            dashboardProvider.bottomBarCurrentIndex = index;
-          } else {
-            print(index);
-            dashboardProvider.bottomBarCurrentIndex = index;
-          }
-        } else if (index == 10) {
-          // orderDialoge();
-          bottomSheetForHelpCall();
-        }
-        setState(() {});
-      },
-      child: Container(
-        color: Colors.transparent,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: 25,
-              child: SvgPicture.asset(
-                icon,
-                height: scale,
-                color: dashboardProvider.bottomBarCurrentIndex == index
-                    ? themeColor
-                    : index == 10
-                        ? null
-                        : icon_grey_color,
-              ),
-            ),
-            dashboardProvider.bottomBarCurrentIndex == index
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      name,
-                      style: TextStyle(color: blue, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                : Container(),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget bottomWidget(
+  //     int index, String title, icon, DashboardProvider dashboardProvider,
+  //     {double scale = 25, String name: ""}) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       if (index != 10) {
+  //         if (index == 6) {
+  //           dashboardProvider.dashboardBoardScaffoldKey.currentState
+  //               .openDrawer();
+  //           return;
+  //         }
+  //         if (index == 3) {
+  //           bottomSheetForHelpCall();
+  //         } else if (index == 1) {
+  //           dashboardProvider.bottomBarCurrentIndex = index;
+  //         } else {
+  //           print(index);
+  //           dashboardProvider.bottomBarCurrentIndex = index;
+  //         }
+  //       } else if (index == 10) {
+  //         // orderDialoge();
+  //         bottomSheetForHelpCall();
+  //       }
+  //       setState(() {});
+  //     },
+  //     child: Container(
+  //       color: Colors.transparent,
+  //       child: Column(
+  //         mainAxisSize: MainAxisSize.min,
+  //         crossAxisAlignment: CrossAxisAlignment.center,
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Container(
+  //             height: 25,
+  //             child: SvgPicture.asset(
+  //               icon,
+  //               height: scale,
+  //               color: dashboardProvider.bottomBarCurrentIndex == index
+  //                   ? themeColor
+  //                   : index == 10
+  //                       ? null
+  //                       : icon_grey_color,
+  //             ),
+  //           ),
+  //           dashboardProvider.bottomBarCurrentIndex == index
+  //               ? Padding(
+  //                   padding: const EdgeInsets.only(top: 4),
+  //                   child: Text(
+  //                     name,
+  //                     style:
+  //                         TextStyle(color: blue, fontWeight: FontWeight.bold),
+  //                   ),
+  //                 )
+  //               : Container(),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   orderDialoge() {
     Get.bottomSheet(Container(
@@ -213,21 +236,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 height: 6,
                 width: Get.width / 6,
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade300, borderRadius: BorderRadius.circular(10)),
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10)),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Text(
                 "Order Now".tr,
-                style: TextStyle(color: Colors.blue, fontSize: 25, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w700),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 15),
               child: Text(
                 "Do you know what's the issue?".tr,
-                style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700),
               ),
             ),
             Row(
@@ -245,7 +275,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: 110,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey.shade200, width: 1)),
+                            border: Border.all(
+                                color: Colors.grey.shade200, width: 1)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -287,14 +318,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: 110,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: Colors.grey.shade200, width: 1)),
+                            border: Border.all(
+                                color: Colors.grey.shade200, width: 1)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               "YES".tr,
                               style: TextStyle(
-                                  color: Colors.blue, fontSize: 25, fontWeight: FontWeight.bold),
+                                  color: Colors.blue,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
                             ),
                             SizedBox(
                               height: 10,
